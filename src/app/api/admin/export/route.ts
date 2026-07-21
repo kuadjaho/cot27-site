@@ -1,14 +1,22 @@
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { getPayload } from "payload";
+import config from "@payload-config";
 
+/** Export CSV des inscriptions — réservé aux utilisateurs connectés à l'admin Payload. */
 export async function GET() {
-  if (!(await isAdminAuthenticated())) {
+  const payload = await getPayload({ config });
+
+  const { user } = await payload.auth({ headers: await headers() });
+  if (!user) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
 
-  const registrations = await prisma.registration.findMany({
-    orderBy: { createdAt: "desc" },
+  const { docs } = await payload.find({
+    collection: "inscriptions",
+    depth: 1,
+    limit: 10000,
+    sort: "-createdAt",
   });
 
   const header = [
@@ -20,36 +28,35 @@ export async function GET() {
     "Club",
     "Ville",
     "Pays",
-    "Type",
-    "Pass",
+    "Categorie",
     "Montant (FCFA)",
     "Statut",
-    "Paiement",
+    "Mode de paiement",
     "Date",
   ];
 
   const escape = (value: string) => `"${value.replace(/"/g, '""')}"`;
 
-  const rows = registrations.map((r) =>
-    [
-      r.id,
-      r.firstName,
-      r.lastName,
-      r.email,
-      r.phone,
-      r.club ?? "",
-      r.city ?? "",
-      r.country,
-      r.memberType,
-      r.ticketType,
-      String(r.amount),
-      r.status,
-      r.paymentMethod,
-      r.createdAt.toISOString(),
+  const rows = docs.map((i) => {
+    const p = typeof i.participant === "object" ? i.participant : null;
+    return [
+      `COT27-${String(i.id).padStart(5, "0")}`,
+      p?.prenom ?? "",
+      p?.nom ?? "",
+      p?.email ?? "",
+      p?.telephone ?? "",
+      p?.club ?? "",
+      p?.ville ?? "",
+      p?.pays ?? "",
+      i.categorie,
+      String(i.montant),
+      i.statut ?? "",
+      i.modePaiement ?? "",
+      i.createdAt,
     ]
-      .map(escape)
-      .join(";")
-  );
+      .map((v) => escape(String(v)))
+      .join(";");
+  });
 
   // BOM UTF-8 pour une ouverture propre dans Excel
   const csv = "﻿" + [header.map(escape).join(";"), ...rows].join("\r\n");
@@ -57,7 +64,7 @@ export async function GET() {
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="inscriptions-d130-2026.csv"',
+      "Content-Disposition": 'attachment; filename="inscriptions-cot27.csv"',
     },
   });
 }

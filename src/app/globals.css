@@ -25,6 +25,13 @@
   --color-gold-500: #d4af37;
   --color-gold-600: #b08d1e;
 
+  /* Extension béninoise (§4.2) — usage strictement décoratif, jamais en
+     substitution des couleurs de marque Toastmasters. À faire valider. */
+  --color-terre: #c1440e; /* latérite */
+  --color-lagune: #0e7c7b; /* lagune de Ganvié */
+  --color-laiton: #e8b84b; /* laiton d'Abomey */
+  --color-nuit: #0b1f2a; /* mode sombre */
+
   --font-display: var(--font-montserrat), system-ui, sans-serif;
   --font-body: var(--font-source-sans), system-ui, sans-serif;
 }
@@ -93,6 +100,53 @@ h4 {
       transparent 12px
     ),
     linear-gradient(135deg, #00263c 0%, #003350 45%, #611c28 100%);
+}
+
+/* --- Typographie du lecteur magazine (§4.3) ---------------------------- */
+
+.prose-cot27 {
+  @apply text-[1.0625rem] leading-[1.8] text-slate-700;
+}
+
+.prose-cot27 > p {
+  @apply mt-5;
+}
+
+.prose-cot27 > p:first-child {
+  @apply mt-0 text-lg;
+}
+
+.prose-cot27 h2 {
+  @apply mt-12 scroll-mt-28 font-display text-2xl font-extrabold text-loyal-800;
+}
+
+.prose-cot27 h3 {
+  @apply mt-8 font-display text-xl font-bold text-loyal-800;
+}
+
+.prose-cot27 blockquote {
+  @apply mt-8 border-l-4 border-gold-400 bg-gold-300/10 px-6 py-4 font-display text-xl font-semibold leading-relaxed text-maroon-600;
+}
+
+.prose-cot27 ul,
+.prose-cot27 ol {
+  @apply mt-5 space-y-2 pl-6;
+}
+
+.prose-cot27 ul {
+  @apply list-disc marker:text-gold-500;
+}
+
+.prose-cot27 ol {
+  @apply list-decimal marker:font-bold marker:text-maroon-600;
+}
+
+.prose-cot27 a {
+  @apply font-semibold text-loyal-700 underline decoration-gold-400 decoration-2 underline-offset-2 transition hover:text-maroon-600;
+}
+
+.prose-cot27 hr {
+  @apply my-10 border-loyal-100;
 }
 
 /* Animation d'apparition douce */

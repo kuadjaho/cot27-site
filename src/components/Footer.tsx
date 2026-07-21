@@ -10,6 +10,7 @@ export default function Footer({ locale }: { locale: Locale }) {
     { href: `/${locale}/intervenants`, label: dict.nav.speakers },
     { href: `/${locale}/infos`, label: dict.nav.venue },
     { href: `/${locale}/galerie`, label: dict.nav.gallery },
+    { href: `/${locale}/magazine`, label: dict.nav.magazine },
     { href: `/${locale}/inscription`, label: dict.nav.register },
   ];
 
@@ -19,10 +20,10 @@ export default function Footer({ locale }: { locale: Locale }) {
         <div>
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-loyal-900">
-              D130
+              27
             </span>
             <span className="font-display text-sm font-bold uppercase tracking-wider text-white">
-              Convention 2026
+              COT27
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">{dict.footer.tagline}</p>
@@ -66,7 +67,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       <div className="border-t border-white/10 py-6">
         <div className="mx-auto max-w-6xl px-4 text-xs sm:px-6">
           <p>
-            © 2026 District 130 Toastmasters — {dict.footer.rights}
+            © 2027 COT27 · District 130 Toastmasters — {dict.footer.rights}
           </p>
           <p className="mt-1 text-white/40">{dict.footer.disclaimer}</p>
         </div>

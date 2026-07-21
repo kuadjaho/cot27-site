@@ -32,7 +32,7 @@ export async function generateMetadata({
   return {
     title: {
       default: dict.meta.title,
-      template: `%s · D130 Convention 2026`,
+      template: `%s · COT27`,
     },
     description: dict.meta.description,
   };

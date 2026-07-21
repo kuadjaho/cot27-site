@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { getPayload } from "payload";
+import config from "@payload-config";
 import { verifyWebhookSignature } from "@/lib/fedapay";
 
 // Webhook FedaPay : configurez l'URL <site>/api/payment/webhook dans votre
 // tableau de bord FedaPay pour les événements "transaction.approved" etc.
+// Idempotent : rejouer le même événement ne change pas l'état final.
 export async function POST(request: NextRequest) {
-  const payload = await request.text();
+  const rawPayload = await request.text();
 
   const valid = await verifyWebhookSignature(
-    payload,
+    rawPayload,
     request.headers.get("x-fedapay-signature")
   );
   if (!valid) {
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
 
   let event: { name?: string; entity?: { id?: number | string; status?: string } };
   try {
-    event = JSON.parse(payload);
+    event = JSON.parse(rawPayload);
   } catch {
     return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
   }
@@ -25,20 +27,43 @@ export async function POST(request: NextRequest) {
   const transactionId = event.entity?.id;
   if (!transactionId) return NextResponse.json({ ok: true });
 
-  const statusMap: Record<string, string> = {
-    approved: "PAID",
-    transferred: "PAID",
-    canceled: "CANCELLED",
-    declined: "CANCELLED",
+  const paiementStatut: Record<string, "approuve" | "refuse" | "annule"> = {
+    approved: "approuve",
+    transferred: "approuve",
+    declined: "refuse",
+    canceled: "annule",
   };
+  const newStatut = event.entity?.status
+    ? paiementStatut[event.entity.status]
+    : undefined;
+  if (!newStatut) return NextResponse.json({ ok: true });
 
-  const newStatus = event.entity?.status ? statusMap[event.entity.status] : undefined;
-  if (newStatus) {
-    await prisma.registration.updateMany({
-      where: { paymentRef: String(transactionId) },
-      data: { status: newStatus },
-    });
-  }
+  const payload = await getPayload({ config });
+
+  const paiements = await payload.find({
+    collection: "paiements",
+    where: { referenceExterne: { equals: String(transactionId) } },
+    limit: 1,
+  });
+  const paiement = paiements.docs[0];
+  if (!paiement) return NextResponse.json({ ok: true });
+
+  await payload.update({
+    collection: "paiements",
+    id: paiement.id,
+    data: { statut: newStatut, payloadWebhook: event },
+  });
+
+  const inscriptionId =
+    typeof paiement.inscription === "object"
+      ? paiement.inscription.id
+      : paiement.inscription;
+
+  await payload.update({
+    collection: "inscriptions",
+    id: inscriptionId,
+    data: { statut: newStatut === "approuve" ? "payee" : "annulee" },
+  });
 
   return NextResponse.json({ ok: true });
 }

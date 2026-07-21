@@ -8,9 +8,9 @@ export function isLocale(value: string): value is Locale {
 
 const fr = {
   meta: {
-    title: "Convention du District 130 — Toastmasters Bénin 2026",
+    title: "COT27 — Conférence du District 130 Toastmasters · Cotonou 2027",
     description:
-      "Rejoignez la Convention annuelle du District 130 Toastmasters à Cotonou, Bénin : conférences, concours d'art oratoire, ateliers et gala.",
+      "COT27 : la Conférence Annuelle du District 130 Toastmasters à Cotonou, Bénin, du 1er au 8 mai 2027. Keynotes, concours d'art oratoire, ateliers et découverte du Bénin.",
   },
   nav: {
     home: "Accueil",
@@ -18,17 +18,18 @@ const fr = {
     speakers: "Intervenants",
     venue: "Infos pratiques",
     gallery: "Galerie",
+    magazine: "Magazine",
     register: "S'inscrire",
   },
   hero: {
-    kicker: "Convention annuelle · District 130 · Bénin",
-    dates: "20 – 22 novembre 2026 · Palais des Congrès, Cotonou",
+    kicker: "Conférence annuelle · District 130 · 12 pays",
+    dates: "1er – 8 mai 2027 · Palais des Congrès, Cotonou · Bénin",
     theme: "Oser la parole, bâtir l'avenir",
     subtitle:
-      "Trois jours de conférences inspirantes, de concours d'art oratoire, d'ateliers de leadership et de networking avec les meilleurs orateurs d'Afrique de l'Ouest.",
+      "Huit jours de keynotes, de concours d'art oratoire, d'ateliers de leadership et de découverte du Bénin, avec les meilleurs orateurs de douze pays d'Afrique.",
     cta: "Réserver ma place",
     ctaSecondary: "Voir le programme",
-    countdownTitle: "La convention commence dans",
+    countdownTitle: "La conférence commence dans",
     days: "Jours",
     hours: "Heures",
     minutes: "Minutes",
@@ -36,7 +37,7 @@ const fr = {
   },
   stats: {
     participants: "Participants attendus",
-    clubs: "Clubs représentés",
+    clubs: "Pays représentés",
     speakers: "Intervenants",
     workshops: "Ateliers & concours",
   },
@@ -151,7 +152,7 @@ const fr = {
   },
   thanks: {
     title: "Inscription confirmée !",
-    subtitle: "Merci ! Votre place pour la Convention 2026 est réservée.",
+    subtitle: "Merci ! Votre place pour COT27 est réservée.",
     refLabel: "Référence d'inscription",
     paid: "Votre paiement a bien été reçu. Un e-mail de confirmation vous sera envoyé.",
     onsite:
@@ -160,9 +161,28 @@ const fr = {
       "Votre paiement est en cours de traitement. Vous recevrez une confirmation dès sa validation.",
     backHome: "Retour à l'accueil",
   },
+  magazine: {
+    title: "Le Magazine COT27",
+    subtitle:
+      "Le kiosque officiel de la conférence : portraits, coulisses, destination Bénin. En lecture fluide, pas en PDF.",
+    readEdition: "Lire l'édition",
+    articlesCount: "articles",
+    backToKiosk: "Kiosque",
+    backToEdition: "Retour à l'édition",
+    toc: "Sommaire",
+    readingTime: "min de lecture",
+    by: "Par",
+    share: "Partager l'article",
+    linkCopied: "Lien copié !",
+    sponsored: "Partenaire de la conférence",
+    publishedOn: "Publié le",
+    downloadPdf: "Télécharger le PDF",
+    otherArticles: "Dans la même édition",
+    empty: "Les premières éditions arrivent bientôt.",
+  },
   footer: {
     tagline:
-      "Convention annuelle du District 130 Toastmasters International — Bénin.",
+      "COT27 — Conférence Annuelle du District 130 Toastmasters International, Cotonou, Bénin.",
     links: "Liens rapides",
     contact: "Contact",
     follow: "Suivez-nous",
@@ -174,9 +194,9 @@ const fr = {
 
 const en: typeof fr = {
   meta: {
-    title: "District 130 Convention — Toastmasters Benin 2026",
+    title: "COT27 — District 130 Toastmasters Conference · Cotonou 2027",
     description:
-      "Join the annual District 130 Toastmasters Convention in Cotonou, Benin: keynotes, speech contests, workshops and gala dinner.",
+      "COT27: the Annual Conference of Toastmasters District 130 in Cotonou, Benin, May 1–8, 2027. Keynotes, speech contests, workshops and discovering Benin.",
   },
   nav: {
     home: "Home",
@@ -184,17 +204,18 @@ const en: typeof fr = {
     speakers: "Speakers",
     venue: "Practical info",
     gallery: "Gallery",
+    magazine: "Magazine",
     register: "Register",
   },
   hero: {
-    kicker: "Annual Convention · District 130 · Benin",
-    dates: "November 20 – 22, 2026 · Palais des Congrès, Cotonou",
+    kicker: "Annual Conference · District 130 · 12 countries",
+    dates: "May 1 – 8, 2027 · Palais des Congrès, Cotonou · Benin",
     theme: "Dare to Speak, Build the Future",
     subtitle:
-      "Three days of inspiring keynotes, speech contests, leadership workshops and networking with the best speakers in West Africa.",
+      "Eight days of keynotes, speech contests, leadership workshops and discovering Benin, with the best speakers from twelve African countries.",
     cta: "Reserve my seat",
     ctaSecondary: "View program",
-    countdownTitle: "The convention starts in",
+    countdownTitle: "The conference starts in",
     days: "Days",
     hours: "Hours",
     minutes: "Minutes",
@@ -202,7 +223,7 @@ const en: typeof fr = {
   },
   stats: {
     participants: "Expected attendees",
-    clubs: "Clubs represented",
+    clubs: "Countries represented",
     speakers: "Speakers",
     workshops: "Workshops & contests",
   },
@@ -316,7 +337,7 @@ const en: typeof fr = {
   },
   thanks: {
     title: "Registration confirmed!",
-    subtitle: "Thank you! Your seat for the 2026 Convention is reserved.",
+    subtitle: "Thank you! Your seat for COT27 is reserved.",
     refLabel: "Registration reference",
     paid: "Your payment has been received. A confirmation email will be sent to you.",
     onsite:
@@ -325,9 +346,28 @@ const en: typeof fr = {
       "Your payment is being processed. You will receive a confirmation once validated.",
     backHome: "Back to home",
   },
+  magazine: {
+    title: "The COT27 Magazine",
+    subtitle:
+      "The conference's official newsstand: portraits, behind the scenes, destination Benin. Fluid reading, not a PDF.",
+    readEdition: "Read the edition",
+    articlesCount: "articles",
+    backToKiosk: "Newsstand",
+    backToEdition: "Back to the edition",
+    toc: "Contents",
+    readingTime: "min read",
+    by: "By",
+    share: "Share article",
+    linkCopied: "Link copied!",
+    sponsored: "Conference partner",
+    publishedOn: "Published on",
+    downloadPdf: "Download PDF",
+    otherArticles: "More from this edition",
+    empty: "The first editions are coming soon.",
+  },
   footer: {
     tagline:
-      "Annual convention of Toastmasters International District 130 — Benin.",
+      "COT27 — Annual Conference of Toastmasters International District 130, Cotonou, Benin.",
     links: "Quick links",
     contact: "Contact",
     follow: "Follow us",

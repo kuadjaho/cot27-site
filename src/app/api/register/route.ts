@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { randomUUID } from "crypto";
+import { getPayload } from "payload";
+import config from "@payload-config";
 import { getTicket } from "@/lib/content";
 import { createFedapayCheckout, fedapayEnabled } from "@/lib/fedapay";
 import { isLocale } from "@/lib/i18n";
@@ -30,36 +32,57 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "INVALID_TICKET" }, { status: 400 });
   }
 
+  const payload = await getPayload({ config });
+
+  // Un participant par e-mail — réutilisé si déjà connu.
+  const existing = await payload.find({
+    collection: "participants",
+    where: { email: { equals: email } },
+    limit: 1,
+  });
+
+  const participant =
+    existing.docs[0] ??
+    (await payload.create({
+      collection: "participants",
+      data: {
+        prenom: firstName,
+        nom: lastName,
+        email,
+        telephone: phone,
+        club: String(body.club ?? "").trim() || null,
+        ville: String(body.city ?? "").trim() || null,
+        pays: String(body.country ?? "").trim() || "Bénin",
+        districtRole: memberType === "member" ? "Membre Toastmasters" : "Invité",
+        langue: locale as "fr" | "en",
+      },
+    }));
+
   const wantsOnline = body.paymentMethod === "fedapay" && fedapayEnabled();
 
-  const registration = await prisma.registration.create({
+  const inscription = await payload.create({
+    collection: "inscriptions",
     data: {
-      firstName,
-      lastName,
-      email,
-      phone,
-      club: String(body.club ?? "").trim() || null,
-      city: String(body.city ?? "").trim() || null,
-      country: String(body.country ?? "").trim() || "Bénin",
-      memberType,
-      ticketType: ticket.key,
-      amount: ticket.price,
-      status: "PENDING",
-      paymentMethod: wantsOnline ? "fedapay" : "onsite",
-      locale,
+      participant: participant.id,
+      categorie: ticket.key as "early" | "standard" | "etudiant" | "vip",
+      montant: ticket.price,
+      devise: "XOF",
+      statut: "en_attente",
+      modePaiement: wantsOnline ? "fedapay" : "sur_place",
+      qrToken: randomUUID(),
     },
   });
 
   // En production, NEXT_PUBLIC_SITE_URL garantit des URLs publiques correctes
   // pour les callbacks de paiement ; vide en dev → origine de la requête.
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
-  const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${registration.id}`;
+  const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${inscription.id}`;
 
   if (wantsOnline) {
     try {
       const checkout = await createFedapayCheckout({
         amount: ticket.price,
-        description: `Convention D130 2026 — ${ticket.name.fr} — ${firstName} ${lastName}`,
+        description: `COT27 — ${ticket.name.fr} — ${firstName} ${lastName}`,
         firstName,
         lastName,
         email,
@@ -68,21 +91,29 @@ export async function POST(request: NextRequest) {
       });
 
       if (checkout) {
-        await prisma.registration.update({
-          where: { id: registration.id },
-          data: { paymentRef: checkout.transactionId },
+        await payload.create({
+          collection: "paiements",
+          data: {
+            inscription: inscription.id,
+            fournisseur: "fedapay",
+            referenceExterne: checkout.transactionId,
+            montant: ticket.price,
+            devise: "XOF",
+            statut: "initie",
+          },
         });
-        return NextResponse.json({ redirectUrl: checkout.url, ref: registration.id });
+        return NextResponse.json({ redirectUrl: checkout.url, ref: inscription.id });
       }
     } catch (error) {
       // Échec FedaPay → on bascule l'inscription en paiement sur place
       console.error("FedaPay checkout failed:", error);
-      await prisma.registration.update({
-        where: { id: registration.id },
-        data: { paymentMethod: "onsite" },
+      await payload.update({
+        collection: "inscriptions",
+        id: inscription.id,
+        data: { modePaiement: "sur_place" },
       });
     }
   }
 
-  return NextResponse.json({ redirectUrl: thanksUrl, ref: registration.id });
+  return NextResponse.json({ redirectUrl: thanksUrl, ref: inscription.id });
 }

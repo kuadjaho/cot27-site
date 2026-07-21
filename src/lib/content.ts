@@ -6,12 +6,12 @@ export type Localized = Record<Locale, string>;
 // Convention — informations générales (PLACEHOLDER : à remplacer)
 // ---------------------------------------------------------------------------
 export const convention = {
-  // Date de début, utilisée pour le compte à rebours
-  startDate: "2026-11-20T09:00:00+01:00",
-  endDate: "2026-11-22T22:00:00+01:00",
+  // COT27 — Conférence Annuelle du District 130, Cotonou, 1er–8 mai 2027
+  startDate: "2027-05-01T09:00:00+01:00",
+  endDate: "2027-05-08T22:00:00+01:00",
   city: "Cotonou",
   venue: "Palais des Congrès de Cotonou",
-  email: "convention@d130toastmasters.org",
+  email: "contact@cot27.org",
   phone: "+229 01 97 00 00 00",
 };
 
@@ -26,75 +26,81 @@ export type Ticket = {
   features: { fr: string[]; en: string[] };
 };
 
+// Catégories alignées sur le §5.2 du cahier des spécifications.
+// TARIFS PLACEHOLDER — à valider par le Comité Budget, Finances et Ventes.
 export const tickets: Ticket[] = [
   {
-    key: "member-early",
-    name: { fr: "Pass Membre — Early Bird", en: "Member Pass — Early Bird" },
-    price: 50000,
+    key: "early",
+    name: { fr: "Early Bird", en: "Early Bird" },
+    price: 75000,
     popular: true,
     features: {
       fr: [
-        "Accès aux 3 jours de convention",
-        "Tous les ateliers et concours",
+        "Accès à toute la conférence",
+        "Ateliers, keynotes et concours",
         "Pauses café et déjeuners",
         "Kit du participant",
       ],
       en: [
-        "Access to all 3 convention days",
-        "All workshops and contests",
+        "Access to the full conference",
+        "Workshops, keynotes and contests",
         "Coffee breaks and lunches",
         "Attendee kit",
       ],
     },
   },
   {
-    key: "guest",
-    name: { fr: "Pass Invité / Non-membre", en: "Guest / Non-member Pass" },
-    price: 65000,
+    key: "standard",
+    name: { fr: "Standard", en: "Standard" },
+    price: 95000,
     features: {
       fr: [
-        "Accès aux 3 jours de convention",
-        "Tous les ateliers et concours",
+        "Accès à toute la conférence",
+        "Ateliers, keynotes et concours",
         "Pauses café et déjeuners",
         "Kit du participant",
       ],
       en: [
-        "Access to all 3 convention days",
-        "All workshops and contests",
+        "Access to the full conference",
+        "Workshops, keynotes and contests",
         "Coffee breaks and lunches",
         "Attendee kit",
       ],
     },
   },
   {
-    key: "gala",
-    name: { fr: "Soirée de Gala uniquement", en: "Gala Dinner only" },
-    price: 30000,
+    key: "etudiant",
+    name: { fr: "Étudiant", en: "Student" },
+    price: 40000,
     features: {
       fr: [
-        "Dîner de gala du samedi soir",
-        "Cérémonie de remise des prix",
-        "Soirée dansante",
+        "Accès à toute la conférence",
+        "Sur justificatif étudiant",
+        "Pauses café et déjeuners",
       ],
-      en: ["Saturday gala dinner", "Awards ceremony", "Dance party"],
+      en: [
+        "Access to the full conference",
+        "Valid student ID required",
+        "Coffee breaks and lunches",
+      ],
     },
   },
   {
     key: "vip",
-    name: { fr: "Pass VIP intégral", en: "All-inclusive VIP Pass" },
-    price: 100000,
+    name: { fr: "VIP intégral", en: "All-inclusive VIP" },
+    price: 150000,
     features: {
       fr: [
-        "Tout le Pass Membre + Gala inclus",
+        "Tout le pass Standard + Gala inclus",
         "Placement prioritaire",
         "Dîner avec les conférenciers",
-        "Photo officielle",
+        "Excursion Ouidah ou Ganvié offerte",
       ],
       en: [
-        "Full Member Pass + Gala included",
+        "Full Standard pass + Gala included",
         "Priority seating",
         "Dinner with the keynote speakers",
-        "Official photo",
+        "Complimentary Ouidah or Ganvié excursion",
       ],
     },
   },
@@ -127,9 +133,11 @@ export type ScheduleDay = {
   items: ScheduleItem[];
 };
 
+// Cœur de conférence (le programme complet du 1er au 8 mai — arrivées,
+// excursions, formations — sera fourni par le Comité Scientifique).
 export const schedule: ScheduleDay[] = [
   {
-    date: { fr: "Vendredi 20 novembre", en: "Friday, November 20" },
+    date: { fr: "Jeudi 6 mai 2027", en: "Thursday, May 6, 2027" },
     label: { fr: "Ouverture & Concours", en: "Opening & Contests" },
     items: [
       {
@@ -187,7 +195,7 @@ export const schedule: ScheduleDay[] = [
     ],
   },
   {
-    date: { fr: "Samedi 21 novembre", en: "Saturday, November 21" },
+    date: { fr: "Vendredi 7 mai 2027", en: "Friday, May 7, 2027" },
     label: { fr: "Ateliers & Gala", en: "Workshops & Gala" },
     items: [
       {
@@ -254,7 +262,7 @@ export const schedule: ScheduleDay[] = [
     ],
   },
   {
-    date: { fr: "Dimanche 22 novembre", en: "Sunday, November 22" },
+    date: { fr: "Samedi 8 mai 2027", en: "Saturday, May 8, 2027" },
     label: { fr: "Formation & Clôture", en: "Training & Closing" },
     items: [
       {
@@ -508,8 +516,8 @@ export type GalleryEdition = {
 
 export const galleryEditions: GalleryEdition[] = [
   {
-    year: 2025,
-    city: "Cotonou",
+    year: 2026,
+    city: "Libreville — LBV26",
     theme: { fr: "Ensemble, plus loin", en: "Together, further" },
     photos: [
       { caption: { fr: "Cérémonie d'ouverture", en: "Opening ceremony" }, hue: 210 },

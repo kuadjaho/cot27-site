@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getPayload } from "payload";
+import config from "@payload-config";
 import { getDict, isLocale } from "@/lib/i18n";
 import { getTicket, formatFCFA } from "@/lib/content";
-import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -18,16 +19,24 @@ export default async function ThanksPage({
   if (!isLocale(locale)) notFound();
   const dict = getDict(locale);
 
-  const registration = ref
-    ? await prisma.registration.findUnique({ where: { id: ref } })
-    : null;
-  if (!registration) notFound();
+  const id = Number(ref);
+  if (!ref || Number.isNaN(id)) notFound();
 
-  const ticket = getTicket(registration.ticketType);
+  const payload = await getPayload({ config });
+  const inscription = await payload
+    .findByID({ collection: "inscriptions", id, depth: 1 })
+    .catch(() => null);
+  if (!inscription) notFound();
+
+  const participant =
+    typeof inscription.participant === "object" ? inscription.participant : null;
+  const ticket = getTicket(inscription.categorie);
+  const reference = `COT27-${String(inscription.id).padStart(5, "0")}`;
+
   const statusMessage =
-    registration.status === "PAID"
+    inscription.statut === "payee"
       ? dict.thanks.paid
-      : registration.paymentMethod === "onsite"
+      : inscription.modePaiement === "sur_place"
         ? dict.thanks.onsite
         : dict.thanks.pending;
 
@@ -47,22 +56,22 @@ export default async function ThanksPage({
             {dict.thanks.refLabel}
           </span>
           <code className="rounded-lg bg-loyal-50 px-3 py-1 font-mono text-sm font-bold text-loyal-800">
-            {registration.id}
+            {reference}
           </code>
         </div>
         <dl className="mt-4 space-y-2 text-sm">
           <div className="flex justify-between">
             <dt className="text-slate-500">
-              {registration.firstName} {registration.lastName}
+              {participant ? `${participant.prenom} ${participant.nom}` : "—"}
             </dt>
             <dd className="font-semibold text-loyal-800">
-              {ticket ? ticket.name[locale] : registration.ticketType}
+              {ticket ? ticket.name[locale] : inscription.categorie}
             </dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-slate-500">{dict.register.total}</dt>
             <dd className="font-display font-extrabold text-maroon-600">
-              {formatFCFA(registration.amount, locale)}
+              {formatFCFA(inscription.montant, locale)}
             </dd>
           </div>
         </dl>

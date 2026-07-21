@@ -15,8 +15,8 @@ export default async function HomePage({
   const dict = getDict(locale);
 
   const stats = [
-    { value: "500+", label: dict.stats.participants },
-    { value: "40+", label: dict.stats.clubs },
+    { value: "450", label: dict.stats.participants },
+    { value: "12", label: dict.stats.clubs },
     { value: "15", label: dict.stats.speakers },
     { value: "20+", label: dict.stats.workshops },
   ];

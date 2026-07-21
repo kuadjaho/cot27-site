@@ -16,6 +16,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
     { href: `/${locale}/intervenants`, label: dict.nav.speakers },
     { href: `/${locale}/infos`, label: dict.nav.venue },
     { href: `/${locale}/galerie`, label: dict.nav.gallery },
+    { href: `/${locale}/magazine`, label: dict.nav.magazine },
   ];
 
   // Bascule fr <-> en en conservant la page courante
@@ -30,10 +31,10 @@ export default function Navbar({ locale }: { locale: Locale }) {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href={`/${locale}`} className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-loyal-900">
-            D130
+            27
           </span>
           <span className="hidden font-display text-sm font-bold uppercase tracking-wider sm:block">
-            Convention 2026
+            COT27 <span className="font-semibold text-white/60">· Cotonou 2027</span>
           </span>
         </Link>
 
