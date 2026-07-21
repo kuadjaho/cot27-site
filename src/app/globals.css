@@ -65,8 +65,11 @@ h4 {
   @apply block h-px w-8 bg-gold-500;
 }
 
-/* Fonds sombres du hero : motif décoratif + dégradé dans une seule pile
-   de background-image (une classe utilitaire écraserait l'autre sinon). */
+/* --- Motif signature COT27 (§4.2) --------------------------------------
+   Trame de losanges concentriques inspirée des tentures appliquées et des
+   bas-reliefs royaux d'Abomey. C'est la signature visuelle du site : elle
+   est posée en filigrane de chaque fond sombre. */
+
 .bg-hero,
 .bg-cta {
   background-color: #001a2b;
@@ -76,13 +79,7 @@ h4 {
       transparent 40%
     ),
     radial-gradient(circle at 85% 75%, rgba(119, 36, 50, 0.35) 0%, transparent 45%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.015) 0px,
-      rgba(255, 255, 255, 0.015) 1px,
-      transparent 1px,
-      transparent 12px
-    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='rgba(242,223,116,0.055)' stroke-width='1'%3E%3Cpath d='M36 6 66 36 36 66 6 36Z'/%3E%3Cpath d='M36 18 54 36 36 54 18 36Z'/%3E%3Cpath d='M36 28 44 36 36 44 28 36Z'/%3E%3Cpath d='M0 36h10M62 36h10M36 0v10M36 62v10'/%3E%3Ccircle cx='36' cy='36' r='1.6' fill='rgba(242,223,116,0.07)' stroke='none'/%3E%3C/g%3E%3C/svg%3E"),
     linear-gradient(to bottom, #001a2b 0%, #00263c 45%, #004165 100%);
 }
 
@@ -92,14 +89,37 @@ h4 {
       rgba(242, 223, 116, 0.12) 0%,
       transparent 40%
     ),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.015) 0px,
-      rgba(255, 255, 255, 0.015) 1px,
-      transparent 1px,
-      transparent 12px
-    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='rgba(242,223,116,0.055)' stroke-width='1'%3E%3Cpath d='M36 6 66 36 36 66 6 36Z'/%3E%3Cpath d='M36 18 54 36 36 54 18 36Z'/%3E%3Cpath d='M36 28 44 36 36 44 28 36Z'/%3E%3Cpath d='M0 36h10M62 36h10M36 0v10M36 62v10'/%3E%3Ccircle cx='36' cy='36' r='1.6' fill='rgba(242,223,116,0.07)' stroke='none'/%3E%3C/g%3E%3C/svg%3E"),
     linear-gradient(135deg, #00263c 0%, #003350 45%, #611c28 100%);
+}
+
+/* Variante claire du motif, pour rythmer certaines sections de contenu. */
+.bg-motif-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='rgba(0,65,101,0.045)' stroke-width='1'%3E%3Cpath d='M36 6 66 36 36 66 6 36Z'/%3E%3Cpath d='M36 18 54 36 36 54 18 36Z'/%3E%3Cpath d='M36 28 44 36 36 44 28 36Z'/%3E%3Cpath d='M0 36h10M62 36h10M36 0v10M36 62v10'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* --- Accessibilité (§4.4) ---------------------------------------------- */
+
+/* Focus clavier visible partout, aux couleurs de la marque. */
+:focus-visible {
+  outline: 3px solid #d4af37;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Lien d'évitement : invisible jusqu'au focus clavier. */
+.skip-link {
+  @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-full bg-loyal-700 px-6 py-3 font-display text-sm font-bold text-white shadow-xl transition;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Chiffres tabulaires (§4.2) : tarifs et compte à rebours ne « sautent »
+   jamais quand les valeurs changent. */
+.nums {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 /* --- Typographie du lecteur magazine (§4.3) ---------------------------- */

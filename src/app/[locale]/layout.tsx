@@ -5,11 +5,12 @@ import "../globals.css";
 import { locales, isLocale, getDict, type Locale } from "@/lib/i18n";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RegisterSW from "@/components/RegisterSW";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["500", "600", "700", "800", "900"],
+  weight: ["600", "700", "800", "900"],
 });
 
 const sourceSans = Source_Sans_3({
@@ -29,12 +30,42 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = getDict(locale);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   return {
+    metadataBase: new URL(siteUrl),
     title: {
       default: dict.meta.title,
       template: `%s · COT27`,
     },
     description: dict.meta.description,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { fr: "/fr", en: "/en", "x-default": "/fr" },
+    },
+    openGraph: {
+      type: "website",
+      siteName: "COT27",
+      title: dict.meta.title,
+      description: dict.meta.description,
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      alternateLocale: locale === "fr" ? "en_US" : "fr_FR",
+      url: `/${locale}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta.title,
+      description: dict.meta.description,
+    },
+    applicationName: "COT27",
+    keywords: [
+      "Toastmasters",
+      "District 130",
+      "COT27",
+      "Cotonou",
+      "Bénin",
+      locale === "fr" ? "conférence" : "conference",
+      locale === "fr" ? "art oratoire" : "public speaking",
+    ],
   };
 }
 
@@ -53,9 +84,15 @@ export default async function LocaleLayout({
       <body
         className={`${montserrat.variable} ${sourceSans.variable} min-h-screen flex flex-col`}
       >
+        <a href="#contenu" className="skip-link">
+          {locale === "fr" ? "Aller au contenu" : "Skip to content"}
+        </a>
         <Navbar locale={locale as Locale} />
-        <main className="flex-1">{children}</main>
+        <main id="contenu" className="flex-1">
+          {children}
+        </main>
         <Footer locale={locale as Locale} />
+        <RegisterSW />
       </body>
     </html>
   );

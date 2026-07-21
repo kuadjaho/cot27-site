@@ -77,7 +77,7 @@ export default async function DiscoverPage({
       </section>
 
       {/* ------------------------------------------------ PAYS */}
-      <section className="border-y border-loyal-100 bg-white py-16">
+      <section className="bg-motif-light border-y border-loyal-100 bg-white py-16">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <p className="section-kicker justify-center">{dict.discover.countriesKicker}</p>
           <h2 className="mt-4 font-display text-3xl font-extrabold text-loyal-800">

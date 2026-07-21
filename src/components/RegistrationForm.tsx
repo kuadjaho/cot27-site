@@ -249,6 +249,7 @@ export default function RegistrationForm({
               type="button"
               onClick={() => i < step && goTo(i)}
               disabled={i > step}
+              aria-current={i === step ? "step" : undefined}
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition ${
                 i === step
                   ? "bg-loyal-700 text-white"
@@ -729,7 +730,7 @@ export default function RegistrationForm({
                 {t.totalLabel}
                 {participants > 1 && ` · ${participants} ${t.participantsLabel}`}
               </div>
-              <div className="font-display text-xl font-black text-loyal-800">
+              <div className="font-display text-xl font-black tabular-nums text-loyal-800">
                 {formatFCFA(pricing.total, locale)}
               </div>
             </div>
