@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette inspirée de la charte Toastmasters International */
+  --color-loyal-50: #eaf3f9;
+  --color-loyal-100: #cfe3f0;
+  --color-loyal-200: #9cc5de;
+  --color-loyal-300: #62a3c9;
+  --color-loyal-400: #2e7fae;
+  --color-loyal-500: #0f628f;
+  --color-loyal-600: #085578;
+  --color-loyal-700: #004165; /* Loyal Blue */
+  --color-loyal-800: #003350;
+  --color-loyal-900: #00263c;
+  --color-loyal-950: #001a2b;
+
+  --color-maroon-400: #a04456;
+  --color-maroon-500: #8b3244;
+  --color-maroon-600: #772432; /* True Maroon */
+  --color-maroon-700: #611c28;
+
+  --color-gold-200: #f8ecab;
+  --color-gold-300: #f2df74; /* Happy Yellow */
+  --color-gold-400: #e8c94a;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #b08d1e;
+
+  --font-display: var(--font-montserrat), system-ui, sans-serif;
+  --font-body: var(--font-source-sans), system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #fdfcf9;
+  color: #1c2733;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
+
+/* --- Utilitaires maison ------------------------------------------------- */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.section-kicker {
+  @apply inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-maroon-600;
+}
+
+.section-kicker::before {
+  content: "";
+  @apply block h-px w-8 bg-gold-500;
+}
+
+/* Fonds sombres du hero : motif décoratif + dégradé dans une seule pile
+   de background-image (une classe utilitaire écraserait l'autre sinon). */
+.bg-hero,
+.bg-cta {
+  background-color: #001a2b;
+  background-image: radial-gradient(
+      circle at 15% 20%,
+      rgba(242, 223, 116, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 85% 75%, rgba(119, 36, 50, 0.35) 0%, transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    linear-gradient(to bottom, #001a2b 0%, #00263c 45%, #004165 100%);
+}
+
+.bg-cta {
+  background-image: radial-gradient(
+      circle at 15% 20%,
+      rgba(242, 223, 116, 0.12) 0%,
+      transparent 40%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    linear-gradient(135deg, #00263c 0%, #003350 45%, #611c28 100%);
+}
+
+/* Animation d'apparition douce */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+.animate-rise-delay-3 {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-rise-delay-1,
+  .animate-rise-delay-2,
+  .animate-rise-delay-3 {
+    animation: none;
+  }
+}
