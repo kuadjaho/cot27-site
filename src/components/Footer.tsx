@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getDict, type Locale } from "@/lib/i18n";
-import { convention } from "@/lib/content";
+import { brand, convention } from "@/lib/content";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const dict = getDict(locale);
@@ -22,10 +22,10 @@ export default function Footer({ locale }: { locale: Locale }) {
         <div>
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-loyal-900">
-              27
+              {brand.mark}
             </span>
             <span className="font-display text-sm font-bold uppercase tracking-wider text-white">
-              COT27
+              {brand.name}
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">{dict.footer.tagline}</p>
@@ -69,8 +69,12 @@ export default function Footer({ locale }: { locale: Locale }) {
       {/* Bloc d'affiliation — le logo Toastmasters occupe sa propre section, seul
           et non altéré, jamais côte à côte avec un autre logo (manuel de marque
           p. 38). Fichier officiel du Brand Portal, affiché à 96 px de large,
-          au-dessus du minimum de 72 px imposé par la p. 8. */}
-      <div className="border-t border-white/10 py-10">
+          au-dessus du minimum de 72 px imposé par la p. 8.
+          Le fond est Loyal Blue #004165 (bg-loyal-700) et non le bleu nuit du
+          reste du pied de page : la p. 12 interdit de poser le logo sur une
+          couleur absente de la palette de marque, et le SVG étant transparent,
+          le fond transparaît dans les contre-formes du logo. */}
+      <div className="border-t border-white/10 bg-loyal-700 py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center px-4 text-center sm:px-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -89,7 +93,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       <div className="border-t border-white/10 py-6">
         <div className="mx-auto max-w-6xl px-4 text-xs sm:px-6">
           <p>
-            © 2027 COT27 · District 130 Toastmasters — {dict.footer.rights}
+            © 2027 {brand.name} · {brand.legalName[locale]} — {dict.footer.rights}
           </p>
           {/* Mention imposée mot pour mot par le manuel de marque (p. 34). */}
           <p className="mt-3 text-white/40">{dict.footer.tmDisclaimer}</p>

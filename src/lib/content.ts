@@ -5,6 +5,27 @@ export type Localized = Record<Locale, string>;
 // ---------------------------------------------------------------------------
 // Convention — informations générales (PLACEHOLDER : à remplacer)
 // ---------------------------------------------------------------------------
+/**
+ * Marque de la conférence, centralisée en un seul endroit.
+ *
+ * Le manuel de marque Toastmasters (p. 38) autorise un logo, un thème et un
+ * slogan propres à la conférence, mais interdit de les utiliser une fois la
+ * conférence terminée. Tout ce qui porte l'identité COT27 doit donc pouvoir
+ * être retiré ou remplacé sans toucher aux composants : d'où ce point unique.
+ *
+ * `legalName` matérialise l'obligation de la même page — chaque support doit
+ * porter le numéro de District et les mots « annual conference ».
+ */
+export const brand = {
+  mark: "27",
+  name: "COT27",
+  district: 130,
+  legalName: {
+    fr: "Conférence Annuelle du District 130",
+    en: "District 130 Annual Conference",
+  },
+} as const;
+
 export const convention = {
   // COT27 — Conférence Annuelle du District 130, Cotonou, 1er–8 mai 2027
   startDate: "2027-05-01T09:00:00+01:00",

@@ -150,9 +150,12 @@ export async function POST(request: NextRequest) {
       const checkout = await createFedapayCheckout({
         amount: pricing.total,
         description:
+          // Le manuel de marque (p. 38) impose le numéro de District et les
+          // mots « annual conference » sur chaque support — le libellé qui
+          // apparaît sur le relevé bancaire du participant en est un.
           mode === "delegation"
-            ? `COT27 — Délégation ${participants} pers. — ${firstName} ${lastName}`
-            : `COT27 — ${ticket.name.fr} — ${firstName} ${lastName}`,
+            ? `COT27 District 130 Annual Conference — Délégation ${participants} pers. — ${firstName} ${lastName}`
+            : `COT27 District 130 Annual Conference — ${ticket.name.fr} — ${firstName} ${lastName}`,
         firstName,
         lastName,
         email,

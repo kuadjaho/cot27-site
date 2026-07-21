@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 import { isLocale } from "@/lib/i18n";
+import { montserratBold } from "@/lib/og-font";
+import { brand } from "@/lib/content";
 
 export const alt = "COT27 — Conférence du District 130 Toastmasters · Cotonou 2027";
 export const size = { width: 1200, height: 630 };
@@ -13,6 +15,7 @@ export default async function OpengraphImage({
 }) {
   const { locale } = await params;
   const fr = !isLocale(locale) || locale === "fr";
+  const montserrat = await montserratBold();
 
   return new ImageResponse(
     (
@@ -26,7 +29,7 @@ export default async function OpengraphImage({
           padding: "80px",
           background: "linear-gradient(135deg, #001a2b 0%, #003350 55%, #611c28 100%)",
           color: "white",
-          fontFamily: "sans-serif",
+          fontFamily: "Montserrat",
           position: "relative",
         }}
       >
@@ -47,7 +50,7 @@ export default async function OpengraphImage({
             fontWeight: 800,
           }}
         >
-          27
+          {brand.mark}
         </div>
         <div
           style={{
@@ -72,7 +75,7 @@ export default async function OpengraphImage({
             lineHeight: 1,
           }}
         >
-          COT27
+          {brand.name}
         </div>
         <div
           style={{
@@ -100,6 +103,11 @@ export default async function OpengraphImage({
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        { name: "Montserrat", data: montserrat, weight: 700, style: "normal" },
+      ],
+    }
   );
 }

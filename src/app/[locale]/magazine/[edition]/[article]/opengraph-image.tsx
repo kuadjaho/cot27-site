@@ -3,6 +3,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { isLocale } from "@/lib/i18n";
 import { rubriqueLabels } from "@/lib/magazine";
+import { montserratBold } from "@/lib/og-font";
+import { brand } from "@/lib/content";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -31,6 +33,7 @@ export default async function OgImage({
     ? (rubriqueLabels[article.rubrique]?.[locale] ?? article.rubrique)
     : "";
   const auteur = article?.auteur ?? "";
+  const montserrat = await montserratBold();
 
   return new ImageResponse(
     (
@@ -44,7 +47,7 @@ export default async function OgImage({
           padding: 72,
           background: "linear-gradient(135deg, #001a2b 0%, #00263c 55%, #004165 100%)",
           color: "white",
-          fontFamily: "sans-serif",
+          fontFamily: "Montserrat",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
@@ -62,10 +65,25 @@ export default async function OgImage({
               fontWeight: 800,
             }}
           >
-            27
+            {brand.mark}
           </div>
-          <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: 2 }}>
-            COT27 MAGAZINE
+          {/* La p. 38 du manuel de marque impose le numéro de District et les
+              mots « annual conference » sur CHAQUE support — image de partage
+              comprise, puisqu'elle circule seule sur les réseaux. */}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: 2 }}>
+              {brand.name} MAGAZINE
+            </div>
+            <div
+              style={{
+                fontSize: 19,
+                fontWeight: 600,
+                letterSpacing: 1,
+                color: "rgba(255,255,255,0.65)",
+              }}
+            >
+              {brand.legalName.en}
+            </div>
           </div>
         </div>
 
@@ -106,6 +124,11 @@ export default async function OgImage({
         </div>
       </div>
     ),
-    size
+    {
+      ...size,
+      fonts: [
+        { name: "Montserrat", data: montserrat, weight: 700, style: "normal" },
+      ],
+    }
   );
 }

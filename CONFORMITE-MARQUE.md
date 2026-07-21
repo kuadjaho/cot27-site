@@ -32,8 +32,15 @@ Cette exception lève le risque « Non-conformité à la marque Toastmasters »,
 | Logo Toastmasters seul, non altéré, jamais côte à côte avec un autre logo | 38b | Bloc d'affiliation dédié en pied de page, isolé par une bordure, sans aucun autre logo |
 | Taille minimale du logo : 72 px en web | 8 | Affiché à 96 px de large |
 | Sponsors dans une section dédiée, jamais à côté du logo Toastmasters | 38e | Section sponsors sur l'accueil, séparée du pied de page par deux sections |
-| Polices : alternatives gratuites officielles | 20-21 | Montserrat pour les titres, Source Sans 3 pour le texte |
-| Palette de marque | 13 | Loyal Blue `#004165`, True Maroon `#772432`, Cool Gray `#A9B2B1`, Happy Yellow `#F2DF74` |
+| Polices : alternatives gratuites officielles | 20-21 | Montserrat pour les titres, Source Sans 3 pour le texte — y compris dans les images de partage, où la police est désormais embarquée |
+| Logo posé sur une couleur de la palette | 12 | Le bloc d'affiliation est sur Loyal Blue `#004165`, et non sur le bleu nuit du reste du pied de page |
+
+### Conforme sous réserve d'interprétation
+
+| Point | Page | État réel |
+|---|---|---|
+| Palette de marque | 13 | Les quatre couleurs officielles sont définies (`#004165`, `#772432`, `#A9B2B1`, `#F2DF74`), mais le fichier `globals.css` déclare **25 jetons de couleur, dont 21 sont hors palette** : nuances dérivées (bleus assombris, ors) et extension béninoise décorative. Le manuel n'interdit ces couleurs que **derrière le logo** (p. 12) ; l'exception « District Conference » (p. 38a) autorise par ailleurs une identité propre. Ce n'est donc pas une infraction, mais **le site ne doit pas les présenter comme « la charte Toastmasters »**. |
+| Accent jaune | 13 | Happy Yellow `#F2DF74` est disponible, mais les boutons d'appel à l'action utilisent `#e8c94a`, une nuance fabriquée. Recevable au titre de l'identité de conférence ; à trancher si l'on veut un alignement strict. |
 
 ### À faire valider avant la mise en ligne publique
 
@@ -67,7 +74,13 @@ Pistes à arbitrer avec la Brand Team :
 2. **Demande d'usage de marque** : soumettre une *Trademark Use Request* pour un usage historique et documentaire du branding COT27 après l'événement. Le manuel prévoit d'ailleurs qu'un ancien logo « should only be used in an historical context ».
 3. **Archive fermée** : geler le site en lecture seule et accepter qu'il ne soit plus promu.
 
-**Conséquence technique immédiate** : le branding doit rester **centralisé et substituable** — nom, thème et marque dans `src/lib/content.ts` et `src/lib/i18n.ts`, jamais codés en dur dans les composants. Le site est actuellement conforme à cette contrainte ; il faut la tenir dans les sprints suivants.
+**Conséquence technique immédiate** : le branding doit rester **centralisé et substituable**, pour qu'un retrait après mai 2027 soit une opération d'une ligne et non une chasse au trésor.
+
+État réel, mesuré :
+
+- ✅ La marque « 27 » et le nom sont désormais centralisés dans l'objet `brand` de `src/lib/content.ts`. Ils étaient auparavant codés en dur dans la barre de navigation, le pied de page et les deux images de partage.
+- ⚠️ La chaîne « COT27 » subsiste dans **14 fichiers de code** (configuration Payload, jeu de données de test, manifeste PWA, mises en page, routes d'API, collections). Ces occurrences sont majoritairement techniques — libellés d'administration, préfixes de référence — mais elles devront être passées en revue avant la bascule.
+- ⚠️ Le thème est dans `src/lib/i18n.ts` sous `hero.theme`, en deux exemplaires (FR et EN). Il faudra le sortir vers `brand` le jour où le vrai thème sera validé.
 
 ### 3.2 Le disclaimer obligatoire contredit la cible « non-membres »
 
@@ -97,3 +110,13 @@ Pour toute personne qui produira des visuels, des articles de magazine ou des su
 Bénin · Burkina Faso · Cameroun · Centrafrique · Congo · Gabon · Guinée Équatoriale · Niger · Nigeria · RD Congo · São Tomé-et-Príncipe · Tchad
 
 Source : visuel officiel publié par la page Facebook vérifiée « Toastmasters District 130 » le 6 juillet 2024. Le cahier des charges n°5 n'en nommait que huit — il omettait la Centrafrique, la Guinée Équatoriale, le Niger et São Tomé-et-Príncipe. La liste du site a été corrigée ; il reste à corriger le cahier des charges lui-même.
+
+---
+
+## 6. Méthode et limites de ce document
+
+Les règles citées ici ont été relevées **page par page dans le PDF du manuel**, avec extraction texte fiable (`pdftotext -layout`). Une première lecture par extraction artisanale avait produit un texte corrompu et plusieurs conclusions fausses — notamment une palette inventée (`#781327`, prétendu « Rich Maroon ») et une confusion entre couleur de palette et extrémité de dégradé. Toute reprise de ce travail doit repartir du PDF, pas de ce document.
+
+Le site a ensuite été audité par une batterie d'agents indépendants, chacun sur une dimension du manuel, avec vérification adversariale de chaque constat sous deux angles distincts — exactitude du fait dans le code, et exactitude de l'interprétation de la règle. Sur **35 constats produits, 28 ont été réfutés** : dans la grande majorité des cas parce qu'ils étendaient au site entier une règle qui ne vise que le logo. C'est le biais principal à surveiller quand on lit ce manuel.
+
+Les constats survivants ont été corrigés, y compris trois qui portaient sur **ce document lui-même** : il affirmait la conformité de la palette en citant une couleur absente du code, et la centralisation du branding alors que la marque était codée en dur dans quatre fichiers. Les deux affirmations ont été rendues vraies plutôt que retirées.

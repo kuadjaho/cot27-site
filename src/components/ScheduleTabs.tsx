@@ -49,7 +49,7 @@ export default function ScheduleTabs({ locale }: { locale: Locale }) {
                 key={item.time + item.title.fr}
                 className="flex flex-col gap-2 px-6 py-5 sm:flex-row sm:items-start sm:gap-6"
               >
-                <span className="w-16 shrink-0 font-mono text-sm font-bold text-loyal-700 tabular-nums">
+                <span className="nums w-16 shrink-0 text-sm font-bold text-loyal-700">
                   {item.time}
                 </span>
                 <div className="flex-1">

@@ -19,6 +19,10 @@
   --color-maroon-600: #772432; /* True Maroon */
   --color-maroon-700: #611c28;
 
+  /* Cool Gray — couleur secondaire de la charte (p. 13), pour les textes
+     secondaires et les séparateurs sur fond de marque. */
+  --color-coolgray: #a9b2b1;
+
   --color-gold-200: #f8ecab;
   --color-gold-300: #f2df74; /* Happy Yellow */
   --color-gold-400: #e8c94a;
@@ -100,11 +104,14 @@ h4 {
 
 /* --- Accessibilité (§4.4) ---------------------------------------------- */
 
-/* Focus clavier visible partout, aux couleurs de la marque. */
+/* Focus clavier visible partout. Happy Yellow (#F2DF74) est la seule couleur
+   d'accent de la charte Toastmasters (p. 13) ; on lui adjoint un liseré foncé
+   pour garder un contraste suffisant sur les fonds clairs. */
 :focus-visible {
-  outline: 3px solid #d4af37;
+  outline: 3px solid #f2df74;
   outline-offset: 2px;
   border-radius: 4px;
+  box-shadow: 0 0 0 5px #004165;
 }
 
 /* Lien d'évitement : invisible jusqu'au focus clavier. */
