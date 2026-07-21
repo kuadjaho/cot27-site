@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { getTicket } from "@/lib/content";
+import { getTicket, ticketOptions, computeTunnelTotal } from "@/lib/content";
 import { createFedapayCheckout, fedapayEnabled } from "@/lib/fedapay";
 import { isLocale } from "@/lib/i18n";
+
+const ONLINE_CHANNELS = ["mtn", "moov", "carte"] as const;
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
@@ -18,23 +20,71 @@ export async function POST(request: NextRequest) {
   const lastName = String(body.lastName ?? "").trim();
   const email = String(body.email ?? "").trim();
   const phone = String(body.phone ?? "").trim();
-  const ticketType = String(body.ticketType ?? "");
-  const memberType = body.memberType === "guest" ? "guest" : "member";
   const locale = isLocale(String(body.locale)) ? String(body.locale) : "fr";
+  const mode = body.mode === "delegation" ? "delegation" : "solo";
 
   if (!firstName || !lastName || !phone || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return NextResponse.json({ error: "INVALID_FIELDS" }, { status: 400 });
   }
 
-  // Le montant est TOUJOURS recalculé côté serveur à partir du catalogue.
-  const ticket = getTicket(ticketType);
+  const ticket = getTicket(String(body.ticketType ?? ""));
   if (!ticket) {
     return NextResponse.json({ error: "INVALID_TICKET" }, { status: 400 });
   }
 
+  // Membres de délégation : lignes nettoyées, plafond de sécurité à 100.
+  const membres =
+    mode === "delegation" && Array.isArray(body.membres)
+      ? body.membres
+          .slice(0, 100)
+          .map((m) => ({
+            prenom: String((m as Record<string, unknown>)?.prenom ?? "").trim(),
+            nom: String((m as Record<string, unknown>)?.nom ?? "").trim(),
+            email:
+              String((m as Record<string, unknown>)?.email ?? "").trim() || null,
+          }))
+          .filter((m) => m.prenom || m.nom || m.email)
+      : [];
+
+  if (mode === "delegation" && membres.length < 1) {
+    return NextResponse.json({ error: "DELEGATION_EMPTY" }, { status: 400 });
+  }
+
+  const optionKeys =
+    mode === "solo" && Array.isArray(body.options)
+      ? body.options
+          .map(String)
+          .filter((k) => ticketOptions.some((o) => o.key === k))
+      : [];
+
   const payload = await getPayload({ config });
 
-  // Un participant par e-mail — réutilisé si déjà connu.
+  // Code promo : validé en base, jamais sur la foi du client.
+  let promoPct = 0;
+  let promoCode: string | null = null;
+  const rawPromo = String(body.promoCode ?? "").trim().toUpperCase();
+  if (rawPromo) {
+    const found = await payload.find({
+      collection: "codes-promo",
+      where: { and: [{ code: { equals: rawPromo } }, { actif: { equals: true } }] },
+      limit: 1,
+    });
+    if (found.docs[0]) {
+      promoPct = found.docs[0].reductionPct;
+      promoCode = rawPromo;
+    }
+  }
+
+  // Le montant est TOUJOURS recalculé côté serveur.
+  const participants = mode === "delegation" ? 1 + membres.length : 1;
+  const pricing = computeTunnelTotal({
+    ticketKey: ticket.key,
+    optionKeys,
+    participants,
+    promoPct,
+  });
+
+  // Un participant (responsable) par e-mail — réutilisé si déjà connu.
   const existing = await payload.find({
     collection: "participants",
     where: { email: { equals: email } },
@@ -53,36 +103,56 @@ export async function POST(request: NextRequest) {
         club: String(body.club ?? "").trim() || null,
         ville: String(body.city ?? "").trim() || null,
         pays: String(body.country ?? "").trim() || "Bénin",
-        districtRole: memberType === "member" ? "Membre Toastmasters" : "Invité",
+        districtRole:
+          mode === "delegation"
+            ? "Responsable de délégation"
+            : body.memberType === "guest"
+              ? "Invité"
+              : "Membre Toastmasters",
         langue: locale as "fr" | "en",
       },
     }));
 
-  const wantsOnline = body.paymentMethod === "fedapay" && fedapayEnabled();
+  const requestedChannel = ONLINE_CHANNELS.includes(
+    body.paymentMethod as (typeof ONLINE_CHANNELS)[number]
+  )
+    ? (body.paymentMethod as (typeof ONLINE_CHANNELS)[number])
+    : null;
+  const wantsWire = body.paymentMethod === "virement";
+  const wantsOnline = requestedChannel !== null && fedapayEnabled();
 
   const inscription = await payload.create({
     collection: "inscriptions",
     data: {
       participant: participant.id,
-      categorie: ticket.key as "early" | "standard" | "etudiant" | "vip",
-      montant: ticket.price,
+      categorie:
+        mode === "delegation"
+          ? "delegation"
+          : (ticket.key as "early" | "standard" | "etudiant" | "vip"),
+      montant: pricing.total,
       devise: "XOF",
       statut: "en_attente",
-      modePaiement: wantsOnline ? "fedapay" : "sur_place",
+      optionsSelectionnees: optionKeys as ("excursions" | "gala" | "totebag")[],
+      codePromo: promoCode,
+      nombreParticipants: participants,
+      membres: mode === "delegation" ? membres : undefined,
+      modePaiement: wantsOnline ? "fedapay" : wantsWire ? "virement" : "sur_place",
+      canal: requestedChannel ?? undefined,
       qrToken: randomUUID(),
     },
   });
 
-  // En production, NEXT_PUBLIC_SITE_URL garantit des URLs publiques correctes
-  // pour les callbacks de paiement ; vide en dev → origine de la requête.
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
   const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${inscription.id}`;
 
   if (wantsOnline) {
     try {
       const checkout = await createFedapayCheckout({
-        amount: ticket.price,
-        description: `COT27 — ${ticket.name.fr} — ${firstName} ${lastName}`,
+        amount: pricing.total,
+        description:
+          mode === "delegation"
+            ? `COT27 — Délégation ${participants} pers. — ${firstName} ${lastName}`
+            : `COT27 — ${ticket.name.fr} — ${firstName} ${lastName}`,
         firstName,
         lastName,
         email,
@@ -97,7 +167,7 @@ export async function POST(request: NextRequest) {
             inscription: inscription.id,
             fournisseur: "fedapay",
             referenceExterne: checkout.transactionId,
-            montant: ticket.price,
+            montant: pricing.total,
             devise: "XOF",
             statut: "initie",
           },
@@ -105,7 +175,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ redirectUrl: checkout.url, ref: inscription.id });
       }
     } catch (error) {
-      // Échec FedaPay → on bascule l'inscription en paiement sur place
+      // Échec FedaPay → l'inscription bascule en paiement sur place
       console.error("FedaPay checkout failed:", error);
       await payload.update({
         collection: "inscriptions",

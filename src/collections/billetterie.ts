@@ -101,13 +101,42 @@ export const Inscriptions: CollectionConfig = {
     },
     { name: "codePromo", type: "text" },
     {
+      name: "nombreParticipants",
+      type: "number",
+      defaultValue: 1,
+      admin: { description: "1 en individuel, N en délégation" },
+    },
+    {
+      // Membres d'une délégation (§6.2) — stockés ici tant qu'ils n'ont pas
+      // complété leur profil participant via leur lien personnel.
+      name: "membres",
+      type: "array",
+      admin: { condition: (data) => data?.categorie === "delegation" },
+      fields: [
+        { name: "prenom", type: "text" },
+        { name: "nom", type: "text" },
+        { name: "email", type: "email" },
+      ],
+    },
+    {
       name: "modePaiement",
       type: "select",
       defaultValue: "sur_place",
       options: [
         { label: "FedaPay (Mobile Money / carte)", value: "fedapay" },
+        { label: "Virement bancaire", value: "virement" },
         { label: "Sur place", value: "sur_place" },
       ],
+    },
+    {
+      name: "canal",
+      type: "select",
+      options: [
+        { label: "Mobile Money MTN", value: "mtn" },
+        { label: "Mobile Money Moov", value: "moov" },
+        { label: "Carte bancaire", value: "carte" },
+      ],
+      admin: { description: "Canal choisi à l'étape paiement" },
     },
     { name: "qrToken", type: "text", admin: { readOnly: true } },
     { name: "checkedInAt", type: "date" },

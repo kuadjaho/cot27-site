@@ -36,9 +36,13 @@ export default async function ThanksPage({
   const statusMessage =
     inscription.statut === "payee"
       ? dict.thanks.paid
-      : inscription.modePaiement === "sur_place"
-        ? dict.thanks.onsite
-        : dict.thanks.pending;
+      : inscription.modePaiement === "virement"
+        ? dict.thanks.wire
+        : inscription.modePaiement === "sur_place"
+          ? dict.thanks.onsite
+          : dict.thanks.pending;
+
+  const isDelegation = inscription.categorie === "delegation";
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">
@@ -65,7 +69,11 @@ export default async function ThanksPage({
               {participant ? `${participant.prenom} ${participant.nom}` : "—"}
             </dt>
             <dd className="font-semibold text-loyal-800">
-              {ticket ? ticket.name[locale] : inscription.categorie}
+              {isDelegation
+                ? `${dict.thanks.delegationLabel} — ${inscription.nombreParticipants ?? 1} ${dict.tunnel.participantsLabel}`
+                : ticket
+                  ? ticket.name[locale]
+                  : inscription.categorie}
             </dd>
           </div>
           <div className="flex justify-between">
@@ -78,6 +86,17 @@ export default async function ThanksPage({
         <p className="mt-6 rounded-2xl bg-loyal-50 px-5 py-4 text-sm leading-relaxed text-loyal-800">
           {statusMessage}
         </p>
+
+        {inscription.modePaiement === "virement" && (
+          <div className="mt-4 rounded-2xl border border-gold-400/60 bg-gold-300/15 px-5 py-4">
+            <p className="font-display text-sm font-extrabold uppercase tracking-wide text-loyal-800">
+              🏦 {dict.thanks.wireDetailsTitle}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-loyal-800">
+              {dict.thanks.wireDetails}
+            </p>
+          </div>
+        )}
       </div>
 
       <Link

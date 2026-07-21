@@ -553,6 +553,80 @@ export const galleryEditions: GalleryEdition[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Tunnel d'inscription (§6) — options, délégations, tarification
+// TARIFS PLACEHOLDER — à valider par le Comité Budget, Finances et Ventes.
+// ---------------------------------------------------------------------------
+export type TicketOption = { key: string; name: Localized; price: number };
+
+export const ticketOptions: TicketOption[] = [
+  {
+    key: "excursions",
+    name: {
+      fr: "Excursion au choix (Ouidah ou Ganvié)",
+      en: "Excursion of your choice (Ouidah or Ganvié)",
+    },
+    price: 25000,
+  },
+  {
+    key: "gala",
+    name: { fr: "Soirée de gala", en: "Gala dinner" },
+    price: 30000,
+  },
+  {
+    key: "totebag",
+    name: { fr: "Tote bag collector", en: "Collector tote bag" },
+    price: 10000,
+  },
+];
+
+/** Tarif dégressif délégation (§6.2) — remise dès 5, 10, 20 participants. */
+export const delegationTiers = [
+  { min: 20, pct: 15 },
+  { min: 10, pct: 10 },
+  { min: 5, pct: 5 },
+];
+
+export function delegationDiscountPct(participants: number): number {
+  return delegationTiers.find((t) => participants >= t.min)?.pct ?? 0;
+}
+
+/**
+ * Calcul unique du total du tunnel — utilisé par le client (affichage) ET
+ * par le serveur (montant réel). Le serveur ne fait JAMAIS confiance au
+ * total envoyé par le navigateur.
+ */
+export function computeTunnelTotal(input: {
+  ticketKey: string;
+  optionKeys: string[];
+  participants: number; // 1 en individuel, N en délégation
+  promoPct: number;
+}) {
+  const ticket = getTicket(input.ticketKey);
+  const n = Math.max(1, input.participants);
+  const base = (ticket?.price ?? 0) * n;
+  const delegationPct = n > 1 ? delegationDiscountPct(n) : 0;
+  const delegationRebate = Math.round((base * delegationPct) / 100);
+  // Les options ne s'appliquent qu'aux inscriptions individuelles (les
+  // membres d'une délégation les réservent depuis leur propre espace).
+  const optionsTotal =
+    n > 1
+      ? 0
+      : ticketOptions
+          .filter((o) => input.optionKeys.includes(o.key))
+          .reduce((sum, o) => sum + o.price, 0);
+  const subtotal = base - delegationRebate + optionsTotal;
+  const promoRebate = Math.round((subtotal * input.promoPct) / 100);
+  return {
+    base,
+    delegationPct,
+    delegationRebate,
+    optionsTotal,
+    promoRebate,
+    total: subtotal - promoRebate,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Découvrir — pays du District 130 (8 nommés au cahier des charges ; le
 // district en compte 12 — compléter la liste avec le Comité Communication)
 // ---------------------------------------------------------------------------

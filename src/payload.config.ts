@@ -9,7 +9,7 @@ import { Users, Media } from "./collections/admin";
 import { Participants, Inscriptions, Paiements } from "./collections/billetterie";
 import { Sessions, Intervenants, Sponsors } from "./collections/evenement";
 import { Editions, Articles } from "./collections/magazine";
-import { Abonnes } from "./collections/marketing";
+import { Abonnes, Brouillons, CodesPromo } from "./collections/marketing";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -33,6 +33,8 @@ export default buildConfig({
     Editions,
     Articles,
     Abonnes,
+    CodesPromo,
+    Brouillons,
   ],
   editor: lexicalEditor(),
   // Localisation du CONTENU (titre/bio/corps en FR et EN) — indépendante de

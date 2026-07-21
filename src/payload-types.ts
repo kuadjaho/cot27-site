@@ -78,6 +78,8 @@ export interface Config {
     editions: Edition;
     articles: Article;
     abonnes: Abonne;
+    'codes-promo': CodesPromo;
+    brouillons: Brouillon;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -96,6 +98,8 @@ export interface Config {
     editions: EditionsSelect<false> | EditionsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     abonnes: AbonnesSelect<false> | AbonnesSelect<true>;
+    'codes-promo': CodesPromoSelect<false> | CodesPromoSelect<true>;
+    brouillons: BrouillonsSelect<false> | BrouillonsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -215,7 +219,23 @@ export interface Inscription {
   statut?: ('en_attente' | 'payee' | 'annulee' | 'remboursee') | null;
   optionsSelectionnees?: ('excursions' | 'gala' | 'totebag')[] | null;
   codePromo?: string | null;
-  modePaiement?: ('fedapay' | 'sur_place') | null;
+  /**
+   * 1 en individuel, N en délégation
+   */
+  nombreParticipants?: number | null;
+  membres?:
+    | {
+        prenom?: string | null;
+        nom?: string | null;
+        email?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  modePaiement?: ('fedapay' | 'virement' | 'sur_place') | null;
+  /**
+   * Canal choisi à l'étape paiement
+   */
+  canal?: ('mtn' | 'moov' | 'carte') | null;
   qrToken?: string | null;
   checkedInAt?: string | null;
   updatedAt: string;
@@ -391,6 +411,41 @@ export interface Abonne {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "codes-promo".
+ */
+export interface CodesPromo {
+  id: number;
+  code: string;
+  /**
+   * Réduction en % sur le sous-total
+   */
+  reductionPct: number;
+  actif?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brouillons".
+ */
+export interface Brouillon {
+  id: number;
+  token: string;
+  etape?: number | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -456,6 +511,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'abonnes';
         value: number | Abonne;
+      } | null)
+    | ({
+        relationTo: 'codes-promo';
+        value: number | CodesPromo;
+      } | null)
+    | ({
+        relationTo: 'brouillons';
+        value: number | Brouillon;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -573,7 +636,17 @@ export interface InscriptionsSelect<T extends boolean = true> {
   statut?: T;
   optionsSelectionnees?: T;
   codePromo?: T;
+  nombreParticipants?: T;
+  membres?:
+    | T
+    | {
+        prenom?: T;
+        nom?: T;
+        email?: T;
+        id?: T;
+      };
   modePaiement?: T;
+  canal?: T;
   qrToken?: T;
   checkedInAt?: T;
   updatedAt?: T;
@@ -700,6 +773,28 @@ export interface AbonnesSelect<T extends boolean = true> {
   email?: T;
   langue?: T;
   source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "codes-promo_select".
+ */
+export interface CodesPromoSelect<T extends boolean = true> {
+  code?: T;
+  reductionPct?: T;
+  actif?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brouillons_select".
+ */
+export interface BrouillonsSelect<T extends boolean = true> {
+  token?: T;
+  etape?: T;
+  data?: T;
   updatedAt?: T;
   createdAt?: T;
 }
