@@ -10,11 +10,13 @@ export default function Navbar({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // Navigation cible du cahier des charges (§3.1) — 7 entrées maximum,
+  // le logo ramène à l'accueil, « Infos pratiques » vit dans le footer.
   const links = [
-    { href: `/${locale}`, label: dict.nav.home },
+    { href: `/${locale}/decouvrir`, label: dict.nav.discover },
     { href: `/${locale}/programme`, label: dict.nav.program },
     { href: `/${locale}/intervenants`, label: dict.nav.speakers },
-    { href: `/${locale}/infos`, label: dict.nav.venue },
+    { href: `/${locale}/benin`, label: dict.nav.benin },
     { href: `/${locale}/galerie`, label: dict.nav.gallery },
     { href: `/${locale}/magazine`, label: dict.nav.magazine },
   ];

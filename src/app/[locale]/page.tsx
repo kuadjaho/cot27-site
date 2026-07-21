@@ -4,6 +4,7 @@ import { getDict, isLocale } from "@/lib/i18n";
 import { schedule, speakers, sponsors } from "@/lib/content";
 import Countdown from "@/components/Countdown";
 import SpeakerCard from "@/components/SpeakerCard";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default async function HomePage({
   params,
@@ -212,8 +213,13 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* ------------------------------------------------ NEWSLETTER */}
+      <div className="pt-16">
+        <NewsletterSignup locale={locale} source="accueil" />
+      </div>
+
       {/* ------------------------------------------------ CTA */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <div className="bg-cta overflow-hidden rounded-[2.5rem] px-6 py-14 text-center text-white sm:px-16">
           <h2 className="font-display text-3xl font-extrabold text-balance sm:text-4xl">
             {dict.ctaBanner.title}

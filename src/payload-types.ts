@@ -77,6 +77,7 @@ export interface Config {
     sponsors: Sponsor;
     editions: Edition;
     articles: Article;
+    abonnes: Abonne;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     editions: EditionsSelect<false> | EditionsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
+    abonnes: AbonnesSelect<false> | AbonnesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -374,6 +376,21 @@ export interface Article {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "abonnes".
+ */
+export interface Abonne {
+  id: number;
+  email: string;
+  langue?: ('fr' | 'en') | null;
+  /**
+   * Page d'origine de l'inscription (accueil, benin…)
+   */
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -435,6 +452,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'articles';
         value: number | Article;
+      } | null)
+    | ({
+        relationTo: 'abonnes';
+        value: number | Abonne;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -668,6 +689,17 @@ export interface ArticlesSelect<T extends boolean = true> {
   imageCouverture?: T;
   tempsLecture?: T;
   publieLe?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "abonnes_select".
+ */
+export interface AbonnesSelect<T extends boolean = true> {
+  email?: T;
+  langue?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }

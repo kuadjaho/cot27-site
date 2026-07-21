@@ -6,8 +6,10 @@ export default function Footer({ locale }: { locale: Locale }) {
   const dict = getDict(locale);
 
   const links = [
+    { href: `/${locale}/decouvrir`, label: dict.nav.discover },
     { href: `/${locale}/programme`, label: dict.nav.program },
     { href: `/${locale}/intervenants`, label: dict.nav.speakers },
+    { href: `/${locale}/benin`, label: dict.nav.benin },
     { href: `/${locale}/infos`, label: dict.nav.venue },
     { href: `/${locale}/galerie`, label: dict.nav.gallery },
     { href: `/${locale}/magazine`, label: dict.nav.magazine },

@@ -14,12 +14,74 @@ const fr = {
   },
   nav: {
     home: "Accueil",
+    discover: "Découvrir",
     program: "Programme",
     speakers: "Intervenants",
+    benin: "Bénin",
     venue: "Infos pratiques",
     gallery: "Galerie",
     magazine: "Magazine",
     register: "S'inscrire",
+  },
+  discover: {
+    title: "Découvrir COT27",
+    subtitle:
+      "Une semaine, douze pays, une scène : ce que la Conférence Annuelle du District 130 va changer pour vous.",
+    visionKicker: "La vision",
+    visionTitle: "Bien plus qu'une conférence",
+    visionText1:
+      "COT27 rassemble à Cotonou les orateurs, les leaders et les curieux de douze pays d'Afrique pour huit jours de keynotes, de concours, d'ateliers et de découverte du Bénin.",
+    visionText2:
+      "Standard international dans l'exécution, africaine dans les moyens de paiement et la performance réseau, béninoise dans l'âme : c'est la promesse de cette édition.",
+    countriesKicker: "Le District 130",
+    countriesTitle: "Douze pays, deux langues, une communauté",
+    countriesNote:
+      "Parmi les pays représentés — la liste complète sera confirmée par le District.",
+    startKicker: "Par où commencer ?",
+    firstTimeCard: "Première conférence ?",
+    firstTimeCardText: "Ce qui vous attend, comment vous préparer, le lexique à connaître.",
+    employerCard: "Convaincre mon employeur",
+    employerCardText: "L'argumentaire chiffré et la lettre-type prête à envoyer.",
+    beninCard: "Destination Bénin",
+    beninCardText: "Ouidah, Ganvié, Abomey, Pendjari : préparez le voyage autour de la conférence.",
+  },
+  firstTime: {
+    title: "Première conférence ?",
+    subtitle:
+      "Bienvenue ! Voici tout ce qu'il faut savoir pour profiter de COT27 dès la première heure — même si vous n'avez jamais mis les pieds dans un club Toastmasters.",
+    glossaryTitle: "Le petit lexique",
+    cta: "Je réserve ma place",
+  },
+  employer: {
+    title: "Convaincre mon employeur",
+    subtitle:
+      "COT27 est une formation autant qu'une conférence. Voici l'argumentaire — et la lettre prête à envoyer.",
+    argsKicker: "L'argumentaire",
+    letterKicker: "La lettre-type",
+    letterTitle: "Prête à copier, adapter, envoyer",
+    letterHint:
+      "Remplacez les champs entre crochets, ajustez le ton, et envoyez. Disponible en français et en anglais via le sélecteur de langue du site.",
+    copy: "Copier la lettre",
+    copied: "Lettre copiée !",
+    download: "Télécharger (.txt)",
+  },
+  benin: {
+    title: "Destination Bénin",
+    subtitle:
+      "On ne traverse pas la moitié d'un continent pour ne voir qu'une salle de conférence. Le Bénin fait partie du programme.",
+    excursionsKicker: "Les excursions officielles",
+    excursionsTitle: "Quatre escales, une histoire",
+    excursionsNote:
+      "Transport, guide bilingue et déjeuner inclus. Places limitées — réservables avec votre inscription.",
+    pratiqueKicker: "Préparer le voyage",
+    pratiqueTitle: "Visa, santé, monnaie, climat",
+    stayKicker: "Où loger",
+    stayTitle: "Hôtels partenaires à tarif négocié",
+    cultureKicker: "Culture",
+    cultureTitle: "Le Bénin se raconte dans le magazine",
+    cultureText:
+      "Patrimoine, gastronomie, artisanat : la rubrique « Destination Bénin » du Magazine COT27 vous fait voyager avant le départ.",
+    cultureCta: "Lire « Ouidah, Ganvié, Abomey : le Bénin en trois escales »",
   },
   hero: {
     kicker: "Conférence annuelle · District 130 · 12 pays",
@@ -161,6 +223,15 @@ const fr = {
       "Votre paiement est en cours de traitement. Vous recevrez une confirmation dès sa validation.",
     backHome: "Retour à l'accueil",
   },
+  newsletter: {
+    title: "Ne manquez pas l'ouverture des inscriptions",
+    text: "Tarif Early Bird, annonces des intervenants, coulisses : recevez l'essentiel de COT27, sans spam.",
+    placeholder: "Votre adresse e-mail",
+    button: "Me tenir informé·e",
+    sending: "Envoi…",
+    success: "C'est noté ! Vous serez parmi les premiers informés.",
+    error: "Adresse invalide ou erreur réseau — réessayez.",
+  },
   magazine: {
     title: "Le Magazine COT27",
     subtitle:
@@ -200,12 +271,74 @@ const en: typeof fr = {
   },
   nav: {
     home: "Home",
+    discover: "Discover",
     program: "Program",
     speakers: "Speakers",
+    benin: "Benin",
     venue: "Practical info",
     gallery: "Gallery",
     magazine: "Magazine",
     register: "Register",
+  },
+  discover: {
+    title: "Discover COT27",
+    subtitle:
+      "One week, twelve countries, one stage: what the District 130 Annual Conference will change for you.",
+    visionKicker: "The vision",
+    visionTitle: "Much more than a conference",
+    visionText1:
+      "COT27 gathers in Cotonou the speakers, leaders and the curious from twelve African countries for eight days of keynotes, contests, workshops and discovering Benin.",
+    visionText2:
+      "International in execution, African in payment methods and network performance, Beninese at heart: that is this edition's promise.",
+    countriesKicker: "District 130",
+    countriesTitle: "Twelve countries, two languages, one community",
+    countriesNote:
+      "Among the countries represented — the full list will be confirmed by the District.",
+    startKicker: "Where to start?",
+    firstTimeCard: "First conference?",
+    firstTimeCardText: "What to expect, how to prepare, the glossary to know.",
+    employerCard: "Convince my employer",
+    employerCardText: "The evidence-based case and the ready-to-send letter.",
+    beninCard: "Destination Benin",
+    beninCardText: "Ouidah, Ganvié, Abomey, Pendjari: plan the journey around the conference.",
+  },
+  firstTime: {
+    title: "First conference?",
+    subtitle:
+      "Welcome! Here is everything you need to enjoy COT27 from the very first hour — even if you have never set foot in a Toastmasters club.",
+    glossaryTitle: "The little glossary",
+    cta: "Reserve my seat",
+  },
+  employer: {
+    title: "Convince my employer",
+    subtitle:
+      "COT27 is as much a training as a conference. Here is the case — and the letter ready to send.",
+    argsKicker: "The case",
+    letterKicker: "The template letter",
+    letterTitle: "Ready to copy, adapt and send",
+    letterHint:
+      "Replace the bracketed fields, adjust the tone, and send. Available in French and English via the site's language switcher.",
+    copy: "Copy the letter",
+    copied: "Letter copied!",
+    download: "Download (.txt)",
+  },
+  benin: {
+    title: "Destination Benin",
+    subtitle:
+      "You do not cross half a continent to see only a conference room. Benin is part of the program.",
+    excursionsKicker: "Official excursions",
+    excursionsTitle: "Four stops, one story",
+    excursionsNote:
+      "Transport, bilingual guide and lunch included. Limited seats — bookable with your registration.",
+    pratiqueKicker: "Planning the trip",
+    pratiqueTitle: "Visa, health, currency, weather",
+    stayKicker: "Where to stay",
+    stayTitle: "Partner hotels at negotiated rates",
+    cultureKicker: "Culture",
+    cultureTitle: "Benin tells its story in the magazine",
+    cultureText:
+      "Heritage, gastronomy, craftsmanship: the “Destination Benin” section of the COT27 Magazine takes you travelling before departure.",
+    cultureCta: "Read “Ouidah, Ganvié, Abomey: Benin in three stops”",
   },
   hero: {
     kicker: "Annual Conference · District 130 · 12 countries",
@@ -345,6 +478,15 @@ const en: typeof fr = {
     pending:
       "Your payment is being processed. You will receive a confirmation once validated.",
     backHome: "Back to home",
+  },
+  newsletter: {
+    title: "Don't miss the registration opening",
+    text: "Early Bird rate, speaker announcements, behind the scenes: get the essentials of COT27, no spam.",
+    placeholder: "Your email address",
+    button: "Keep me posted",
+    sending: "Sending…",
+    success: "Noted! You will be among the first to know.",
+    error: "Invalid address or network error — please try again.",
   },
   magazine: {
     title: "The COT27 Magazine",

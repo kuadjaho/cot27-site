@@ -553,6 +553,274 @@ export const galleryEditions: GalleryEdition[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Découvrir — pays du District 130 (8 nommés au cahier des charges ; le
+// district en compte 12 — compléter la liste avec le Comité Communication)
+// ---------------------------------------------------------------------------
+export const countries: { flag: string; name: Localized }[] = [
+  { flag: "🇧🇯", name: { fr: "Bénin", en: "Benin" } },
+  { flag: "🇧🇫", name: { fr: "Burkina Faso", en: "Burkina Faso" } },
+  { flag: "🇨🇲", name: { fr: "Cameroun", en: "Cameroon" } },
+  { flag: "🇨🇬", name: { fr: "Congo", en: "Congo" } },
+  { flag: "🇨🇩", name: { fr: "RD Congo", en: "DR Congo" } },
+  { flag: "🇬🇦", name: { fr: "Gabon", en: "Gabon" } },
+  { flag: "🇳🇬", name: { fr: "Nigeria", en: "Nigeria" } },
+  { flag: "🇹🇩", name: { fr: "Tchad", en: "Chad" } },
+];
+
+// ---------------------------------------------------------------------------
+// Première conférence ? — repères pour les nouveaux participants
+// ---------------------------------------------------------------------------
+export const firstTimeSteps: { icon: string; title: Localized; text: Localized }[] = [
+  {
+    icon: "🎟️",
+    title: { fr: "Choisissez votre pass", en: "Choose your pass" },
+    text: {
+      fr: "Membre ou non, tout le monde est bienvenu. Le pass donne accès aux keynotes, ateliers, concours et pauses networking. Le gala et les excursions sont des options.",
+      en: "Member or not, everyone is welcome. The pass covers keynotes, workshops, contests and networking breaks. The gala and excursions are add-ons.",
+    },
+  },
+  {
+    icon: "🗓️",
+    title: { fr: "Composez votre semaine", en: "Build your week" },
+    text: {
+      fr: "Huit jours, mais un cœur de conférence sur trois : arrivez pour les concours, restez pour le gala. Les excursions se placent avant ou après.",
+      en: "Eight days, with a three-day conference core: arrive for the contests, stay for the gala. Excursions fit before or after.",
+    },
+  },
+  {
+    icon: "🤝",
+    title: { fr: "Venez pour les gens", en: "Come for the people" },
+    text: {
+      fr: "Une conférence Toastmasters, c'est 450 personnes qui applaudissent vos premiers pas. Personne ne reste seul plus de cinq minutes.",
+      en: "A Toastmasters conference is 450 people cheering your first steps. Nobody stays alone for more than five minutes.",
+    },
+  },
+  {
+    icon: "👔",
+    title: { fr: "Prévoyez deux tenues", en: "Pack two outfits" },
+    text: {
+      fr: "Tenue professionnelle décontractée en journée, tenue de soirée pour le gala du samedi. En mai à Cotonou : léger, respirant, un parapluie.",
+      en: "Business casual by day, formal attire for the Saturday gala. May in Cotonou: light, breathable, plus an umbrella.",
+    },
+  },
+];
+
+export const glossary: { term: string; def: Localized }[] = [
+  {
+    term: "Table Topics",
+    def: {
+      fr: "Concours d'improvisation : 1 à 2 minutes sur un sujet découvert sur scène.",
+      en: "Impromptu speaking contest: 1–2 minutes on a topic revealed on stage.",
+    },
+  },
+  {
+    term: "DTM",
+    def: {
+      fr: "Distinguished Toastmaster — la plus haute distinction du parcours éducatif.",
+      en: "Distinguished Toastmaster — the highest award in the educational program.",
+    },
+  },
+  {
+    term: "District 130",
+    def: {
+      fr: "La région Toastmasters qui regroupe les clubs de 12 pays d'Afrique francophone et anglophone.",
+      en: "The Toastmasters region gathering clubs from 12 French- and English-speaking African countries.",
+    },
+  },
+  {
+    term: "Business Meeting",
+    def: {
+      fr: "L'assemblée du district : votes, budgets et élection des futurs dirigeants.",
+      en: "The district assembly: votes, budgets and election of future leaders.",
+    },
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Convaincre mon employeur — argumentaire + lettre-type (§3.2 A-4)
+// ---------------------------------------------------------------------------
+export const employerArguments: { icon: string; title: Localized; text: Localized }[] = [
+  {
+    icon: "📈",
+    title: { fr: "Un retour direct sur le poste", en: "Direct return on the job" },
+    text: {
+      fr: "Prise de parole, animation de réunion, feedback structuré : les ateliers travaillent des compétences utilisées dès le lundi suivant.",
+      en: "Public speaking, meeting facilitation, structured feedback: the workshops train skills used the very next Monday.",
+    },
+  },
+  {
+    icon: "🌍",
+    title: { fr: "Un réseau de 12 pays", en: "A 12-country network" },
+    text: {
+      fr: "450 cadres, entrepreneurs et leaders d'Afrique de l'Ouest et centrale réunis au même endroit pendant une semaine.",
+      en: "450 executives, entrepreneurs and leaders from West and Central Africa gathered in one place for a week.",
+    },
+  },
+  {
+    icon: "💼",
+    title: { fr: "Un coût maîtrisé", en: "A controlled cost" },
+    text: {
+      fr: "Pass à partir de 75 000 FCFA, tarifs hôteliers négociés, déjeuners inclus : moins cher qu'une formation classique de deux jours.",
+      en: "Passes from 75,000 FCFA, negotiated hotel rates, lunches included: cheaper than a standard two-day training.",
+    },
+  },
+];
+
+export const employerLetter: Localized = {
+  fr: `Objet : Demande de participation à la Conférence COT27 — Cotonou, 1er–8 mai 2027
+
+Madame, Monsieur,
+
+Je souhaite participer à la Conférence Annuelle du District 130 Toastmasters (COT27), qui se tiendra au Palais des Congrès de Cotonou du 1er au 8 mai 2027.
+
+Cette conférence internationale réunit 450 professionnels venus de 12 pays autour d'ateliers de communication, de leadership et de prise de parole en public, animés par des formateurs certifiés et des conférenciers internationaux.
+
+Concrètement, cette participation apportera à notre équipe :
+- des compétences immédiatement applicables (présentations, animation de réunions, feedback) ;
+- un réseau professionnel régional dans 12 pays d'Afrique ;
+- une montée en autonomie sur la conduite de projets, par la pratique du leadership Toastmasters.
+
+Le coût de participation (pass conférence à partir de 75 000 FCFA, hébergement à tarif négocié) reste inférieur à celui d'une formation professionnelle classique de deux jours, pour une semaine complète de développement.
+
+Je vous propose d'en discuter et reste à votre disposition pour préciser le programme.
+
+Cordialement,
+[Votre nom]`,
+  en: `Subject: Request to attend the COT27 Conference — Cotonou, May 1–8, 2027
+
+Dear [Manager's name],
+
+I would like to attend the Annual Conference of Toastmasters District 130 (COT27), held at the Palais des Congrès in Cotonou from May 1 to 8, 2027.
+
+This international conference gathers 450 professionals from 12 countries for workshops on communication, leadership and public speaking, led by certified trainers and international keynote speakers.
+
+Concretely, attending will bring our team:
+- immediately applicable skills (presentations, meeting facilitation, feedback);
+- a regional professional network across 12 African countries;
+- greater autonomy in project leadership, through hands-on Toastmasters practice.
+
+The cost (conference pass from 75,000 FCFA, negotiated hotel rates) is below that of a standard two-day corporate training, for a full week of development.
+
+I would be happy to discuss this and can provide the detailed program.
+
+Best regards,
+[Your name]`,
+};
+
+// ---------------------------------------------------------------------------
+// Portail Bénin — excursions & pratique (§3.2 C)
+// ---------------------------------------------------------------------------
+export const excursions: {
+  key: string;
+  hue: number;
+  icon: string;
+  name: Localized;
+  tagline: Localized;
+  text: Localized;
+  duration: Localized;
+}[] = [
+  {
+    key: "ouidah",
+    hue: 25,
+    icon: "🏛️",
+    name: { fr: "Ouidah", en: "Ouidah" },
+    tagline: { fr: "La mémoire", en: "The memory" },
+    text: {
+      fr: "La Route des Esclaves jusqu'à la Porte du Non-Retour, le Temple des Pythons, le Musée d'Histoire : une journée d'émotion à une heure de Cotonou.",
+      en: "The Slave Route down to the Door of No Return, the Python Temple, the History Museum: an emotional day one hour from Cotonou.",
+    },
+    duration: { fr: "1 journée", en: "Full day" },
+  },
+  {
+    key: "ganvie",
+    hue: 175,
+    icon: "🛶",
+    name: { fr: "Ganvié", en: "Ganvié" },
+    tagline: { fr: "La lagune", en: "The lagoon" },
+    text: {
+      fr: "La « Venise de l'Afrique » : cité lacustre sur pilotis, marché flottant et écoles sur l'eau, à découvrir en pirogue sur le lac Nokoué.",
+      en: "The “Venice of Africa”: a stilt city, floating market and schools on the water, explored by pirogue on Lake Nokoué.",
+    },
+    duration: { fr: "½ journée", en: "Half day" },
+  },
+  {
+    key: "abomey",
+    hue: 350,
+    icon: "👑",
+    name: { fr: "Abomey", en: "Abomey" },
+    tagline: { fr: "Les rois", en: "The kings" },
+    text: {
+      fr: "Les palais royaux du Dahomey, classés UNESCO : bas-reliefs, trônes et tentures dont les motifs inspirent l'identité de COT27.",
+      en: "The UNESCO-listed royal palaces of Dahomey: bas-reliefs, thrones and tapestries whose patterns inspire COT27's identity.",
+    },
+    duration: { fr: "1 journée", en: "Full day" },
+  },
+  {
+    key: "pendjari",
+    hue: 90,
+    icon: "🐘",
+    name: { fr: "Pendjari", en: "Pendjari" },
+    tagline: { fr: "La savane", en: "The savanna" },
+    text: {
+      fr: "L'un des derniers grands sanctuaires de faune d'Afrique de l'Ouest : éléphants, lions et hippopotames. Extension safari de 2–3 jours après la conférence.",
+      en: "One of West Africa's last great wildlife sanctuaries: elephants, lions and hippos. A 2–3 day safari extension after the conference.",
+    },
+    duration: { fr: "2–3 jours", en: "2–3 days" },
+  },
+];
+
+export const beninPratique: { icon: string; title: Localized; text: Localized }[] = [
+  {
+    icon: "🛂",
+    title: { fr: "e-Visa en 48 h", en: "e-Visa in 48 h" },
+    text: {
+      fr: "Ressortissants CEDEAO : pas de visa. Autres pays : e-Visa en ligne sur evisa.gouv.bj (≈ 50 €, 48 h de délai).",
+      en: "ECOWAS nationals: no visa. Others: online e-Visa at evisa.gouv.bj (≈ €50, 48 h processing).",
+    },
+  },
+  {
+    icon: "💉",
+    title: { fr: "Fièvre jaune", en: "Yellow fever" },
+    text: {
+      fr: "Le carnet de vaccination fièvre jaune est exigé à l'entrée. Prophylaxie antipaludique recommandée.",
+      en: "A yellow fever vaccination card is required on entry. Antimalarial prophylaxis recommended.",
+    },
+  },
+  {
+    icon: "💱",
+    title: { fr: "Franc CFA (XOF)", en: "CFA franc (XOF)" },
+    text: {
+      fr: "1 € ≈ 656 FCFA (parité fixe). Cartes acceptées dans les hôtels ; Mobile Money (MTN, Moov) roi partout ailleurs.",
+      en: "€1 ≈ 656 FCFA (fixed peg). Cards accepted in hotels; Mobile Money (MTN, Moov) rules everywhere else.",
+    },
+  },
+  {
+    icon: "🌦️",
+    title: { fr: "Climat en mai", en: "May weather" },
+    text: {
+      fr: "27–31 °C, début de saison des pluies : averses brèves, soleil généreux. Vêtements légers et parapluie.",
+      en: "27–31 °C, early rainy season: brief showers, generous sun. Light clothing and an umbrella.",
+    },
+  },
+  {
+    icon: "✈️",
+    title: { fr: "Aéroport COO", en: "COO airport" },
+    text: {
+      fr: "L'aéroport international Cardinal Bernardin Gantin est à 20 min du Palais des Congrès. Navettes COT27 pour les participants.",
+      en: "Cardinal Bernardin Gantin International Airport is 20 min from the venue. COT27 shuttles for attendees.",
+    },
+  },
+  {
+    icon: "🗣️",
+    title: { fr: "Langues", en: "Languages" },
+    text: {
+      fr: "Français langue officielle, anglais parlé dans le milieu des affaires — et une conférence intégralement bilingue.",
+      en: "French is the official language, English widely spoken in business — and the conference is fully bilingual.",
+    },
+  },
+];
+
+// ---------------------------------------------------------------------------
 // Sponsors (PLACEHOLDER)
 // ---------------------------------------------------------------------------
 export const sponsors: { name: string; tier: "gold" | "silver" }[] = [
