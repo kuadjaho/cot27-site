@@ -36,7 +36,7 @@ const fr = {
     countriesKicker: "Le District 130",
     countriesTitle: "Douze pays, deux langues, une communauté",
     countriesNote:
-      "Parmi les pays représentés — la liste complète sera confirmée par le District.",
+      "Les douze pays du District 130, tels que publiés par le District.",
     startKicker: "Par où commencer ?",
     firstTimeCard: "Première conférence ?",
     firstTimeCardText: "Ce qui vous attend, comment vous préparer, le lexique à connaître.",
@@ -312,6 +312,15 @@ const fr = {
     contact: "Contact",
     follow: "Suivez-nous",
     rights: "Tous droits réservés.",
+    affiliation:
+      "COT27 est la conférence annuelle du District 130 de Toastmasters International. Toastmasters International et son logo sont des marques déposées de Toastmasters International.",
+    // Texte imposé par le manuel de marque Toastmasters (p. 34, Website
+    // Guidelines) : il doit figurer en bas du site, dans sa formulation
+    // exacte. La traduction est fournie à titre de courtoisie.
+    tmDisclaimer:
+      "The information on this website is for the sole use of Toastmasters' members, for Toastmasters business only. It is not to be used for solicitation and distribution of non-Toastmasters material or information.",
+    tmDisclaimerFr:
+      "Les informations de ce site sont destinées au seul usage des membres Toastmasters, pour les activités Toastmasters uniquement. Elles ne doivent pas servir à la sollicitation ni à la diffusion de contenus étrangers à Toastmasters.",
     disclaimer:
       "Site non officiel — contenus de démonstration à remplacer par les informations réelles de la convention.",
   },
@@ -347,7 +356,7 @@ const en: typeof fr = {
     countriesKicker: "District 130",
     countriesTitle: "Twelve countries, two languages, one community",
     countriesNote:
-      "Among the countries represented — the full list will be confirmed by the District.",
+      "The twelve countries of District 130, as published by the District.",
     startKicker: "Where to start?",
     firstTimeCard: "First conference?",
     firstTimeCardText: "What to expect, how to prepare, the glossary to know.",
@@ -622,6 +631,13 @@ const en: typeof fr = {
     contact: "Contact",
     follow: "Follow us",
     rights: "All rights reserved.",
+    affiliation:
+      "COT27 is the annual conference of Toastmasters International District 130. Toastmasters International and its logo are registered trademarks of Toastmasters International.",
+    // Mandated verbatim by the Toastmasters Brand Manual (p. 34).
+    tmDisclaimer:
+      "The information on this website is for the sole use of Toastmasters' members, for Toastmasters business only. It is not to be used for solicitation and distribution of non-Toastmasters material or information.",
+    // Pas de traduction en anglais : le texte imposé est déjà en anglais.
+    tmDisclaimerFr: "",
     disclaimer:
       "Unofficial site — demo content to be replaced with the convention's real information.",
   },

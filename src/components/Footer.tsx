@@ -66,12 +66,37 @@ export default function Footer({ locale }: { locale: Locale }) {
         </div>
       </div>
 
+      {/* Bloc d'affiliation — le logo Toastmasters occupe sa propre section, seul
+          et non altéré, jamais côte à côte avec un autre logo (manuel de marque
+          p. 38). Fichier officiel du Brand Portal, affiché à 96 px de large,
+          au-dessus du minimum de 72 px imposé par la p. 8. */}
+      <div className="border-t border-white/10 py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center px-4 text-center sm:px-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/toastmasters-logo-white.svg"
+            alt="Toastmasters International"
+            width={96}
+            height={80}
+            className="h-20 w-24"
+          />
+          <p className="mt-4 max-w-md text-xs leading-relaxed text-white/50">
+            {dict.footer.affiliation}
+          </p>
+        </div>
+      </div>
+
       <div className="border-t border-white/10 py-6">
         <div className="mx-auto max-w-6xl px-4 text-xs sm:px-6">
           <p>
             © 2027 COT27 · District 130 Toastmasters — {dict.footer.rights}
           </p>
-          <p className="mt-1 text-white/40">{dict.footer.disclaimer}</p>
+          {/* Mention imposée mot pour mot par le manuel de marque (p. 34). */}
+          <p className="mt-3 text-white/40">{dict.footer.tmDisclaimer}</p>
+          {dict.footer.tmDisclaimerFr && (
+            <p className="mt-1 text-white/40">{dict.footer.tmDisclaimerFr}</p>
+          )}
+          <p className="mt-3 text-white/30">{dict.footer.disclaimer}</p>
         </div>
       </div>
     </footer>

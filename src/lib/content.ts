@@ -627,17 +627,23 @@ export function computeTunnelTotal(input: {
 }
 
 // ---------------------------------------------------------------------------
-// Découvrir — pays du District 130 (8 nommés au cahier des charges ; le
-// district en compte 12 — compléter la liste avec le Comité Communication)
+// Découvrir — les 12 pays du District 130.
+// Source : visuel officiel de la page Facebook vérifiée « Toastmasters
+// District 130 » (6 juillet 2024). Le cahier des charges n'en nommait que 8 :
+// Centrafrique, Guinée Équatoriale, Niger et São Tomé-et-Príncipe manquaient.
 // ---------------------------------------------------------------------------
 export const countries: { flag: string; name: Localized }[] = [
   { flag: "🇧🇯", name: { fr: "Bénin", en: "Benin" } },
   { flag: "🇧🇫", name: { fr: "Burkina Faso", en: "Burkina Faso" } },
   { flag: "🇨🇲", name: { fr: "Cameroun", en: "Cameroon" } },
+  { flag: "🇨🇫", name: { fr: "Centrafrique", en: "Central African Republic" } },
   { flag: "🇨🇬", name: { fr: "Congo", en: "Congo" } },
-  { flag: "🇨🇩", name: { fr: "RD Congo", en: "DR Congo" } },
   { flag: "🇬🇦", name: { fr: "Gabon", en: "Gabon" } },
+  { flag: "🇬🇶", name: { fr: "Guinée Équatoriale", en: "Equatorial Guinea" } },
+  { flag: "🇳🇪", name: { fr: "Niger", en: "Niger" } },
   { flag: "🇳🇬", name: { fr: "Nigeria", en: "Nigeria" } },
+  { flag: "🇨🇩", name: { fr: "RD Congo", en: "DR Congo" } },
+  { flag: "🇸🇹", name: { fr: "São Tomé-et-Príncipe", en: "São Tomé and Príncipe" } },
   { flag: "🇹🇩", name: { fr: "Tchad", en: "Chad" } },
 ];
 
