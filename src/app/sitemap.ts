@@ -1,6 +1,10 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
 
+// Contenu entièrement statique : la directive permet aussi son inclusion
+// dans un export statique (version de présentation GitHub Pages).
+export const dynamic = "force-static";
+
 const routes = [
   "",
   "/decouvrir",

@@ -12,6 +12,23 @@ import {
 
 export const revalidate = 3600;
 
+/**
+ * Pré-rend chaque édition connue au moment de la construction, dans les deux
+ * langues. Sans cela, ces pages ne peuvent pas figurer dans un export statique
+ * — celui qui alimente la version de présentation publiée sur GitHub Pages.
+ */
+export async function generateStaticParams() {
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "editions",
+    limit: 100,
+    pagination: false,
+  });
+  return docs.flatMap((edition) =>
+    ["fr", "en"].map((locale) => ({ locale, edition: edition.slug }))
+  );
+}
+
 const rubriqueHues: Record<string, number> = {
   portrait: 275,
   destination: 165,

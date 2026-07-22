@@ -15,6 +15,32 @@ import ShareArticle from "@/components/magazine/ShareArticle";
 
 export const revalidate = 3600;
 
+/**
+ * Même raison que pour la page d'édition : sans cette liste, l'article ne peut
+ * pas être pré-rendu et l'export statique de présentation échoue.
+ */
+export async function generateStaticParams() {
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "articles",
+    limit: 500,
+    pagination: false,
+    depth: 1,
+  });
+  return docs.flatMap((article) => {
+    const edition =
+      typeof article.edition === "object" && article.edition
+        ? article.edition.slug
+        : null;
+    if (!edition || !article.slug) return [];
+    return ["fr", "en"].map((locale) => ({
+      locale,
+      edition,
+      article: article.slug as string,
+    }));
+  });
+}
+
 async function getData(articleSlug: string, locale: Locale) {
   const payload = await getPayload({ config });
   const { docs } = await payload.find({

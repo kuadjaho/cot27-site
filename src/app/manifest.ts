@@ -1,5 +1,9 @@
 import type { MetadataRoute } from "next";
 
+// Contenu entièrement statique : la directive permet aussi son inclusion
+// dans un export statique (version de présentation GitHub Pages).
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "COT27 — Conférence du District 130 Toastmasters",

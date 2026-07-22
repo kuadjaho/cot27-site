@@ -415,6 +415,9 @@ export interface Abonne {
  */
 export interface CodesPromo {
   id: number;
+  /**
+   * Enregistré en majuscules, quelle que soit la saisie
+   */
   code: string;
   /**
    * Réduction en % sur le sous-total

@@ -1,0 +1,61 @@
+name: Vérification
+
+# Typage, tests et build de production à chaque envoi sur main et à chaque
+# pull request. Le but est d'empêcher qu'un code cassé passe inaperçu : le
+# site encaisse des paiements, une régression sur le calcul du prix ou sur le
+# tunnel d'inscription coûte de l'argent réel.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+
+    # Payload interroge Postgres pendant `next build` : sans base, le build
+    # échoue. Ce service en fournit une, jetable, le temps du job.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: cot27
+          POSTGRES_PASSWORD: cot27
+          POSTGRES_DB: cot27
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URI: postgresql://cot27:cot27@localhost:5432/cot27
+      # `next build` s'exécute en NODE_ENV=production, où payload.config.ts
+      # refuse de démarrer sans secret — c'est voulu. Cette valeur est
+      # jetable et ne sert qu'à faire aboutir le build de vérification.
+      PAYLOAD_SECRET: secret-de-verification-sans-valeur
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Typage TypeScript
+        run: npx tsc --noEmit
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Build de production
+        run: npm run build
