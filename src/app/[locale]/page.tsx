@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/lib/i18n";
-import { schedule, speakers, sponsors } from "@/lib/content";
+import { schedule, speakers, sponsors, countries } from "@/lib/content";
 import Countdown from "@/components/Countdown";
 import SpeakerCard from "@/components/SpeakerCard";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -27,16 +27,35 @@ export default async function HomePage({
       {/* ------------------------------------------------ HERO */}
       <section className="bg-hero relative overflow-hidden text-white">
         <div className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-5xl text-center">
             <p className="animate-rise inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-gold-300">
               {dict.hero.kicker}
             </p>
-            <h1 className="animate-rise-delay-1 mt-6 font-display text-4xl font-black leading-tight text-balance sm:text-6xl">
+            {/* Le thème tient sur une seule ligne à partir de 1024 px — mesuré à
+                890 px de large pour 976 px disponibles. En dessous, il se coupe
+                sur la virgule, qui est la respiration naturelle de la formule. */}
+            <h1 className="animate-rise-delay-1 mt-6 font-display text-4xl font-black leading-tight text-balance sm:text-6xl lg:whitespace-nowrap">
               « {dict.hero.theme} »
             </h1>
             <p className="animate-rise-delay-1 mt-4 font-display text-base font-semibold text-gold-300 sm:text-lg">
               {dict.hero.dates}
             </p>
+            {/* Les douze pays du District. Le drapeau est décoratif : le nom du
+                pays porte l'information pour les lecteurs d'écran, et sert de
+                repli sous Windows, où Chrome ne dispose d'aucun glyphe de
+                drapeau et affiche deux lettres à la place. */}
+            <ul className="animate-rise-delay-2 mx-auto mt-6 grid max-w-[17rem] grid-cols-6 justify-items-center gap-y-2 sm:flex sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-3 sm:gap-y-1">
+              {countries.map((pays) => (
+                <li
+                  key={pays.name.en}
+                  title={pays.name[locale]}
+                  className="text-2xl leading-none opacity-90 transition-opacity hover:opacity-100"
+                >
+                  <span aria-hidden="true">{pays.flag}</span>
+                  <span className="sr-only">{pays.name[locale]}</span>
+                </li>
+              ))}
+            </ul>
             <p className="animate-rise-delay-2 mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
               {dict.hero.subtitle}
             </p>
