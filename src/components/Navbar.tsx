@@ -46,14 +46,19 @@ export default function Navbar({ locale }: { locale: Locale }) {
               avec le contenu de la page, se retire sur petit écran. */}
           <span className="font-display text-sm font-bold uppercase tracking-wider">
             {brand.name}
-            <span className="hidden font-semibold text-loyal-500 sm:inline">
+            <span className="max-sm:hidden font-semibold text-loyal-500 sm:inline">
               {" "}
               · Cotonou 2027
             </span>
           </span>
         </Link>
 
-        <div className="hidden items-center gap-1 lg:flex">
+        {/* `max-lg:hidden` plutôt que `hidden` : la règle exprime la même
+            intention — masqué en dessous de 1024 px — mais sans employer la
+            classe générique `.hidden`, que certaines extensions de navigateur
+            réquisitionnent avec un `!important` qui neutralise ensuite tous les
+            points de rupture. Constaté sur un poste de travail du comité. */}
+        <div className="max-lg:hidden items-center gap-1 lg:flex">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -82,12 +87,17 @@ export default function Navbar({ locale }: { locale: Locale }) {
           </Link>
           <Link
             href={`/${locale}/inscription`}
-            className="hidden rounded-full bg-gold-400 px-5 py-2 text-sm font-bold text-loyal-900 shadow-lg shadow-gold-500/20 transition hover:bg-gold-300 sm:block"
+            className="max-sm:hidden rounded-full bg-gold-400 px-5 py-2 text-sm font-bold text-loyal-900 shadow-lg shadow-gold-500/20 transition hover:bg-gold-300 sm:block"
           >
             {dict.nav.register}
           </Link>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full text-loyal-800 hover:bg-loyal-50 lg:hidden"
+            // `max-lg:flex` et non `flex` : accolée à `lg:hidden`, la classe
+            // générique `.flex` peut être redéfinie par une feuille tierce
+            // injectée après celle du site, et le bouton reste alors affiché
+            // sur grand écran à côté des liens. Deux variantes responsives
+            // n'ont pas ce problème.
+            className="max-lg:flex h-10 w-10 items-center justify-center rounded-full text-loyal-800 hover:bg-loyal-50 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
             aria-expanded={open}

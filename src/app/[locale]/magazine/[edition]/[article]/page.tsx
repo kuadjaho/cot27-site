@@ -129,7 +129,7 @@ export default async function ArticlePage({
 
       {/* ------------------------------------------------ CORPS + SOMMAIRE */}
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:grid lg:grid-cols-[16rem_1fr] lg:gap-12">
-        <aside className="hidden lg:block">
+        <aside className="max-lg:hidden lg:block">
           {headings.length > 0 && (
             <nav className="sticky top-28 rounded-3xl border border-loyal-100 bg-white p-6 shadow-sm">
               <h2 className="font-display text-xs font-bold uppercase tracking-[0.2em] text-maroon-600">

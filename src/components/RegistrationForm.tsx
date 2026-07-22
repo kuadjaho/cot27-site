@@ -291,7 +291,7 @@ export default function RegistrationForm({
               {label}
             </button>
             {i < t.steps.length - 1 && (
-              <span className="mx-1 hidden h-px w-6 bg-loyal-200 sm:block" aria-hidden />
+              <span className="mx-1 max-sm:hidden h-px w-6 bg-loyal-200 sm:block" aria-hidden />
             )}
           </li>
         ))}
