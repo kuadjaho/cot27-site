@@ -125,7 +125,12 @@ const fr = {
   },
   programPreview: {
     kicker: "Aperçu",
-    title: "Trois jours intenses",
+    // Le bandeau annonce huit jours (1er–8 mai), cette section n'en détaille
+    // que trois : sans ce sous-titre, la page d'accueil se contredisait à vue
+    // d'œil et l'explication n'existait que dans la FAQ.
+    title: "Le cœur de la conférence",
+    subtitle:
+      "Trois jours intenses, du 6 au 8 mai, au sein d'une semaine béninoise qui commence le 1er. Les excursions se placent avant ou après.",
     seeAll: "Programme complet",
   },
   speakersPreview: {
@@ -445,7 +450,9 @@ const en: typeof fr = {
   },
   programPreview: {
     kicker: "Overview",
-    title: "Three intense days",
+    title: "The heart of the conference",
+    subtitle:
+      "Three intense days, 6–8 May, within a Benin week that starts on the 1st. Excursions take place before or after.",
     seeAll: "Full program",
   },
   speakersPreview: {

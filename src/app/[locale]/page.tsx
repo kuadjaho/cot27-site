@@ -124,11 +124,12 @@ export default async function HomePage({
       <section className="bg-loyal-800 py-16 text-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
+            <div className="max-w-2xl">
               <p className="section-kicker !text-gold-300">{dict.programPreview.kicker}</p>
               <h2 className="mt-4 font-display text-3xl font-extrabold sm:text-4xl">
                 {dict.programPreview.title}
               </h2>
+              <p className="mt-3 text-white/70">{dict.programPreview.subtitle}</p>
             </div>
             <Link
               href={`/${locale}/programme`}
