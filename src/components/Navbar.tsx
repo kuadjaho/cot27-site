@@ -29,8 +29,12 @@ export default function Navbar({ locale }: { locale: Locale }) {
   const isActive = (href: string) =>
     href === `/${locale}` ? pathname === href : pathname.startsWith(href);
 
+  // Barre blanche, largement opaque. À 85 %, le flou d'arrière-plan laissait
+  // remonter les couleurs des pages — cartes d'intervenants, vignettes de la
+  // galerie — et teintait la barre de violet ou de vert : elle ne se lisait
+  // plus comme blanche.
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-loyal-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-loyal-900/85">
+    <header className="sticky top-0 z-50 border-b border-loyal-100 bg-white/98 text-loyal-900 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/95">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href={`/${locale}`} className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-loyal-900">
@@ -42,7 +46,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
               avec le contenu de la page, se retire sur petit écran. */}
           <span className="font-display text-sm font-bold uppercase tracking-wider">
             {brand.name}
-            <span className="hidden font-semibold text-white/60 sm:inline">
+            <span className="hidden font-semibold text-loyal-500 sm:inline">
               {" "}
               · Cotonou 2027
             </span>
@@ -54,10 +58,13 @@ export default function Navbar({ locale }: { locale: Locale }) {
             <Link
               key={link.href}
               href={link.href}
+              // L'état actif passe en Loyal Blue et non en Happy Yellow : sur
+              // fond blanc, le jaune de marque tombe à un contraste de 1,3:1,
+              // très en deçà du seuil de 4,5:1 exigé par la WCAG 2.2 AA.
               className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                 isActive(link.href)
-                  ? "bg-white/10 text-gold-300"
-                  : "text-white/80 hover:bg-white/5 hover:text-white"
+                  ? "bg-loyal-50 text-loyal-700"
+                  : "text-loyal-800 hover:bg-loyal-50 hover:text-loyal-700"
               }`}
             >
               {link.label}
@@ -68,7 +75,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
         <div className="flex items-center gap-2">
           <Link
             href={switchedPath}
-            className="rounded-full border border-white/25 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white/80 transition-colors hover:border-gold-300 hover:text-gold-300"
+            className="rounded-full border border-loyal-200 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-loyal-700 transition-colors hover:border-loyal-700 hover:bg-loyal-50"
             title={otherLocale === "fr" ? "Version française" : "English version"}
           >
             {otherLocale.toUpperCase()}
@@ -80,7 +87,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
             {dict.nav.register}
           </Link>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full text-white/90 hover:bg-white/10 lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-loyal-800 hover:bg-loyal-50 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
             aria-expanded={open}
@@ -97,14 +104,16 @@ export default function Navbar({ locale }: { locale: Locale }) {
       </nav>
 
       {open && (
-        <div className="border-t border-white/10 bg-loyal-900 px-4 pb-4 lg:hidden">
+        <div className="border-t border-loyal-100 bg-white px-4 pb-4 shadow-lg lg:hidden">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
               className={`block rounded-lg px-4 py-3 text-sm font-semibold ${
-                isActive(link.href) ? "bg-white/10 text-gold-300" : "text-white/85"
+                isActive(link.href)
+                  ? "bg-loyal-50 text-loyal-700"
+                  : "text-loyal-800"
               }`}
             >
               {link.label}
