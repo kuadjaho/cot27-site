@@ -19,13 +19,21 @@ export default async function ThanksPage({
   if (!isLocale(locale)) notFound();
   const dict = getDict(locale);
 
-  const id = Number(ref);
-  if (!ref || Number.isNaN(id)) notFound();
+  // Recherche par jeton aléatoire, jamais par identifiant. L'identifiant d'une
+  // inscription est un entier séquentiel : une boucle sur ?ref=1, 2, 3… aurait
+  // exposé le nom, la catégorie et le montant payé de chaque inscrit du site.
+  if (!ref) notFound();
 
   const payload = await getPayload({ config });
-  const inscription = await payload
-    .findByID({ collection: "inscriptions", id, depth: 1 })
+  const found = await payload
+    .find({
+      collection: "inscriptions",
+      where: { qrToken: { equals: ref } },
+      depth: 1,
+      limit: 1,
+    })
     .catch(() => null);
+  const inscription = found?.docs[0];
   if (!inscription) notFound();
 
   const participant =

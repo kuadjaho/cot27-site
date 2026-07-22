@@ -18,7 +18,24 @@ export const CodesPromo: CollectionConfig = {
     delete: staffOnly,
   },
   fields: [
-    { name: "code", type: "text", required: true, unique: true, index: true },
+    {
+      // Normalisé en majuscules à l'enregistrement. La route d'inscription
+      // cherche le code en majuscules ; sans cette normalisation, un code saisi
+      // « Cot27Deleg » dans l'administration et diffusé aux clubs n'aurait
+      // jamais été reconnu, la comparaison Postgres étant sensible à la casse.
+      name: "code",
+      type: "text",
+      required: true,
+      unique: true,
+      index: true,
+      hooks: {
+        beforeValidate: [
+          ({ value }) =>
+            typeof value === "string" ? value.trim().toUpperCase() : value,
+        ],
+      },
+      admin: { description: "Enregistré en majuscules, quelle que soit la saisie" },
+    },
     {
       name: "reductionPct",
       type: "number",

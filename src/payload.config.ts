@@ -14,6 +14,31 @@ import { Abonnes, Brouillons, CodesPromo } from "./collections/marketing";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+/**
+ * Ce secret signe les jetons de session de l'administration. Une valeur de
+ * repli en dur, publiée dans l'historique du dépôt, permettrait à quiconque
+ * la connaît de forger une session administrateur et d'exporter l'intégralité
+ * du fichier des inscrits — noms, adresses e-mail, téléphones, montants.
+ *
+ * En production, l'absence de PAYLOAD_SECRET empêche donc le démarrage plutôt
+ * que de laisser tourner le site avec un secret connu de tous. En
+ * développement, une valeur locale suffit et n'expose rien.
+ */
+function payloadSecret(): string {
+  const secret = process.env.PAYLOAD_SECRET;
+  if (secret) return secret;
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "PAYLOAD_SECRET est obligatoire en production. Générez-en un avec " +
+        "`openssl rand -base64 32` et placez-le dans les variables " +
+        "d'environnement du serveur. Le site refuse de démarrer sans."
+    );
+  }
+
+  return "developpement-local-non-secret";
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -47,7 +72,7 @@ export default buildConfig({
     defaultLocale: "fr",
     fallback: true,
   },
-  secret: process.env.PAYLOAD_SECRET || "dev-secret-a-changer",
+  secret: payloadSecret(),
   db: postgresAdapter({
     pool: {
       connectionString:

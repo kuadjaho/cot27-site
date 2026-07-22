@@ -59,6 +59,27 @@ export async function POST(request: NextRequest) {
       ? paiement.inscription.id
       : paiement.inscription;
 
+  // Les webhooks n'arrivent pas dans l'ordre d'émission, et FedaPay retente
+  // les livraisons en échec. Sans cette garde, un `declined` retardé — celui
+  // d'une première saisie de code PIN ratée, par exemple — arrivait après le
+  // `approved` du second essai réussi et annulait une inscription bel et bien
+  // payée. Une inscription payée ne redevient donc jamais annulée sur la foi
+  // d'un événement d'échec ; seul un remboursement, traité à la main dans
+  // l'administration, doit pouvoir défaire un paiement.
+  const inscription = await payload.findByID({
+    collection: "inscriptions",
+    id: inscriptionId,
+  });
+
+  if (inscription.statut === "payee" && newStatut !== "approuve") {
+    console.warn(
+      `[fedapay] Événement « ${event.entity?.status} » ignoré pour l'inscription ` +
+        `${inscriptionId} : elle est déjà payée. Un remboursement se traite ` +
+        `depuis l'administration.`
+    );
+    return NextResponse.json({ ok: true, ignored: "already_paid" });
+  }
+
   await payload.update({
     collection: "inscriptions",
     id: inscriptionId,

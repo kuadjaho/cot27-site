@@ -138,7 +138,16 @@ export const Inscriptions: CollectionConfig = {
       ],
       admin: { description: "Canal choisi à l'étape paiement" },
     },
-    { name: "qrToken", type: "text", admin: { readOnly: true } },
+    {
+      // Jeton aléatoire servant à la fois au QR code d'accès et à l'adressage
+      // de la page de confirmation. Indexé parce qu'il est désormais la clé de
+      // recherche de cette page — l'identifiant séquentiel ne doit jamais
+      // circuler dans une URL publique.
+      name: "qrToken",
+      type: "text",
+      index: true,
+      admin: { readOnly: true },
+    },
     { name: "checkedInAt", type: "date" },
   ],
   timestamps: true,

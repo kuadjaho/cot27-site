@@ -143,7 +143,11 @@ export async function POST(request: NextRequest) {
   });
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
-  const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${inscription.id}`;
+  // La page de confirmation est adressée par le jeton aléatoire de
+  // l'inscription, jamais par son identifiant. Cet identifiant est un entier
+  // séquentiel : l'utiliser dans l'URL permettait d'énumérer ?ref=1, 2, 3… et
+  // de lire le nom, la catégorie et le montant de tous les inscrits du site.
+  const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${inscription.qrToken}`;
 
   if (wantsOnline) {
     try {
@@ -175,7 +179,7 @@ export async function POST(request: NextRequest) {
             statut: "initie",
           },
         });
-        return NextResponse.json({ redirectUrl: checkout.url, ref: inscription.id });
+        return NextResponse.json({ redirectUrl: checkout.url, ref: inscription.qrToken });
       }
     } catch (error) {
       // Échec FedaPay → l'inscription bascule en paiement sur place
@@ -188,5 +192,5 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({ redirectUrl: thanksUrl, ref: inscription.id });
+  return NextResponse.json({ redirectUrl: thanksUrl, ref: inscription.qrToken });
 }

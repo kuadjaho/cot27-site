@@ -85,7 +85,23 @@ export async function verifyWebhookSignature(
   signatureHeader: string | null
 ): Promise<boolean> {
   const secret = process.env.FEDAPAY_WEBHOOK_SECRET;
-  if (!secret) return true; // pas de secret configuré → on accepte (mode démo)
+
+  // Défaillance FERMÉE, délibérément. La version précédente renvoyait `true`
+  // quand aucun secret n'était configuré, en supposant que « pas de secret »
+  // signifiait « mode démo ». Les deux variables sont indépendantes : les
+  // paiements réels ne dépendent que de FEDAPAY_SECRET_KEY, si bien qu'un
+  // déploiement en production ayant oublié FEDAPAY_WEBHOOK_SECRET encaissait
+  // normalement tout en laissant n'importe qui marquer n'importe quelle
+  // inscription comme payée par un simple POST sur l'URL du webhook.
+  if (!secret) {
+    console.error(
+      "[fedapay] Webhook refusé : FEDAPAY_WEBHOOK_SECRET n'est pas configuré. " +
+        "Renseignez-le avec la valeur fournie par le tableau de bord FedaPay, " +
+        "sans quoi aucune confirmation de paiement ne peut être authentifiée."
+    );
+    return false;
+  }
+
   if (!signatureHeader) return false;
 
   // Format du header : "t=<timestamp>,s=<hmac-sha256>"
