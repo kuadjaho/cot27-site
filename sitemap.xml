@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+<loc>https://example.invalid/fr</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en" />
+<lastmod>2026-07-22T13:56:09.490Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/decouvrir</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir" />
+<lastmod>2026-07-22T13:56:09.490Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/decouvrir/premiere-fois</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir/premiere-fois" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir/premiere-fois" />
+<lastmod>2026-07-22T13:56:09.490Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/decouvrir/convaincre-mon-employeur</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir/convaincre-mon-employeur" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir/convaincre-mon-employeur" />
+<lastmod>2026-07-22T13:56:09.490Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/benin</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/benin" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/benin" />
+<lastmod>2026-07-22T13:56:09.490Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/programme</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/programme" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/programme" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/intervenants</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/intervenants" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/intervenants" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/infos</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/infos" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/infos" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/galerie</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/galerie" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/galerie" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/magazine</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/magazine" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/magazine" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/fr/inscription</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/inscription" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/inscription" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.9</priority>
+</url>
+<url>
+<loc>https://example.invalid/en</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/decouvrir</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/decouvrir/premiere-fois</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir/premiere-fois" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir/premiere-fois" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/decouvrir/convaincre-mon-employeur</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/decouvrir/convaincre-mon-employeur" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/decouvrir/convaincre-mon-employeur" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/benin</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/benin" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/benin" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/programme</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/programme" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/programme" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/intervenants</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/intervenants" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/intervenants" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/infos</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/infos" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/infos" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/galerie</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/galerie" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/galerie" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/magazine</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/magazine" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/magazine" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://example.invalid/en/inscription</loc>
+<xhtml:link rel="alternate" hreflang="fr" href="https://example.invalid/fr/inscription" />
+<xhtml:link rel="alternate" hreflang="en" href="https://example.invalid/en/inscription" />
+<lastmod>2026-07-22T13:56:09.491Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.9</priority>
+</url>
+</urlset>
