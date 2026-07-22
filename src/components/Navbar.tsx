@@ -36,9 +36,16 @@ export default function Navbar({ locale }: { locale: Locale }) {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-loyal-900">
             {brand.mark}
           </span>
-          <span className="hidden font-display text-sm font-bold uppercase tracking-wider sm:block">
-            {brand.name}{" "}
-            <span className="font-semibold text-white/60">· Cotonou 2027</span>
+          {/* Le nom reste visible à toutes les tailles : masqué sous 640 px, il
+              ne laissait qu'une pastille « 27 » muette, sur laquelle rien
+              n'indiquait où l'on se trouvait. Seul le lieu-année, redondant
+              avec le contenu de la page, se retire sur petit écran. */}
+          <span className="font-display text-sm font-bold uppercase tracking-wider">
+            {brand.name}
+            <span className="hidden font-semibold text-white/60 sm:inline">
+              {" "}
+              · Cotonou 2027
+            </span>
           </span>
         </Link>
 
