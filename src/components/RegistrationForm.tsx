@@ -107,7 +107,22 @@ export default function RegistrationForm({
         if (raw) {
           const saved = JSON.parse(raw);
           if (saved.state) {
-            setState((s) => ({ ...s, ...saved.state }));
+            setState((s) => {
+              const restored = { ...s, ...saved.state };
+              // Un brouillon peut dater d'avant le retrait d'un tarif — la
+              // préinscription, typiquement, disparaît une fois sa date passée.
+              // Sans cette garde, le billet restauré n'existe plus dans le
+              // catalogue et le récapitulatif plante sur un écran blanc, sans
+              // recours possible pour le participant.
+              if (!tickets.some((tk) => tk.key === restored.ticketKey)) {
+                restored.ticketKey = tickets[0].key;
+              }
+              // Même raisonnement pour les options retirées du catalogue.
+              restored.options = (restored.options ?? []).filter((k: string) =>
+                ticketOptions.some((o) => o.key === k)
+              );
+              return restored;
+            });
             if (saved.token) setToken(saved.token);
           }
         }
@@ -153,7 +168,11 @@ export default function RegistrationForm({
     participants,
     promoPct: state.promoPct,
   });
-  const ticket = tickets.find((tk) => tk.key === state.ticketKey)!;
+  // Pas d'assertion non-nulle ici : la garde d'hydratation ci-dessus ramène
+  // déjà tout billet inconnu vers le catalogue, et ce repli évite qu'une
+  // divergence future se traduise par un écran blanc au moment de payer.
+  const ticket =
+    tickets.find((tk) => tk.key === state.ticketKey) ?? tickets[0];
 
   const stepValid = [
     true,

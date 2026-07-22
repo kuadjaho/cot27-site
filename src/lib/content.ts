@@ -623,7 +623,7 @@ export function computeTunnelTotal(input: {
   promoPct: number;
 }) {
   const ticket = getTicket(input.ticketKey);
-  const n = Math.max(1, input.participants);
+  const n = Math.max(1, Math.floor(input.participants) || 1);
   const base = (ticket?.price ?? 0) * n;
   const delegationPct = n > 1 ? delegationDiscountPct(n) : 0;
   const delegationRebate = Math.round((base * delegationPct) / 100);
@@ -636,7 +636,12 @@ export function computeTunnelTotal(input: {
           .filter((o) => input.optionKeys.includes(o.key))
           .reduce((sum, o) => sum + o.price, 0);
   const subtotal = base - delegationRebate + optionsTotal;
-  const promoRebate = Math.round((subtotal * input.promoPct) / 100);
+  // La réduction est bornée à [0, 100] ici, et pas seulement dans le champ du
+  // CMS : cette fonction est la source de vérité du montant réellement débité,
+  // elle ne doit jamais pouvoir produire un total négatif — quelle que soit la
+  // valeur qui remonte de la base.
+  const promoPct = Math.min(100, Math.max(0, input.promoPct || 0));
+  const promoRebate = Math.round((subtotal * promoPct) / 100);
   return {
     base,
     delegationPct,
