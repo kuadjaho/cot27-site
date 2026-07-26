@@ -80,6 +80,8 @@ export interface Config {
     abonnes: Abonne;
     'codes-promo': CodesPromo;
     brouillons: Brouillon;
+    epinglettes: Epinglette;
+    reservations: Reservation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +102,8 @@ export interface Config {
     abonnes: AbonnesSelect<false> | AbonnesSelect<true>;
     'codes-promo': CodesPromoSelect<false> | CodesPromoSelect<true>;
     brouillons: BrouillonsSelect<false> | BrouillonsSelect<true>;
+    epinglettes: EpinglettesSelect<false> | EpinglettesSelect<true>;
+    reservations: ReservationsSelect<false> | ReservationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -109,8 +113,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('fr' | 'en') | ('fr' | 'en')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    boutique: Boutique;
+  };
+  globalsSelect: {
+    boutique: BoutiqueSelect<false> | BoutiqueSelect<true>;
+  };
   locale: 'fr' | 'en';
   widgets: {
     collections: CollectionsWidget;
@@ -448,6 +456,85 @@ export interface Brouillon {
   createdAt: string;
 }
 /**
+ * Épinglettes réservables. Le prix affiché aux visiteurs est celui saisi ici.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "epinglettes".
+ */
+export interface Epinglette {
+  id: number;
+  /**
+   * Identifiant stable, ex. pin-president
+   */
+  slug: string;
+  nom: string;
+  description?: string | null;
+  /**
+   * Prix de vente en FCFA, fixé par le comité. C'est ce montant qui est facturé.
+   */
+  prixFcfa: number;
+  /**
+   * Référence sur shop.toastmasters.org (ex. 5801), pour la commande groupée
+   */
+  refTi?: string | null;
+  /**
+   * Ex. /produits/pin-president.webp
+   */
+  photoUrl?: string | null;
+  ordre?: number | null;
+  /**
+   * Décocher retire l'article de la vitrine
+   */
+  actif?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Réservations d'épinglettes. La liste d'achat agrégée n'inclut que les réservations confirmées.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reservations".
+ */
+export interface Reservation {
+  id: number;
+  /**
+   * Référence lisible, ex. COT27-P0042
+   */
+  reference?: string | null;
+  /**
+   * Jeton aléatoire de la page de confirmation. Jamais l'identifiant, qui est énumérable.
+   */
+  token?: string | null;
+  prenom: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  club?: string | null;
+  pays?: string | null;
+  statut: 'en_attente' | 'confirmee' | 'commandee' | 'arrivee' | 'remise' | 'annulee';
+  /**
+   * Instantané figé à la réservation — ne pas modifier
+   */
+  lignes: {
+    slug: string;
+    nom: string;
+    prixUnitaire: number;
+    quantite: number;
+    id?: string | null;
+  }[];
+  /**
+   * Recalculé par le serveur depuis les prix du catalogue
+   */
+  totalFcfa: number;
+  modePaiement?: ('sur_place' | 'fedapay' | 'virement') | null;
+  fedapayTransactionId?: string | null;
+  note?: string | null;
+  payeeLe?: string | null;
+  remiseLe?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -522,6 +609,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'brouillons';
         value: number | Brouillon;
+      } | null)
+    | ({
+        relationTo: 'epinglettes';
+        value: number | Epinglette;
+      } | null)
+    | ({
+        relationTo: 'reservations';
+        value: number | Reservation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -803,6 +898,54 @@ export interface BrouillonsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "epinglettes_select".
+ */
+export interface EpinglettesSelect<T extends boolean = true> {
+  slug?: T;
+  nom?: T;
+  description?: T;
+  prixFcfa?: T;
+  refTi?: T;
+  photoUrl?: T;
+  ordre?: T;
+  actif?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reservations_select".
+ */
+export interface ReservationsSelect<T extends boolean = true> {
+  reference?: T;
+  token?: T;
+  prenom?: T;
+  nom?: T;
+  email?: T;
+  telephone?: T;
+  club?: T;
+  pays?: T;
+  statut?: T;
+  lignes?:
+    | T
+    | {
+        slug?: T;
+        nom?: T;
+        prixUnitaire?: T;
+        quantite?: T;
+        id?: T;
+      };
+  totalFcfa?: T;
+  modePaiement?: T;
+  fedapayTransactionId?: T;
+  note?: T;
+  payeeLe?: T;
+  remiseLe?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -840,6 +983,36 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * La boutique est livrée fermée. Vérifiez les prix avant d'ouvrir les réservations.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boutique".
+ */
+export interface Boutique {
+  id: number;
+  /**
+   * Ouvre les réservations sur le site public
+   */
+  ouverte?: boolean | null;
+  /**
+   * Affiché aux visiteurs, sous le panier
+   */
+  delaiRemise?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boutique_select".
+ */
+export interface BoutiqueSelect<T extends boolean = true> {
+  ouverte?: T;
+  delaiRemise?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

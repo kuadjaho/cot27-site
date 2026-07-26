@@ -12,7 +12,8 @@
     "generate:importmap": "payload generate:importmap",
     "seed": "payload run src/seed.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "seed:boutique": "payload run src/seed-boutique.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.86.0",

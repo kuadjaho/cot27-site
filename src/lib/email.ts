@@ -62,6 +62,13 @@ const T = {
       "Réglez sur place le jour de la conférence. Votre place est réservée.",
     bouton: "Voir mon inscription",
     pied: "COT27 — Conférence Annuelle du District 130 Toastmasters International. Cet e-mail vous est adressé parce qu'une inscription a été faite avec votre adresse.",
+    pinSujet: (ref: string) => `COT27 — Réservation d'épinglettes (${ref})`,
+    pinIntro:
+      "Votre réservation d'épinglettes est enregistrée. Elles seront commandées auprès de Toastmasters International, puis remises en main propre pendant la conférence, du 1er au 8 mai 2027 à Cotonou.",
+    pinTotal: "Total à régler à la remise",
+    pinEtape:
+      "Aucun paiement n'est demandé maintenant : vous réglerez au moment de la remise. Gardez cette référence.",
+    pinBouton: "Voir ma réservation",
   },
   en: {
     recueSujet: (ref: string) => `COT27 — Registration received (${ref})`,
@@ -83,6 +90,13 @@ const T = {
       "Pay on site on the day of the conference. Your seat is reserved.",
     bouton: "View my registration",
     pied: "COT27 — District 130 Annual Conference, Toastmasters International. You are receiving this email because a registration was made with your address.",
+    pinSujet: (ref: string) => `COT27 — Pin reservation (${ref})`,
+    pinIntro:
+      "Your pin reservation is recorded. They will be ordered from Toastmasters International, then handed over in person during the conference, 1–8 May 2027 in Cotonou.",
+    pinTotal: "Total due on collection",
+    pinEtape:
+      "No payment is required now: you will pay when you collect them. Keep this reference.",
+    pinBouton: "View my reservation",
   },
 } as const;
 
@@ -222,5 +236,60 @@ export async function sendInscriptionRecue(
 /** « Paiement confirmé » — déclenché par le webhook FedaPay sur `approved`. */
 export async function sendPaiementConfirme(data: BaseData): Promise<void> {
   const { subject, html, text } = buildPaiementConfirme(data);
+  await envoyer(data.payload, data.to, subject, html, text);
+}
+
+type LigneMail = { nom: string; prixUnitaire: number; quantite: number };
+
+/**
+ * Construit le récapitulatif d'une réservation d'épinglettes. Chaque ligne est
+ * détaillée : c'est la seule trace que l'acheteur gardera jusqu'à la remise,
+ * des semaines plus tard.
+ */
+export function buildReservationRecue(d: {
+  locale: Locale;
+  prenom: string;
+  reference: string;
+  lignes: LigneMail[];
+  total: number;
+  confirmationUrl: string;
+}): Message {
+  const t = T[d.locale];
+  const lignes: [string, string][] = [
+    [t.reference, d.reference],
+    ...d.lignes.map(
+      (l) =>
+        [
+          `${l.quantite} × ${l.nom}`,
+          formatFCFA(l.prixUnitaire * l.quantite, d.locale),
+        ] as [string, string]
+    ),
+    [t.pinTotal, formatFCFA(d.total, d.locale)],
+  ];
+
+  return {
+    subject: t.pinSujet(d.reference),
+    html: layout({
+      locale: d.locale,
+      titre: t.bonjour(d.prenom),
+      intro: t.pinIntro,
+      lignes,
+      encadre: t.pinEtape,
+      boutonLabel: t.pinBouton,
+      boutonUrl: d.confirmationUrl,
+      pied: t.pied,
+    }),
+    text: toText(t.pinIntro, lignes, t.pinEtape, d.confirmationUrl),
+  };
+}
+
+/** « Réservation enregistrée » — envoyé juste après la réservation ferme. */
+export async function sendReservationRecue(
+  data: Parameters<typeof buildReservationRecue>[0] & {
+    payload: Payload;
+    to: string;
+  }
+): Promise<void> {
+  const { subject, html, text } = buildReservationRecue(data);
   await envoyer(data.payload, data.to, subject, html, text);
 }

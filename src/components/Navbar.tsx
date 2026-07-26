@@ -20,6 +20,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
     { href: `/${locale}/benin`, label: dict.nav.benin },
     { href: `/${locale}/galerie`, label: dict.nav.gallery },
     { href: `/${locale}/magazine`, label: dict.nav.magazine },
+    { href: `/${locale}/boutique`, label: dict.nav.boutique },
   ];
 
   // Bascule fr <-> en en conservant la page courante
