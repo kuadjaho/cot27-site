@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { getDict, isLocale } from "@/lib/i18n";
+import { getDict, isLocale, type Locale } from "@/lib/i18n";
 import { getTicket, formatFCFA } from "@/lib/content";
+import PaymentStatus from "@/components/PaymentStatus";
 
 export const dynamic = "force-dynamic";
 
@@ -40,15 +41,6 @@ export default async function ThanksPage({
     typeof inscription.participant === "object" ? inscription.participant : null;
   const ticket = getTicket(inscription.categorie);
   const reference = `COT27-${String(inscription.id).padStart(5, "0")}`;
-
-  const statusMessage =
-    inscription.statut === "payee"
-      ? dict.thanks.paid
-      : inscription.modePaiement === "virement"
-        ? dict.thanks.wire
-        : inscription.modePaiement === "sur_place"
-          ? dict.thanks.onsite
-          : dict.thanks.pending;
 
   const isDelegation = inscription.categorie === "delegation";
 
@@ -91,9 +83,14 @@ export default async function ThanksPage({
             </dd>
           </div>
         </dl>
-        <p className="mt-6 rounded-2xl bg-loyal-50 px-5 py-4 text-sm leading-relaxed text-loyal-800">
-          {statusMessage}
-        </p>
+        <PaymentStatus
+          locale={locale as Locale}
+          refToken={ref}
+          initialStatut={
+            inscription.statut as "en_attente" | "payee" | "annulee"
+          }
+          modePaiement={inscription.modePaiement ?? ""}
+        />
 
         {inscription.modePaiement === "virement" && (
           <div className="mt-4 rounded-2xl border border-gold-400/60 bg-gold-300/15 px-5 py-4">
