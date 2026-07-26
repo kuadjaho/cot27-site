@@ -5,6 +5,12 @@ import { schedule, speakers, sponsors, countries } from "@/lib/content";
 import Countdown from "@/components/Countdown";
 import SpeakerCard from "@/components/SpeakerCard";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { getInscritsStats } from "@/lib/stats";
+
+// Le compteur de preuve sociale lit les vraies inscriptions ; on rafraîchit la
+// page toutes les 5 minutes plutôt qu'à chaque requête — assez frais pour un
+// compteur, sans rendre toute la page d'accueil dynamique.
+export const revalidate = 300;
 
 export default async function HomePage({
   params,
@@ -14,6 +20,8 @@ export default async function HomePage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDict(locale);
+
+  const inscrits = await getInscritsStats();
 
   const stats = [
     { value: "450", label: dict.stats.participants },
@@ -92,6 +100,25 @@ export default async function HomePage({
 
       {/* ------------------------------------------------ STATS */}
       <section className="mx-auto max-w-6xl px-4 sm:px-6">
+        {/* Preuve sociale : n'apparaît qu'au-dessus du seuil (données réelles). */}
+        {inscrits.show && (
+          <div className="flex flex-col items-center gap-2 pt-10 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-lagune/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-lagune">
+              <span className="relative flex h-2 w-2" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lagune opacity-60"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-lagune"></span>
+              </span>
+              {dict.stats.liveTag}
+            </span>
+            <p className="font-display text-lg text-loyal-800 sm:text-xl">
+              <strong className="font-black text-loyal-700">
+                {inscrits.total.toLocaleString(locale)}
+              </strong>{" "}
+              {dict.stats.liveInscrits}
+            </p>
+            <p className="text-sm text-slate-500">{dict.stats.liveSuffix}</p>
+          </div>
+        )}
         <div className="-mt-2 grid grid-cols-2 gap-4 py-12 md:grid-cols-4">
           {stats.map((stat) => (
             <div

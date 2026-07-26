@@ -102,6 +102,9 @@ const fr = {
     clubs: "Pays représentés",
     speakers: "Intervenants",
     workshops: "Ateliers & concours",
+    liveTag: "En temps réel",
+    liveInscrits: "inscrits",
+    liveSuffix: "ont déjà réservé leur place pour COT27",
   },
   about: {
     kicker: "L'événement",
@@ -441,6 +444,9 @@ const en: typeof fr = {
     seconds: "Seconds",
   },
   stats: {
+    liveTag: "Live",
+    liveInscrits: "registered",
+    liveSuffix: "have already booked their seat for COT27",
     participants: "Expected attendees",
     clubs: "Countries represented",
     speakers: "Speakers",
