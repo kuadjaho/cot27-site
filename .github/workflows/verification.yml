@@ -57,5 +57,13 @@ jobs:
       - name: Tests unitaires
         run: npm test
 
+      # La base du service est vide : on applique les migrations pour créer le
+      # schéma. Sans cela, `next build` interroge des tables inexistantes
+      # (le magazine est pré-rendu au build) et échoue. C'est aussi l'étape
+      # attendue par un vrai déploiement — les migrations ne sont pas un
+      # artifice de CI.
+      - name: Appliquer les migrations de base
+        run: npx payload migrate
+
       - name: Build de production
         run: npm run build

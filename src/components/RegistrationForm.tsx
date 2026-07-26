@@ -723,6 +723,51 @@ export default function RegistrationForm({
             })}
           </div>
 
+          {/* Réassurance Mobile Money : n'apparaît que pour un paiement en ligne,
+              juste avant la redirection vers FedaPay. Elle lève le principal
+              point de décrochage — l'inconnu de « que se passe-t-il après le
+              clic ? ». Les étapes 2 et 3 s'adaptent au canal (Mobile Money vs
+              carte) pour rester exactes. */}
+          {state.payment !== "virement" && onlinePaymentEnabled && (
+            <div className="rounded-2xl border border-loyal-100 bg-loyal-50/60 p-5">
+              <div className="flex items-center gap-2 font-display font-bold text-loyal-800">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+                {t.reassureTitle}
+              </div>
+              <ol className="mt-4 space-y-3">
+                {[
+                  t.reassureStep1,
+                  state.payment === "carte" ? t.reassureCard2 : t.reassureMomo2,
+                  state.payment === "carte" ? t.reassureCard3 : t.reassureMomo3,
+                  t.reassureStep4,
+                ].map((label, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <span
+                      className={`flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-bold ${
+                        i === 3
+                          ? "bg-lagune/15 text-lagune"
+                          : "bg-loyal-700/10 text-loyal-700"
+                      }`}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-loyal-800">{label}</span>
+                  </li>
+                ))}
+              </ol>
+              <p className="mt-4 flex items-center gap-1.5 border-t border-loyal-100 pt-3 text-xs text-slate-500">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                {t.reassureFoot}
+              </p>
+            </div>
+          )}
+
           {error && (
             <p className="rounded-2xl border border-maroon-400 bg-maroon-600/10 px-5 py-3.5 text-sm font-semibold text-maroon-600">
               {error}
