@@ -283,6 +283,14 @@ const fr = {
       "Vous avez choisi de payer sur place. Présentez votre référence à l'accueil de la convention pour régler et récupérer votre badge.",
     pending:
       "Votre paiement est en cours de traitement. Vous recevrez une confirmation dès sa validation.",
+    verifying: "Nous vérifions votre paiement…",
+    verifyingHint:
+      "Cela peut prendre quelques instants sur réseau mobile. Cette page se met à jour automatiquement, inutile de la rafraîchir.",
+    justConfirmed:
+      "Paiement confirmé ! Votre place est garantie. Un e-mail de confirmation vous a été envoyé.",
+    failed:
+      "Le paiement n'a pas abouti. Aucun montant n'a été prélevé. Vous pouvez réessayer.",
+    retry: "Réessayer le paiement",
     wire: "Vous avez choisi le virement bancaire. Effectuez le virement en rappelant votre référence d'inscription — votre place est confirmée dès réception.",
     wireDetailsTitle: "Coordonnées bancaires",
     wireDetails:
@@ -614,6 +622,14 @@ const en: typeof fr = {
       "You chose to pay on site. Show your reference at the convention welcome desk to pay and collect your badge.",
     pending:
       "Your payment is being processed. You will receive a confirmation once validated.",
+    verifying: "We're checking your payment…",
+    verifyingHint:
+      "This may take a moment on mobile networks. This page updates automatically — no need to refresh.",
+    justConfirmed:
+      "Payment confirmed! Your seat is secured. A confirmation email is on its way.",
+    failed:
+      "The payment didn't go through. Nothing was charged. You can try again.",
+    retry: "Retry payment",
     wire: "You chose bank transfer. Make the transfer quoting your registration reference — your seat is confirmed upon receipt.",
     wireDetailsTitle: "Bank details",
     wireDetails:
