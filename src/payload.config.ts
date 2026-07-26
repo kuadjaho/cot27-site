@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import sharp from "sharp";
 
 import { Users, Media } from "./collections/admin";
@@ -39,6 +40,39 @@ function payloadSecret(): string {
   return "developpement-local-non-secret";
 }
 
+/**
+ * Transport e-mail. En production, on branche le SMTP du comité via les
+ * variables SMTP_*. Sans elles — en développement — l'adaptateur crée un
+ * compte de test Ethereal et journalise une URL d'aperçu pour chaque message :
+ * on vérifie le rendu réel des e-mails sans avoir besoin d'un vrai serveur.
+ *
+ * Un envoi qui échoue ne doit jamais interrompre une inscription ou un
+ * paiement ; les appelants de payload.sendEmail encapsulent donc l'appel.
+ */
+function emailAdapter() {
+  const common = {
+    defaultFromName: "COT27 · District 130",
+    defaultFromAddress: process.env.SMTP_FROM || "no-reply@cot27.org",
+  };
+
+  if (process.env.SMTP_HOST) {
+    return nodemailerAdapter({
+      ...common,
+      transportOptions: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || 587),
+        secure: process.env.SMTP_SECURE === "true",
+        auth: process.env.SMTP_USER
+          ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+          : undefined,
+      },
+    });
+  }
+
+  // Aucun SMTP configuré : compte de test Ethereal (URL d'aperçu en console).
+  return nodemailerAdapter(common);
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -73,6 +107,7 @@ export default buildConfig({
     fallback: true,
   },
   secret: payloadSecret(),
+  email: emailAdapter(),
   db: postgresAdapter({
     pool: {
       connectionString:
