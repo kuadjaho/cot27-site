@@ -4,7 +4,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { getTicket, ticketOptions, computeTunnelTotal } from "@/lib/content";
 import { createFedapayCheckout, fedapayEnabled } from "@/lib/fedapay";
-import { isLocale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/i18n";
+import { sendInscriptionRecue, formatReference, type ModePaiement } from "@/lib/email";
 
 const ONLINE_CHANNELS = ["mtn", "moov", "carte"] as const;
 
@@ -149,6 +150,29 @@ export async function POST(request: NextRequest) {
   // de lire le nom, la catégorie et le montant de tous les inscrits du site.
   const thanksUrl = `${siteUrl}/${locale}/inscription/merci?ref=${inscription.qrToken}`;
 
+  // « Inscription reçue » — envoyé quel que soit le mode, avec le mode RÉELLEMENT
+  // retenu : si le paiement en ligne échoue plus bas, l'inscription bascule sur
+  // « sur place » et l'e-mail doit le refléter. On attend l'envoi (encapsulé,
+  // il ne peut pas lever) pour qu'il parte avant une éventuelle redirection.
+  const offre =
+    mode === "delegation"
+      ? locale === "en"
+        ? `Delegation (${participants} people)`
+        : `Délégation (${participants} personnes)`
+      : ticket.name[locale as Locale];
+  const notifier = (modePaiement: ModePaiement) =>
+    sendInscriptionRecue({
+      payload,
+      locale: locale as Locale,
+      to: email,
+      prenom: firstName,
+      reference: formatReference(inscription.id),
+      offre,
+      montant: pricing.total,
+      confirmationUrl: thanksUrl,
+      modePaiement,
+    });
+
   if (wantsOnline) {
     try {
       const checkout = await createFedapayCheckout({
@@ -179,6 +203,7 @@ export async function POST(request: NextRequest) {
             statut: "initie",
           },
         });
+        await notifier("fedapay");
         return NextResponse.json({ redirectUrl: checkout.url, ref: inscription.qrToken });
       }
     } catch (error) {
@@ -192,5 +217,9 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // Chemins virement, sur place, ou paiement en ligne indisponible/en échec :
+  // l'inscription reste « en attente » avec un mode manuel, on notifie en
+  // conséquence.
+  await notifier(wantsWire ? "virement" : "sur_place");
   return NextResponse.json({ redirectUrl: thanksUrl, ref: inscription.qrToken });
 }
