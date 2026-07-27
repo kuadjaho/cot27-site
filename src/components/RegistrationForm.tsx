@@ -73,6 +73,14 @@ export default function RegistrationForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const hydrated = useRef(false);
+  /** Cible du défilement entre étapes — le formulaire, pas le document. */
+  const topRef = useRef<HTMLDivElement>(null);
+  /**
+   * Les erreurs ne s'affichent qu'après une tentative d'avancer : on
+   * n'accueille pas quelqu'un par un formulaire déjà rouge, mais on lui dit
+   * précisément ce qui bloque dès qu'il essaie de continuer.
+   */
+  const [tenteAvancer, setTenteAvancer] = useState(false);
 
   const patch = useCallback((partial: Partial<TunnelState>) => {
     setState((s) => ({ ...s, ...partial }));
@@ -174,23 +182,55 @@ export default function RegistrationForm({
   const ticket =
     tickets.find((tk) => tk.key === state.ticketKey) ?? tickets[0];
 
+  /**
+   * Erreur par champ, en clair. Le tunnel n'affichait rien : le bouton
+   * « Continuer » devenait simplement inerte, ce qui ne dit ni ce qui manque
+   * ni où. Les libellés existaient déjà, traduits, mais n'étaient appelés
+   * nulle part.
+   */
+  const erreurs: Record<string, string> = {};
+  if (!state.identity.firstName.trim()) erreurs.firstName = dict.register.required;
+  if (!state.identity.lastName.trim()) erreurs.lastName = dict.register.required;
+  if (!state.identity.email.trim()) erreurs.email = dict.register.required;
+  else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.identity.email))
+    erreurs.email = dict.register.invalidEmail;
+  if (!state.identity.phone.trim()) erreurs.phone = dict.register.required;
+  if (state.mode === "delegation" && cleanMembres.length < 1)
+    erreurs.membres = t.delegationAtLeastOne;
+
   const stepValid = [
     true,
-    Boolean(
-      state.identity.firstName.trim() &&
-        state.identity.lastName.trim() &&
-        /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.identity.email) &&
-        state.identity.phone.trim() &&
-        (state.mode === "solo" || cleanMembres.length >= 1)
-    ),
+    Object.keys(erreurs).length === 0,
     cgv,
     true,
   ][step];
 
+  /**
+   * Tentative d'avancer. Si l'étape est incomplète, on ne reste plus muet :
+   * on révèle les erreurs et on amène la personne au premier champ fautif.
+   */
+  function essayerAvancer(next: number) {
+    if (!stepValid) {
+      setTenteAvancer(true);
+      requestAnimationFrame(() => {
+        const cible = document.querySelector<HTMLElement>('[aria-invalid="true"]');
+        cible?.scrollIntoView({ behavior: "smooth", block: "center" });
+        cible?.focus();
+      });
+      return;
+    }
+    setTenteAvancer(false);
+    goTo(next);
+  }
+
   function goTo(next: number) {
     setStep(next);
     saveDraft(next);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // On remonte au FORMULAIRE, pas en haut du document. Sur un écran de
+    // 360 × 640, le haut du document place le bandeau de page et le fil des
+    // étapes dans la fenêtre : aucun champ n'était visible après un changement
+    // d'étape, ce qui se lit comme un retour en arrière.
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   // ------------------------------------------------------------ actions
@@ -259,7 +299,10 @@ export default function RegistrationForm({
       : null;
 
   return (
-    <div className="space-y-8 pb-32">
+    // pb-40 : la barre de total est fixe et plus haute que l'ancien pb-32 sur
+    // petit écran — le dernier champ passait dessous. scroll-mt-20 dégage le
+    // header collant quand goTo() ramène ici.
+    <div ref={topRef} className="scroll-mt-20 space-y-8 pb-40">
       {/* ------------------------------------------------------ stepper */}
       <ol className="flex flex-wrap items-center gap-2 sm:gap-0">
         {t.steps.map((label, i) => (
@@ -325,7 +368,18 @@ export default function RegistrationForm({
                 <button
                   key={m.key}
                   type="button"
-                  onClick={() => patch({ mode: m.key })}
+                  // Bascule en délégation → on PURGE les options. Sans cela,
+                  // une option cochée en individuel restait dans l'état alors
+                  // que son bloc disparaissait de l'écran : elle s'affichait au
+                  // récapitulatif, gonflait la barre de total, mais n'était ni
+                  // facturée par le serveur ni livrée — et plus rien ne
+                  // permettait de la décocher.
+                  onClick={() =>
+                    patch({
+                      mode: m.key,
+                      options: m.key === "delegation" ? [] : state.options,
+                    })
+                  }
                   aria-pressed={state.mode === m.key}
                   className={`rounded-2xl border-2 p-5 text-left transition ${
                     state.mode === m.key
@@ -340,6 +394,14 @@ export default function RegistrationForm({
                 </button>
               ))}
             </div>
+            {/* Le bloc Options disparaît en délégation. Sans cette phrase, sa
+                disparition est silencieuse et le responsable croit avoir perdu
+                une possibilité. */}
+            {state.mode === "delegation" && (
+              <p className="mt-3 text-xs leading-relaxed text-slate-500">
+                {t.optionsDelegationNote}
+              </p>
+            )}
           </div>
 
           <div>
@@ -481,6 +543,7 @@ export default function RegistrationForm({
                 ? t.responsableTitle
                 : dict.register.step2.replace("2. ", "")}
             </h2>
+            <p className="mt-1 text-xs text-slate-500">{t.requiredLegend}</p>
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               {(
                 [
@@ -491,24 +554,38 @@ export default function RegistrationForm({
                   { key: "club", label: dict.register.club, req: false, placeholder: dict.register.clubPlaceholder },
                   { key: "country", label: dict.register.country, req: false, auto: "country-name" },
                 ] as const
-              ).map((f) => (
-                <label key={f.key} className="block">
-                  <span className="mb-1.5 block text-sm font-semibold text-loyal-800">
-                    {f.label} {f.req && "*"}
-                  </span>
-                  <input
-                    type={"type" in f ? f.type : "text"}
-                    required={f.req}
-                    value={state.identity[f.key]}
-                    onChange={(e) =>
-                      patch({ identity: { ...state.identity, [f.key]: e.target.value } })
-                    }
-                    placeholder={"placeholder" in f ? f.placeholder : undefined}
-                    autoComplete={"auto" in f ? f.auto : undefined}
-                    className={inputClass}
-                  />
-                </label>
-              ))}
+              ).map((f) => {
+                const erreur = tenteAvancer ? erreurs[f.key] : undefined;
+                return (
+                  <label key={f.key} className="block">
+                    <span className="mb-1.5 block text-sm font-semibold text-loyal-800">
+                      {f.label} {f.req && <span aria-hidden>*</span>}
+                    </span>
+                    <input
+                      type={"type" in f ? f.type : "text"}
+                      required={f.req}
+                      value={state.identity[f.key]}
+                      onChange={(e) =>
+                        patch({ identity: { ...state.identity, [f.key]: e.target.value } })
+                      }
+                      placeholder={"placeholder" in f ? f.placeholder : undefined}
+                      autoComplete={"auto" in f ? f.auto : undefined}
+                      aria-invalid={erreur ? true : undefined}
+                      aria-describedby={erreur ? `err-${f.key}` : undefined}
+                      className={`${inputClass} ${erreur ? "border-maroon-600" : ""}`}
+                    />
+                    {erreur && (
+                      <p
+                        id={`err-${f.key}`}
+                        role="alert"
+                        className="mt-2 text-sm font-semibold text-maroon-600"
+                      >
+                        {erreur}
+                      </p>
+                    )}
+                  </label>
+                );
+              })}
             </div>
           </div>
 
@@ -520,6 +597,14 @@ export default function RegistrationForm({
               <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-500">
                 {t.delegationMembersHint}
               </p>
+              {tenteAvancer && erreurs.membres && (
+                <p
+                  role="alert"
+                  className="mt-3 rounded-2xl border border-maroon-400 bg-maroon-600/10 px-4 py-3 text-sm font-semibold text-maroon-600"
+                >
+                  {erreurs.membres}
+                </p>
+              )}
               <div className="mt-5 space-y-3">
                 {state.membres.map((m, i) => (
                   <div
@@ -630,7 +715,12 @@ export default function RegistrationForm({
                   </dd>
                 </div>
               )}
-              {state.options.map((key) => {
+              {/* Seconde barrière : le récapitulatif ne peut afficher une
+                  option qu'en individuel. Les options ne sont facturées que
+                  dans ce mode ; une ligne visible mais non facturée fausse la
+                  lecture du total. */}
+              {state.mode === "solo" &&
+                state.options.map((key) => {
                 const opt = ticketOptions.find((o) => o.key === key);
                 return opt ? (
                   <div key={key} className="flex items-baseline justify-between gap-4">
@@ -664,19 +754,48 @@ export default function RegistrationForm({
             </dl>
           </div>
 
+          {/* La case d'acceptation passe AVANT la politique d'annulation :
+              c'est le seul verrou de l'étape, et il tombait plus de 400 px
+              sous la ligne de flottaison — on cherchait sans savoir quoi. */}
+          <div
+            className={`rounded-2xl border px-5 py-4 transition ${
+              tenteAvancer && !cgv
+                ? "border-maroon-400 bg-maroon-600/10"
+                : "border-loyal-100 bg-white"
+            }`}
+          >
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={cgv}
+                onChange={(e) => {
+                  setCgv(e.target.checked);
+                  if (e.target.checked) setTenteAvancer(false);
+                }}
+                aria-invalid={tenteAvancer && !cgv ? true : undefined}
+                aria-describedby={tenteAvancer && !cgv ? "erreur-cgv" : undefined}
+                // shrink-0 : sans lui la case était écrasée à 13 × 20 px par le
+                // texte voisin, et ne se lisait plus comme une case à cocher.
+                className="mt-0.5 h-5 w-5 shrink-0 accent-loyal-700"
+              />
+              <span className="text-sm font-semibold text-loyal-800">
+                {t.cgv} <span aria-hidden>*</span>
+              </span>
+            </label>
+            {tenteAvancer && !cgv && (
+              <p
+                id="erreur-cgv"
+                role="alert"
+                className="mt-2 pl-8 text-sm font-semibold text-maroon-600"
+              >
+                {t.cgvRequired}
+              </p>
+            )}
+          </div>
+
           <p className="rounded-2xl border border-loyal-100 bg-loyal-50/60 px-5 py-4 text-sm leading-relaxed text-loyal-800">
             {t.cancelPolicy}
           </p>
-
-          <label className="flex cursor-pointer items-start gap-3">
-            <input
-              type="checkbox"
-              checked={cgv}
-              onChange={(e) => setCgv(e.target.checked)}
-              className="mt-1 h-5 w-5 accent-loyal-700"
-            />
-            <span className="text-sm font-semibold text-loyal-800">{t.cgv} *</span>
-          </label>
         </section>
       )}
 
@@ -777,20 +896,28 @@ export default function RegistrationForm({
       )}
 
       {/* --------------------------------------------- barre totale fixe */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-loyal-100 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <div className="flex items-center gap-4">
+      {/* Barre de total : UNE seule rangée. Avec flex-wrap elle passait sur
+          deux lignes sur petit écran et confisquait 21 % de la hauteur.
+          env(safe-area-inset-bottom) tient compte de la barre de gestes
+          Android, sous laquelle le bouton se retrouvait sinon. */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-loyal-100 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-2.5 sm:gap-4 sm:px-6 sm:py-4">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-4">
             {step > 0 && (
               <button
                 type="button"
                 onClick={() => goTo(step - 1)}
-                className="rounded-full border border-loyal-200 px-5 py-2.5 text-sm font-bold text-loyal-700 transition hover:border-loyal-700"
+                aria-label={t.back}
+                // Sous 640 px, une flèche seule de 44 × 44 px : le libellé
+                // poussait la barre sur une seconde rangée.
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-loyal-200 text-sm font-bold text-loyal-700 transition hover:border-loyal-700 sm:h-auto sm:w-auto sm:px-5 sm:py-2.5"
               >
-                ← {t.back}
+                <span aria-hidden>←</span>
+                <span className="ml-1 hidden sm:inline">{t.back}</span>
               </button>
             )}
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+            <div className="min-w-0">
+              <div className="truncate text-xs font-semibold uppercase tracking-wide text-loyal-700">
                 {t.totalLabel}
                 {participants > 1 && ` · ${participants} ${t.participantsLabel}`}
               </div>
@@ -801,11 +928,20 @@ export default function RegistrationForm({
           </div>
 
           {step < 3 ? (
+            // Jamais `disabled` : un bouton inerte n'explique rien, et sur
+            // tactile il n'y a même pas de curseur pour signaler le blocage.
+            // Il reste cliquable et RÉVÈLE ce qui manque.
             <button
               type="button"
-              onClick={() => goTo(step + 1)}
-              disabled={!stepValid}
-              className="rounded-full bg-loyal-700 px-8 py-3 font-display text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-loyal-600 disabled:cursor-not-allowed disabled:opacity-40"
+              onClick={() => essayerAvancer(step + 1)}
+              aria-describedby={
+                tenteAvancer && !stepValid ? "erreur-etape" : undefined
+              }
+              className={`shrink-0 rounded-full px-6 py-3 font-display text-sm font-extrabold uppercase tracking-wide text-white transition sm:px-8 ${
+                stepValid
+                  ? "bg-loyal-700 hover:bg-loyal-600"
+                  : "bg-loyal-700/50 hover:bg-loyal-700/70"
+              }`}
             >
               {t.next} →
             </button>

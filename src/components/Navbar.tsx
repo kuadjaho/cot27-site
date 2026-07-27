@@ -88,7 +88,13 @@ export default function Navbar({ locale }: { locale: Locale }) {
           </Link>
           <Link
             href={`/${locale}/inscription`}
-            className="max-sm:hidden rounded-full bg-gold-400 px-5 py-2 text-sm font-bold text-loyal-900 shadow-lg shadow-gold-500/20 transition hover:bg-gold-300 sm:block"
+            // Visible à TOUTES les tailles. Il était masqué sous 640 px : sur
+            // douze pages sur treize, le seul lien d'inscription atteignable
+            // était alors un lien de pied de page, à 82 % de la hauteur du
+            // document — alors que le public arrive majoritairement sur
+            // mobile, par un lien partagé dans un groupe WhatsApp. Il se
+            // compacte au lieu de disparaître.
+            className="shrink-0 rounded-full bg-gold-400 px-3.5 py-2 text-xs font-bold text-loyal-900 shadow-lg shadow-gold-500/20 transition hover:bg-gold-300 sm:px-5 sm:text-sm"
           >
             {dict.nav.register}
           </Link>
@@ -133,7 +139,10 @@ export default function Navbar({ locale }: { locale: Locale }) {
           <Link
             href={`/${locale}/inscription`}
             onClick={() => setOpen(false)}
-            className="mt-2 block rounded-full bg-gold-400 px-4 py-3 text-center text-sm font-bold text-loyal-900"
+            // Traité comme une action, pas comme une huitième rubrique : en
+            // graisse et casse du système, avec une ombre, il se distingue de
+            // la liste de liens qui le précède.
+            className="mt-3 block rounded-full bg-gold-400 px-4 py-3 text-center font-display text-sm font-extrabold uppercase tracking-wide text-loyal-900 shadow-xl shadow-gold-500/25"
           >
             {dict.nav.register}
           </Link>

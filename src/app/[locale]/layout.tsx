@@ -80,10 +80,16 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   return (
-    <html lang={locale}>
-      <body
-        className={`${montserrat.variable} ${sourceSans.variable} min-h-screen flex flex-col`}
-      >
+    // Les variables de police vont sur <html>, pas sur <body> : les jetons
+    // @theme de Tailwind v4 (--font-display, --font-body) sont émis sur :root
+    // et y résolvent leur var(). Posées sur <body>, elles étaient invisibles
+    // depuis :root — --font-display devenait vide et TOUT le site rendait avec
+    // la pile système, alors que 64 Ko de polices étaient bel et bien chargés.
+    <html
+      lang={locale}
+      className={`${montserrat.variable} ${sourceSans.variable}`}
+    >
+      <body className="min-h-screen flex flex-col">
         <a href="#contenu" className="skip-link">
           {locale === "fr" ? "Aller au contenu" : "Skip to content"}
         </a>
