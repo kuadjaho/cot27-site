@@ -11,6 +11,7 @@ import { Participants, Inscriptions, Paiements } from "./collections/billetterie
 import { Sessions, Intervenants, Sponsors } from "./collections/evenement";
 import { Editions, Articles } from "./collections/magazine";
 import { Abonnes, Brouillons, CodesPromo } from "./collections/marketing";
+import { Epinglettes, Reservations, Boutique } from "./collections/boutique";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -94,7 +95,10 @@ export default buildConfig({
     Abonnes,
     CodesPromo,
     Brouillons,
+    Epinglettes,
+    Reservations,
   ],
+  globals: [Boutique],
   editor: lexicalEditor(),
   // Localisation du CONTENU (titre/bio/corps en FR et EN) — indépendante de
   // la langue de l'interface d'admin.
