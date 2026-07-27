@@ -5,6 +5,7 @@ import config from "@payload-config";
 import { getDict, isLocale, type Locale } from "@/lib/i18n";
 import { getTicket, formatFCFA } from "@/lib/content";
 import PaymentStatus from "@/components/PaymentStatus";
+import ClearDraft from "@/components/ClearDraft";
 
 export const dynamic = "force-dynamic";
 
@@ -46,13 +47,20 @@ export default async function ThanksPage({
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">
-      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold-300/30 text-4xl">
-        🎉
-      </div>
-      <h1 className="mt-6 font-display text-4xl font-black text-loyal-800">
-        {dict.thanks.title}
-      </h1>
-      <p className="mt-3 text-lg text-slate-600">{dict.thanks.subtitle}</p>
+      {/* Le brouillon n'est effacé qu'ICI : l'inscription est acquise. */}
+      <ClearDraft storageKey="cot27-tunnel" />
+
+      {/* Pictogramme, titre, sous-titre ET bannière sont rendus par
+          PaymentStatus : ils dépendent tous du statut réel, qui bascule en
+          direct. La page affichait « Inscription confirmée ! » même après un
+          paiement échoué. */}
+      <PaymentStatus
+        locale={locale as Locale}
+        refToken={ref}
+        initialStatut={inscription.statut as "en_attente" | "payee" | "annulee"}
+        modePaiement={inscription.modePaiement ?? ""}
+        reference={reference}
+      />
 
       <div className="mt-10 rounded-3xl border border-loyal-100 bg-white p-8 text-left shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-loyal-100 pb-4">
@@ -83,15 +91,6 @@ export default async function ThanksPage({
             </dd>
           </div>
         </dl>
-        <PaymentStatus
-          locale={locale as Locale}
-          refToken={ref}
-          initialStatut={
-            inscription.statut as "en_attente" | "payee" | "annulee"
-          }
-          modePaiement={inscription.modePaiement ?? ""}
-        />
-
         {inscription.modePaiement === "virement" && (
           <div className="mt-4 rounded-2xl border border-gold-400/60 bg-gold-300/15 px-5 py-4">
             <p className="font-display text-sm font-extrabold uppercase tracking-wide text-loyal-800">

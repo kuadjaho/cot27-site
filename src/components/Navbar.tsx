@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getDict, type Locale } from "@/lib/i18n";
 import { brand } from "@/lib/content";
 
@@ -23,9 +23,22 @@ export default function Navbar({ locale }: { locale: Locale }) {
     { href: `/${locale}/boutique`, label: dict.nav.boutique },
   ];
 
-  // Bascule fr <-> en en conservant la page courante
+  // Bascule fr <-> en en conservant la page courante ET SA CHAÎNE DE REQUÊTE.
+  // Sans elle, changer de langue sur /inscription/merci?ref=… ou en plein
+  // tunnel avec ?reprise=… menait à une page introuvable : le jeton était
+  // perdu, et avec lui la confirmation de paiement ou le brouillon en cours.
+  //
+  // La chaîne est lue APRÈS montage plutôt qu'avec useSearchParams : ce hook,
+  // appelé depuis la barre qui vit dans le layout, ferait sortir toutes les
+  // pages du pré-rendu statique (vérifié : le build échoue). Ici le lien est
+  // correct dès l'hydratation, ce qui suffit pour un commutateur de langue.
   const otherLocale: Locale = locale === "fr" ? "en" : "fr";
-  const switchedPath = pathname.replace(`/${locale}`, `/${otherLocale}`) || `/${otherLocale}`;
+  const [qs, setQs] = useState("");
+  useEffect(() => {
+    setQs(window.location.search);
+  }, [pathname]);
+  const switchedPath =
+    (pathname.replace(`/${locale}`, `/${otherLocale}`) || `/${otherLocale}`) + qs;
 
   const isActive = (href: string) =>
     href === `/${locale}` ? pathname === href : pathname.startsWith(href);
@@ -82,6 +95,12 @@ export default function Navbar({ locale }: { locale: Locale }) {
           <Link
             href={switchedPath}
             className="rounded-full border border-loyal-200 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-loyal-700 transition-colors hover:border-loyal-700 hover:bg-loyal-50"
+            // Le choix explicite est mémorisé et l'emporte ensuite sur
+            // l'en-tête Accept-Language : quelqu'un qui bascule en anglais ne
+            // doit pas être renvoyé au français à sa prochaine visite.
+            onClick={() => {
+              document.cookie = `NEXT_LOCALE=${otherLocale}; path=/; max-age=31536000; samesite=lax`;
+            }}
             title={otherLocale === "fr" ? "Version française" : "English version"}
           >
             {otherLocale.toUpperCase()}

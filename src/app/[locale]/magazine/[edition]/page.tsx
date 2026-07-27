@@ -142,7 +142,7 @@ export default async function EditionPage({
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="font-mono text-xs font-bold text-slate-400">
+                  <div className="font-mono text-xs font-bold text-slate-500">
                     {String(i + 1).padStart(2, "0")}
                   </div>
                   <h2 className="mt-1 font-display text-lg font-bold leading-snug text-loyal-800 group-hover:text-maroon-600">
@@ -151,7 +151,7 @@ export default async function EditionPage({
                   <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">
                     {article.chapo}
                   </p>
-                  <div className="mt-auto flex items-center justify-between pt-5 text-xs font-semibold text-slate-400">
+                  <div className="mt-auto flex items-center justify-between pt-5 text-xs font-semibold text-slate-500">
                     <span>{article.auteur}</span>
                     <span>
                       {minutes} {dict.magazine.readingTime}

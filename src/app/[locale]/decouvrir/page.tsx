@@ -96,7 +96,7 @@ export default async function DiscoverPage({
               </span>
             ))}
           </div>
-          <p className="mt-6 text-sm text-slate-400">{dict.discover.countriesNote}</p>
+          <p className="mt-6 text-sm text-slate-500">{dict.discover.countriesNote}</p>
         </div>
       </section>
 

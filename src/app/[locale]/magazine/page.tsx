@@ -98,7 +98,7 @@ export default async function MagazineKioskPage({
                     </p>
                   )}
                   <div className="mt-auto flex items-center justify-between pt-5 text-sm">
-                    <span className="font-semibold text-slate-400">
+                    <span className="font-semibold text-slate-500">
                       {articleCount(edition.id)} {dict.magazine.articlesCount}
                     </span>
                     <span className="font-bold text-loyal-700 group-hover:text-maroon-600">

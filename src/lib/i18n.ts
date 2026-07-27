@@ -92,6 +92,7 @@ const fr = {
       "Huit jours de keynotes, de concours d'art oratoire, d'ateliers de leadership et de découverte du Bénin, avec les meilleurs orateurs de douze pays d'Afrique.",
     cta: "Réserver ma place",
     ctaSecondary: "Voir le programme",
+    priceFrom: "À partir de {prix} · Mobile Money MTN & Moov",
     countdownTitle: "La conférence commence dans",
     days: "Jours",
     hours: "Heures",
@@ -110,7 +111,7 @@ const fr = {
   about: {
     kicker: "L'événement",
     title: "La plus grande célébration de l'art oratoire au Bénin",
-    p1: "Chaque année, la Convention du District 130 rassemble les membres Toastmasters du Bénin et de la sous-région pour trois jours d'apprentissage, de compétition et de célébration.",
+    p1: "Chaque année, la Convention du District 130 rassemble les membres Toastmasters du Bénin et de la sous-région pour huit jours à Cotonou : trois jours de conférence du 6 au 8 mai, encadrés d'excursions au Bénin.",
     p2: "Concours de discours en français et en anglais, ateliers d'experts, cérémonie de remise des prix, gala de clôture : vivez une expérience qui transformera votre façon de communiquer et de diriger.",
     highlights: [
       {
@@ -155,13 +156,13 @@ const fr = {
   program: {
     title: "Programme de la convention",
     subtitle:
-      "Trois jours de conférences, concours et ateliers. Le programme détaillé est susceptible d'évoluer.",
+      "Trois jours de conférences, concours et ateliers, du 6 au 8 mai. Le programme détaillé est susceptible d'évoluer.",
     day: "Jour",
   },
   speakers: {
     title: "Intervenants & invités",
     subtitle:
-      "Conférenciers, officiels du district et invités d'honneur de la Convention 2026.",
+      "Conférenciers, officiels du district et invités d'honneur de COT27, du 1er au 8 mai 2027.",
     keynote: "Conférencier principal",
   },
   venue: {
@@ -174,7 +175,7 @@ const fr = {
     address: "Boulevard de la Marina, Cotonou, Bénin",
     hotelsTitle: "Où loger",
     hotelsText:
-      "Des tarifs négociés sont disponibles dans les hôtels partenaires. Mentionnez « Convention D130 » lors de votre réservation.",
+      "Des tarifs négociés sont disponibles dans les hôtels partenaires. Mentionnez « COT27 — District 130 » lors de votre réservation.",
     perNight: "/ nuit",
     travelTitle: "Venir à Cotonou",
     faqTitle: "Questions fréquentes",
@@ -188,7 +189,7 @@ const fr = {
   register: {
     title: "Inscription",
     subtitle:
-      "Choisissez votre pass, remplissez le formulaire et réglez en ligne par Mobile Money ou carte bancaire — ou sur place.",
+      "Choisissez votre pass, remplissez le formulaire et réglez en ligne par Mobile Money ou carte bancaire.",
     step1: "1. Choisissez votre pass",
     step2: "2. Vos informations",
     step3: "3. Paiement",
@@ -219,7 +220,7 @@ const fr = {
     errorGeneric:
       "Une erreur est survenue. Veuillez réessayer ou nous contacter.",
     onlineUnavailable:
-      "Le paiement en ligne n'est pas encore activé — votre inscription sera enregistrée avec paiement sur place.",
+      "Le paiement en ligne ouvre prochainement. Votre inscription est enregistrée dès maintenant et vous réglerez par virement bancaire — les coordonnées vous seront envoyées par e-mail.",
   },
   tunnel: {
     steps: ["Billet", "Identité", "Récapitulatif", "Paiement"],
@@ -234,6 +235,9 @@ const fr = {
       "Excursion, gala et tote bag se réservent individuellement, par chaque membre, après l'inscription de la délégation.",
     delegationAtLeastOne: "Renseignez au moins un membre de la délégation.",
     requiredLegend: "* champs obligatoires",
+    yourDetails: "Vos coordonnées",
+    emailNotice: "C'est à cette adresse que nous enverrons votre billet et votre référence.",
+    edit: "Modifier",
     fixErrors: "Vérifiez les champs signalés ci-dessus.",
     cgvRequired: "Cochez cette case pour continuer.",
     optionsTitle: "Vos options",
@@ -287,6 +291,13 @@ const fr = {
   thanks: {
     title: "Inscription confirmée !",
     subtitle: "Merci ! Votre place pour COT27 est réservée.",
+    titlePending: "Inscription enregistrée",
+    subtitlePending: "Votre paiement est en cours de vérification.",
+    titleFailed: "Paiement non abouti",
+    subtitleFailed:
+      "Votre place n'est pas encore réservée. Aucun montant n'a été prélevé.",
+    shareWhatsapp: "Envoyer ma référence sur WhatsApp",
+    shareWaText: "Ma référence d'inscription COT27 :",
     refLabel: "Référence d'inscription",
     paid: "Votre paiement a bien été reçu. Un e-mail de confirmation vous sera envoyé.",
     onsite:
@@ -338,7 +349,7 @@ const fr = {
   },
   newsletter: {
     title: "Ne manquez pas l'ouverture des inscriptions",
-    text: "Tarif Early Bird, annonces des intervenants, coulisses : recevez l'essentiel de COT27, sans spam.",
+    text: "Annonces des intervenants, ouverture du programme, coulisses : recevez l'essentiel de COT27, sans spam.",
     placeholder: "Votre adresse e-mail",
     button: "Me tenir informé·e",
     sending: "Envoi…",
@@ -473,6 +484,7 @@ const en: typeof fr = {
       "Eight days of keynotes, speech contests, leadership workshops and discovering Benin, with the best speakers from twelve African countries.",
     cta: "Reserve my seat",
     ctaSecondary: "View program",
+    priceFrom: "From {prix} · MTN & Moov Mobile Money",
     countdownTitle: "The conference starts in",
     days: "Days",
     hours: "Hours",
@@ -491,7 +503,7 @@ const en: typeof fr = {
   about: {
     kicker: "The event",
     title: "Benin's biggest celebration of public speaking",
-    p1: "Every year, the District 130 Convention gathers Toastmasters members from Benin and the sub-region for three days of learning, competition and celebration.",
+    p1: "Every year, the District 130 Convention gathers Toastmasters members from Benin and the sub-region for eight days in Cotonou: three conference days from 6 to 8 May, framed by excursions across Benin.",
     p2: "Speech contests in French and English, expert-led workshops, awards ceremony, closing gala: live an experience that will transform the way you communicate and lead.",
     highlights: [
       {
@@ -533,13 +545,13 @@ const en: typeof fr = {
   program: {
     title: "Convention program",
     subtitle:
-      "Three days of keynotes, contests and workshops. The detailed schedule may evolve.",
+      "Three days of keynotes, contests and workshops, 6–8 May. The detailed schedule may evolve.",
     day: "Day",
   },
   speakers: {
     title: "Speakers & guests",
     subtitle:
-      "Keynote speakers, district officers and guests of honor of the 2026 Convention.",
+      "Keynote speakers, district officers and guests of honour of COT27, 1–8 May 2027.",
     keynote: "Keynote speaker",
   },
   venue: {
@@ -552,7 +564,7 @@ const en: typeof fr = {
     address: "Boulevard de la Marina, Cotonou, Benin",
     hotelsTitle: "Where to stay",
     hotelsText:
-      "Negotiated rates are available at partner hotels. Mention “D130 Convention” when booking.",
+      "Negotiated rates are available at partner hotels. Mention “COT27 — District 130” when booking.",
     perNight: "/ night",
     travelTitle: "Getting to Cotonou",
     faqTitle: "Frequently asked questions",
@@ -566,7 +578,7 @@ const en: typeof fr = {
   register: {
     title: "Registration",
     subtitle:
-      "Choose your pass, fill in the form and pay online by Mobile Money or card — or on site.",
+      "Choose your pass, fill in the form and pay online by Mobile Money or card.",
     step1: "1. Choose your pass",
     step2: "2. Your details",
     step3: "3. Payment",
@@ -596,7 +608,7 @@ const en: typeof fr = {
     invalidEmail: "Invalid email address",
     errorGeneric: "Something went wrong. Please try again or contact us.",
     onlineUnavailable:
-      "Online payment is not enabled yet — your registration will be saved with on-site payment.",
+      "Online payment opens shortly. Your registration is recorded now and you will pay by bank transfer — details will be emailed to you.",
   },
   tunnel: {
     steps: ["Ticket", "Identity", "Summary", "Payment"],
@@ -611,6 +623,9 @@ const en: typeof fr = {
       "Excursion, gala and tote bag are booked individually, by each member, after the delegation is registered.",
     delegationAtLeastOne: "Add at least one delegation member.",
     requiredLegend: "* required fields",
+    yourDetails: "Your details",
+    emailNotice: "This is where we will send your ticket and your reference.",
+    edit: "Edit",
     fixErrors: "Please check the fields flagged above.",
     cgvRequired: "Tick this box to continue.",
     optionsTitle: "Your add-ons",
@@ -664,6 +679,13 @@ const en: typeof fr = {
   thanks: {
     title: "Registration confirmed!",
     subtitle: "Thank you! Your seat for COT27 is reserved.",
+    titlePending: "Registration recorded",
+    subtitlePending: "Your payment is being verified.",
+    titleFailed: "Payment did not go through",
+    subtitleFailed:
+      "Your seat is not reserved yet. Nothing was charged.",
+    shareWhatsapp: "Send my reference on WhatsApp",
+    shareWaText: "My COT27 registration reference:",
     refLabel: "Registration reference",
     paid: "Your payment has been received. A confirmation email will be sent to you.",
     onsite:
@@ -715,7 +737,7 @@ const en: typeof fr = {
   },
   newsletter: {
     title: "Don't miss the registration opening",
-    text: "Early Bird rate, speaker announcements, behind the scenes: get the essentials of COT27, no spam.",
+    text: "Speaker announcements, programme releases, behind the scenes: get the essentials of COT27, no spam.",
     placeholder: "Your email address",
     button: "Keep me posted",
     sending: "Sending…",

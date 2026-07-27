@@ -228,7 +228,7 @@ export default function BoutiquePanier({
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-loyal-100 bg-white/95 backdrop-blur">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 {t.total}
               </div>
               <div className="nums font-display text-xl font-black text-loyal-800">

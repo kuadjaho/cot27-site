@@ -118,7 +118,7 @@ export default async function BeninPage({
               <p className="mt-1 text-sm text-slate-500">{hotel.distance[locale]}</p>
               <p className="mt-4 font-display text-xl font-extrabold text-maroon-600">
                 {formatFCFA(hotel.price, locale)}
-                <span className="text-sm font-semibold text-slate-400">
+                <span className="text-sm font-semibold text-slate-500">
                   {" "}
                   {getDict(locale).venue.perNight}
                 </span>
@@ -138,12 +138,23 @@ export default async function BeninPage({
             {dict.benin.cultureTitle}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/75">{dict.benin.cultureText}</p>
-          <Link
-            href={`/${locale}/magazine/early-bird-2026/benin-trois-escales`}
-            className="mt-8 inline-block rounded-full bg-gold-400 px-8 py-3.5 font-display text-sm font-extrabold uppercase tracking-wide text-loyal-900 shadow-xl transition hover:scale-[1.02] hover:bg-gold-300"
-          >
-            {dict.benin.cultureCta}
-          </Link>
+          {/* Règle posée : la pastille dorée ne pointe QUE vers l'inscription.
+              Elle menait ici vers un article de magazine, si bien que la même
+              couleur promettait deux actions différentes selon la page. */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href={`/${locale}/inscription`}
+              className="inline-block rounded-full bg-gold-400 px-8 py-3.5 font-display text-sm font-extrabold uppercase tracking-wide text-loyal-900 shadow-xl transition hover:scale-[1.02] hover:bg-gold-300"
+            >
+              {dict.ctaBanner.button}
+            </Link>
+            <Link
+              href={`/${locale}/magazine/early-bird-2026/benin-trois-escales`}
+              className="inline-block rounded-full border border-white/30 px-6 py-3 text-sm font-bold transition hover:border-gold-300 hover:text-gold-300"
+            >
+              {dict.benin.cultureCta}
+            </Link>
+          </div>
         </div>
       </section>
 

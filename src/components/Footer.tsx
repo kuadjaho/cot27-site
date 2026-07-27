@@ -84,7 +84,7 @@ export default function Footer({ locale }: { locale: Locale }) {
             height={80}
             className="h-20 w-24"
           />
-          <p className="mt-4 max-w-md text-xs leading-relaxed text-white/50">
+          <p className="mt-4 max-w-md text-xs leading-relaxed text-white/75">
             {dict.footer.affiliation}
           </p>
         </div>
@@ -96,11 +96,11 @@ export default function Footer({ locale }: { locale: Locale }) {
             © 2027 {brand.name} · {brand.legalName[locale]} — {dict.footer.rights}
           </p>
           {/* Mention imposée mot pour mot par le manuel de marque (p. 34). */}
-          <p className="mt-3 text-white/40">{dict.footer.tmDisclaimer}</p>
+          <p className="mt-3 text-white/70">{dict.footer.tmDisclaimer}</p>
           {dict.footer.tmDisclaimerFr && (
-            <p className="mt-1 text-white/40">{dict.footer.tmDisclaimerFr}</p>
+            <p className="mt-1 text-white/70">{dict.footer.tmDisclaimerFr}</p>
           )}
-          <p className="mt-3 text-white/30">{dict.footer.disclaimer}</p>
+          <p className="mt-3 text-white/60">{dict.footer.disclaimer}</p>
         </div>
       </div>
     </footer>

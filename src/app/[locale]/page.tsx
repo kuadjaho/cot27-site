@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/lib/i18n";
-import { schedule, speakers, sponsors, countries } from "@/lib/content";
+import { schedule, speakers, sponsors, countries, tickets, formatFCFA } from "@/lib/content";
 import Countdown from "@/components/Countdown";
 import SpeakerCard from "@/components/SpeakerCard";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -34,7 +34,9 @@ export default async function HomePage({
     <>
       {/* ------------------------------------------------ HERO */}
       <section className="bg-hero relative overflow-hidden text-white">
-        <div className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
+        {/* pt-8 sur mobile : le rembourrage de 64 px repoussait le prix et le
+            bouton sous la ligne de flottaison d'un écran de 640 px. */}
+        <div className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 sm:pb-28 sm:pt-24">
           <div className="mx-auto max-w-5xl text-center">
             <p className="animate-rise inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-gold-300">
               {dict.hero.kicker}
@@ -47,6 +49,16 @@ export default async function HomePage({
             </h1>
             <p className="animate-rise-delay-1 mt-4 font-display text-base font-semibold text-gold-300 sm:text-lg">
               {dict.hero.dates}
+            </p>
+            {/* Le prix, juste sous les dates : on répond à « quand ? » et
+                « combien ? » avant de demander d'agir. Il fallait jusqu'ici
+                payer un second chargement de page pour connaître le tarif —
+                sur une 3G facturée à la donnée, beaucoup renonçaient avant. */}
+            <p className="animate-rise-delay-1 mt-2 text-sm font-semibold text-white/80">
+              {dict.hero.priceFrom.replace(
+                "{prix}",
+                formatFCFA(Math.min(...tickets.map((tk) => tk.price)), locale)
+              )}
             </p>
             {/* Les douze pays du District. Le drapeau est décoratif : le nom du
                 pays porte l'information pour les lecteurs d'écran, et sert de
