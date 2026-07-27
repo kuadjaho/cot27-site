@@ -12,11 +12,11 @@ export default function NotFound() {
       </p>
       <h1 className="mt-6 font-display text-2xl font-extrabold text-loyal-800">
         Cette page n&apos;existe pas{" "}
-        <span className="font-semibold text-slate-400">· This page does not exist</span>
+        <span className="font-semibold text-slate-500">· This page does not exist</span>
       </h1>
       <p className="mt-4 max-w-md leading-relaxed text-slate-600">
         Le lien est peut-être erroné, ou la page arrive plus tard dans la
-        préparation de COT27. <span className="text-slate-400">The link may be
+        préparation de COT27. <span className="text-slate-500">The link may be
         wrong, or the page is coming later as COT27 takes shape.</span>
       </p>
       <div className="mt-10 flex flex-wrap justify-center gap-4">

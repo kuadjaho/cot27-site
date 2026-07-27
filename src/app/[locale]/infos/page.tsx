@@ -82,7 +82,7 @@ export default async function VenuePage({
                 <p className="mt-1 text-sm text-slate-500">{hotel.distance[locale]}</p>
                 <p className="mt-4 font-display text-xl font-extrabold text-maroon-600">
                   {formatFCFA(hotel.price, locale)}
-                  <span className="text-sm font-semibold text-slate-400">
+                  <span className="text-sm font-semibold text-slate-500">
                     {" "}
                     {dict.venue.perNight}
                   </span>

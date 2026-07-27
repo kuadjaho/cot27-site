@@ -283,7 +283,11 @@ export default function RegistrationForm({
       });
       const json = await res.json();
       if (!res.ok || !json.redirectUrl) throw new Error(json.error ?? "ERROR");
-      localStorage.removeItem(STORAGE_KEY);
+      // Le brouillon n'est PAS effacé ici : la personne part vers FedaPay et
+      // l'inscription n'est pas encore acquise. Un échec Mobile Money — code
+      // PIN raté, solde insuffisant, réseau coupé — la ramenait alors devant
+      // un tunnel vide, à tout ressaisir. L'effacement a lieu sur la page de
+      // remerciement, là où l'inscription existe vraiment.
       window.location.href = json.redirectUrl;
     } catch {
       setError(dict.register.errorGeneric);
@@ -317,7 +321,7 @@ export default function RegistrationForm({
                   ? "bg-loyal-700 text-white"
                   : i < step
                     ? "bg-loyal-50 text-loyal-700 hover:bg-loyal-100"
-                    : "text-slate-400"
+                    : "text-slate-500"
               }`}
             >
               <span
@@ -694,6 +698,38 @@ export default function RegistrationForm({
       {/* ----------------------------------------- étape 2 : récapitulatif */}
       {step === 2 && (
         <section className="space-y-8">
+          {/* Rappel des coordonnées AVANT le prix. Le récapitulatif ne montrait
+              ni l'e-mail ni le téléphone : une faute de frappe dans l'adresse
+              faisait disparaître le billet et la référence sans que personne
+              ne s'en aperçoive avant la conférence. */}
+          <div className="rounded-3xl border border-loyal-100 bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="font-display text-sm font-extrabold uppercase tracking-wide text-loyal-800">
+                {t.yourDetails}
+              </h2>
+              <button
+                type="button"
+                onClick={() => goTo(1)}
+                className="shrink-0 text-sm font-bold text-loyal-700 underline underline-offset-2 transition hover:text-loyal-500"
+              >
+                {t.edit}
+              </button>
+            </div>
+            <p className="mt-3 text-sm text-loyal-800">
+              {state.identity.firstName} {state.identity.lastName}
+            </p>
+            <p className="text-sm font-semibold text-loyal-800">
+              {state.identity.email}
+            </p>
+            <p className="text-sm text-slate-600">{state.identity.phone}</p>
+            {state.identity.club && (
+              <p className="text-sm text-slate-600">{state.identity.club}</p>
+            )}
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              {t.emailNotice}
+            </p>
+          </div>
+
           <div className="rounded-3xl border border-loyal-100 bg-white p-8 shadow-sm">
             <dl className="space-y-3 text-sm">
               <div className="flex items-baseline justify-between gap-4">
