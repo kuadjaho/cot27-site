@@ -12,3 +12,12 @@ media/
 out/
 .vercel
 .env*
+
+# Documents de travail du comité (fiches de poste, cahiers des charges, PV…).
+# Ils contiennent des noms de personnes et n'ont rien à faire sur un dépôt
+# public : le PDF de fiche de poste posé à la racine serait parti au premier
+# `git add -A`.
+*.pdf
+*.docx
+*.doc
+*.xlsx
