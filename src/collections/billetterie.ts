@@ -5,7 +5,11 @@ const staffOnly = ({ req }: { req: { user?: unknown } }) => Boolean(req.user);
 /** Participant — §5.2 du cahier de spécifications. */
 export const Participants: CollectionConfig = {
   slug: "participants",
+  // libellés participants
+  labels: { singular: "Participant", plural: "Participants" },
   admin: {
+    description:
+      "Une fiche par personne, créée automatiquement à l'inscription. Ne pas créer à la main.",
     useAsTitle: "email",
     group: "Billetterie",
     defaultColumns: ["prenom", "nom", "email", "pays", "club"],
@@ -40,7 +44,11 @@ export const Participants: CollectionConfig = {
 /** Inscription — reliée à un participant, une catégorie tarifaire, un statut. */
 export const Inscriptions: CollectionConfig = {
   slug: "inscriptions",
+  // libellés inscriptions
+  labels: { singular: "Inscription", plural: "Inscriptions" },
   admin: {
+    description:
+      "Créées par le tunnel du site. Vous pouvez corriger un statut, jamais un montant.",
     useAsTitle: "id",
     group: "Billetterie",
     defaultColumns: ["participant", "categorie", "montant", "statut", "createdAt"],
@@ -156,7 +164,11 @@ export const Inscriptions: CollectionConfig = {
 /** Paiement — trace de chaque tentative, webhook inclus (idempotence). */
 export const Paiements: CollectionConfig = {
   slug: "paiements",
+  // libellés paiements
+  labels: { singular: "Paiement", plural: "Paiements reçus" },
   admin: {
+    description:
+      "Trace de chaque transaction. Écrit automatiquement par le prestataire de paiement — lecture seule en pratique.",
     useAsTitle: "referenceExterne",
     group: "Billetterie",
     defaultColumns: ["inscription", "fournisseur", "montant", "statut"],

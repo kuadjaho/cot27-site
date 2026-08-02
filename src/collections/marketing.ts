@@ -6,7 +6,11 @@ const staffOnly = ({ req }: { req: { user?: unknown } }) => Boolean(req.user);
 /** Codes promo du tunnel d'inscription (§6.1). */
 export const CodesPromo: CollectionConfig = {
   slug: "codes-promo",
+  // libellés codes-promo
+  labels: { singular: "Code promo", plural: "Codes promo" },
   admin: {
+    description:
+      "Le code est enregistré en majuscules. La réduction s'applique sur le sous-total.",
     useAsTitle: "code",
     group: "Marketing",
     defaultColumns: ["code", "reductionPct", "actif"],
@@ -51,7 +55,12 @@ export const CodesPromo: CollectionConfig = {
 /** Brouillons du tunnel — progression sauvegardée, reprise par lien (§6.1). */
 export const Brouillons: CollectionConfig = {
   slug: "brouillons",
+  // libellés brouillons
+  labels: { singular: "Brouillon", plural: "Brouillons d'inscription" },
   admin: {
+    // Plomberie interne : état des paniers abandonnés du tunnel.
+    // Masqué du menu pour ne pas encombrer le comité.
+    hidden: true,
     useAsTitle: "token",
     group: "Marketing",
     defaultColumns: ["token", "etape", "updatedAt"],
@@ -72,7 +81,11 @@ export const Brouillons: CollectionConfig = {
 
 export const Abonnes: CollectionConfig = {
   slug: "abonnes",
+  // libellés abonnes
+  labels: { singular: "Abonné", plural: "Abonnés à la newsletter" },
   admin: {
+    description:
+      "Adresses collectées par le formulaire « Restez informé » du site.",
     useAsTitle: "email",
     group: "Marketing",
     defaultColumns: ["email", "langue", "source", "createdAt"],

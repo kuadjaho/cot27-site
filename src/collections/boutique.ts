@@ -12,6 +12,8 @@ const staffOnly = ({ req }: { req: { user?: unknown } }) => Boolean(req.user);
  */
 export const Epinglettes: CollectionConfig = {
   slug: "epinglettes",
+  // libellés epinglettes
+  labels: { singular: "Épinglette", plural: "Épinglettes en vente" },
   admin: {
     useAsTitle: "nom",
     group: "Boutique",
@@ -95,6 +97,8 @@ export const Epinglettes: CollectionConfig = {
  */
 export const Reservations: CollectionConfig = {
   slug: "reservations",
+  // libellés reservations
+  labels: { singular: "Réservation", plural: "Réservations d'épinglettes" },
   admin: {
     useAsTitle: "reference",
     group: "Boutique",
@@ -204,6 +208,8 @@ export const Reservations: CollectionConfig = {
  */
 export const Boutique: GlobalConfig = {
   slug: "boutique",
+  // libellé du réglage global
+  label: "Réglages de la boutique",
   admin: {
     group: "Boutique",
     description:

@@ -6,7 +6,11 @@ const publicRead = { read: () => true, create: staffOnly, update: staffOnly, del
 /** Session du programme — §5.2. */
 export const Sessions: CollectionConfig = {
   slug: "sessions",
+  // libellés sessions
+  labels: { singular: "Séance", plural: "Programme — séances" },
   admin: {
+    description:
+      "Le programme affiché sur le site public, jour par jour.",
     useAsTitle: "titre",
     group: "Événement",
     defaultColumns: ["titre", "type", "debut", "salle", "langue"],
@@ -57,7 +61,11 @@ export const Sessions: CollectionConfig = {
 /** Intervenant — §5.2. */
 export const Intervenants: CollectionConfig = {
   slug: "intervenants",
+  // libellés intervenants
+  labels: { singular: "Intervenant", plural: "Intervenants et conférenciers" },
   admin: {
+    description:
+      "Les conférenciers affichés sur la page Intervenants et sur l'accueil.",
     useAsTitle: "nom",
     group: "Événement",
     defaultColumns: ["nom", "pays", "keynote"],
@@ -97,7 +105,11 @@ export const Intervenants: CollectionConfig = {
 /** Sponsor — §5.2. */
 export const Sponsors: CollectionConfig = {
   slug: "sponsors",
+  // libellés sponsors
+  labels: { singular: "Partenaire", plural: "Partenaires et sponsors" },
   admin: {
+    description:
+      "Les partenaires affichés en bas de l'accueil.",
     useAsTitle: "nom",
     group: "Événement",
     defaultColumns: ["nom", "palier"],

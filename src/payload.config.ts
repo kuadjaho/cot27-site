@@ -4,6 +4,8 @@ import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+import { fr } from "@payloadcms/translations/languages/fr";
+import { en } from "@payloadcms/translations/languages/en";
 import sharp from "sharp";
 
 import { Users, Media } from "./collections/admin";
@@ -80,6 +82,18 @@ export default buildConfig({
     meta: {
       titleSuffix: " · COT27",
     },
+  },
+  /**
+   * Interface d'administration EN FRANÇAIS.
+   *
+   * Elle était livrée en anglais par défaut — « Create New », « Save Draft » —
+   * à un comité francophone, alors que le site public est bilingue jusque dans
+   * ses messages d'erreur. L'anglais reste disponible pour les membres du
+   * District qui le préfèrent : chacun choisit sa langue dans son profil.
+   */
+  i18n: {
+    supportedLanguages: { fr, en },
+    fallbackLanguage: "fr",
   },
   collections: [
     Users,

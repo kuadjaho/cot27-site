@@ -10,3 +10,5 @@ media/
 
 # Sortie de la version statique de présentation (reconstruite à la demande)
 out/
+.vercel
+.env*

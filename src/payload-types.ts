@@ -148,6 +148,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Qui peut se connecter à cette administration.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -175,6 +177,8 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Photos et fichiers réutilisables dans les articles et les fiches.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -194,6 +198,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Une fiche par personne, créée automatiquement à l'inscription. Ne pas créer à la main.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "participants".
  */
@@ -215,6 +221,8 @@ export interface Participant {
   createdAt: string;
 }
 /**
+ * Créées par le tunnel du site. Vous pouvez corriger un statut, jamais un montant.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "inscriptions".
  */
@@ -250,6 +258,8 @@ export interface Inscription {
   createdAt: string;
 }
 /**
+ * Trace de chaque transaction. Écrit automatiquement par le prestataire de paiement — lecture seule en pratique.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "paiements".
  */
@@ -274,6 +284,8 @@ export interface Paiement {
   createdAt: string;
 }
 /**
+ * Le programme affiché sur le site public, jour par jour.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sessions".
  */
@@ -293,6 +305,8 @@ export interface Session {
   createdAt: string;
 }
 /**
+ * Les conférenciers affichés sur la page Intervenants et sur l'accueil.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "intervenants".
  */
@@ -325,6 +339,8 @@ export interface Intervenant {
   createdAt: string;
 }
 /**
+ * Les partenaires affichés en bas de l'accueil.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sponsors".
  */
@@ -345,6 +361,8 @@ export interface Sponsor {
   createdAt: string;
 }
 /**
+ * Une édition regroupe plusieurs articles du magazine.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "editions".
  */
@@ -367,6 +385,8 @@ export interface Edition {
   createdAt: string;
 }
 /**
+ * Les articles du magazine. Rattachez chacun à une édition.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "articles".
  */
@@ -403,6 +423,8 @@ export interface Article {
   createdAt: string;
 }
 /**
+ * Adresses collectées par le formulaire « Restez informé » du site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "abonnes".
  */
@@ -418,6 +440,8 @@ export interface Abonne {
   createdAt: string;
 }
 /**
+ * Le code est enregistré en majuscules. La réduction s'applique sur le sous-total.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "codes-promo".
  */

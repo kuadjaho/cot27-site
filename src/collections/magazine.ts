@@ -6,7 +6,11 @@ const publicRead = { read: () => true, create: staffOnly, update: staffOnly, del
 /** Édition du magazine COT27 (kiosque §4.3). */
 export const Editions: CollectionConfig = {
   slug: "editions",
+  // libellés editions
+  labels: { singular: "Édition", plural: "Magazine — éditions" },
   admin: {
+    description:
+      "Une édition regroupe plusieurs articles du magazine.",
     useAsTitle: "titre",
     group: "Magazine",
     defaultColumns: ["titre", "type", "publieLe"],
@@ -47,7 +51,11 @@ export const Editions: CollectionConfig = {
 /** Article du magazine — corps en Lexical (HTML sémantique, pas de PDF encapsulé). */
 export const Articles: CollectionConfig = {
   slug: "articles",
+  // libellés articles
+  labels: { singular: "Article", plural: "Magazine — articles" },
   admin: {
+    description:
+      "Les articles du magazine. Rattachez chacun à une édition.",
     useAsTitle: "titre",
     group: "Magazine",
     defaultColumns: ["titre", "edition", "rubrique", "auteur", "publieLe"],
